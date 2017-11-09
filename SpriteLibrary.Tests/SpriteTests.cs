@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -31,8 +32,9 @@ namespace SpriteLibrary.Tests
                                     0x26, 0x00, 0x00, 0x00, // palette offset
                                     0x01, 0x00, // palette length
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // reserved
-                                    0x65, 0x00, 0x00, 0x00, // display text
-                                    0x41, 0x00, 0x00, 0x00, // author
+                                    0x65, 0x00, 0x00, 0x00, // display text (unicode)
+                                    0x41, 0x00, 0x00, 0x00, // author (unicode)
+                                    0x51, 0x00, // author rom display (ascii)
                                     // pixels
                                     0x13,
                                     // palette
@@ -44,6 +46,7 @@ namespace SpriteLibrary.Tests
             Assert.Equal(0x31, s.PaletteData[0]);
             Assert.Equal("e", s.DisplayText);
             Assert.Equal("A", s.Author);
+            Assert.Equal("Q", s.AuthorRomDisplay);
         }
 
         [Fact]
@@ -65,6 +68,47 @@ namespace SpriteLibrary.Tests
         {
             var s = new Sprite();
             Assert.Equal("Unknown", s.Author);
+        }
+
+        [Fact]
+        public void should_create_empty_sprite_with_author_rom_display_Unknown()
+        {
+            var s = new Sprite();
+            Assert.Equal("Unknown", s.AuthorRomDisplay);
+        }
+
+        [Fact]
+        public void should_export_byte_array_that_reads_back_in()
+        {
+            var s = new Sprite();
+            s.DisplayText = "This is a test";
+            var bytes = s.ToByteArray();
+
+            var s2 = new Sprite(bytes);
+
+            Assert.Equal("This is a test", s2.DisplayText);
+            Assert.Equal(s.DisplayText, s2.DisplayText);
+            Assert.Equal(s.Author, s2.Author);
+            Assert.Equal(s.AuthorRomDisplay, s2.AuthorRomDisplay);
+            Assert.Equal(s.CheckSum, s2.CheckSum);
+            Assert.Equal(s.PaletteData, s2.PaletteData);
+            Assert.Equal(s.PaletteDataLength, s2.PaletteDataLength);
+            Assert.Equal(s.PaletteDataOffset, s2.PaletteDataOffset);
+            Assert.Equal(s.Reserved, s2.Reserved);
+            Assert.Equal(s.PixelData, s2.PixelData);
+            Assert.Equal(s.PixelDataLength, s2.PixelDataLength);
+            Assert.Equal(s.PixelDataOffset, s2.PixelDataOffset);
+            Assert.Equal(s.Version, s2.Version);
+            Assert.True(s2.HasValidChecksum);
+        }
+
+        [Fact]
+        public void should_import_from_file_bytes()
+        {
+            var file = File.ReadAllBytes("link.spr");
+            var s = new Sprite(file);
+            Assert.Equal(0x7000, s.PixelDataLength);
+            Assert.Equal(0x70, s.PaletteDataLength);
         }
     }
 }

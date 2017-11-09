@@ -12,15 +12,16 @@ namespace SpriteLibrary
 header flag (4 bytes) = ZSPR
 version (1 byte)
 checksum (4 byte)
-sprite data offset (4 bytes)
-sprite data length (2 bytes)
+pixel data offset (4 bytes)
+pixel data length (2 bytes)
 palette data offset (4 bytes)
 palette data length (2 bytes)
 reserved (8 bytes)
-display text (x bytes) (null terminated)
-author (x bytes) (null terminated)
+display text (x bytes) (unicode, null terminated)
+author (x bytes) (unicode, null terminated)
+author rom display (x bytes) (ascii, null terminated)
 sprite data (0x7000 bytes)
-palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
+palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
          */
 
         public string Header { get; private set; } = "ZSPR";
@@ -36,16 +37,18 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
         const int checksumOffset = versionOffset + versionLength;
         const int checksumLength = 4;
 
-        public uint SpriteDataOffset { get; private set; }
-        const int spriteDataOffsetOffset = checksumOffset + checksumLength;
-        const int spriteDataOffsetLength = 4;
+        public bool HasValidChecksum { get; private set; }
 
-        public ushort SpriteDataLength { get; private set; }
-        const int spriteDataLengthOffset = spriteDataOffsetOffset + spriteDataOffsetLength;
-        const int spriteDataLengthLength = 2;
+        public uint PixelDataOffset { get; private set; }
+        const int pixelDataOffsetOffset = checksumOffset + checksumLength;
+        const int pixelDataOffsetLength = 4;
+
+        public ushort PixelDataLength { get; private set; }
+        const int pixelDataLengthOffset = pixelDataOffsetOffset + pixelDataOffsetLength;
+        const int pixelDataLengthLength = 2;
 
         public uint PaletteDataOffset { get; private set; }
-        const int paletteDataOffsetOffset = spriteDataLengthOffset + spriteDataLengthLength;
+        const int paletteDataOffsetOffset = pixelDataLengthOffset + pixelDataLengthLength;
         const int paletteDataOffsetLength = 4;
 
         public ushort PaletteDataLength { get; private set; }
@@ -67,10 +70,10 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
                 displayBytes = Encoding.Unicode.GetBytes(displayText + '\0');
                 displayBytesLength = (uint)displayBytes.Length;
 
-                SpriteDataOffset = displayTextOffset + displayBytesLength + authorBytesLength;
-                PaletteDataOffset = SpriteDataOffset + SpriteDataLength;
+                RecalculatePixelAndPaletteOffset();
             }
         }
+
         const uint displayTextOffset = reservedOffset + reservedLength;
         uint displayBytesLength = 0;
 
@@ -85,25 +88,67 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
                 authorBytes = Encoding.Unicode.GetBytes(author + '\0');
                 authorBytesLength = (uint)authorBytes.Length;
 
-                SpriteDataOffset = displayTextOffset + displayBytesLength + authorBytesLength;
-                PaletteDataOffset = SpriteDataOffset + SpriteDataLength;
+                RecalculatePixelAndPaletteOffset();
             }
         }
         uint authorBytesLength = 0;
 
-        public byte[] PixelData { get; set; }
+        string authorRomDisplay;
+        byte[] authorRomDisplayBytes;
+        public string AuthorRomDisplay
+        {
+            get { return authorRomDisplay; }
+            set
+            {
+                if(value.Length > 20)
+                {
+                    value = value.Substring(0, 20);
+                }
+                authorRomDisplay = value;
 
-        public byte[] PaletteData { get; set; }
+                authorRomDisplayBytes = ASCIIEncoding.ASCII.GetBytes(authorRomDisplay + '\0');
+                authorRomDisplayBytesLength = (uint)authorRomDisplayBytes.Length;
+
+                RecalculatePixelAndPaletteOffset();
+            }
+        }
+        uint authorRomDisplayBytesLength;
+        public const int AuthorRomDisplayMaxLength = 20;
+
+        byte[] pixelData;
+        public byte[] PixelData
+        {
+            get { return pixelData; }
+            set
+            {
+                pixelData = value;
+
+                RecalculatePixelAndPaletteOffset();
+            }
+        }
+
+        byte[] paletteData;
+        public byte[] PaletteData
+        {
+            get { return paletteData; }
+            set
+            {
+                paletteData = value;
+
+                RecalculatePixelAndPaletteOffset();
+            }
+        }
 
         public Sprite()
         {
             Version = 1;
             CheckSum = 0xFFFF0000;
-            SpriteDataLength = 0x7000;
+            PixelDataLength = 0x7000;
             PaletteDataLength = 0x78;
             DisplayText = "Unknown";
             Author = "Unknown";
-            PixelData = new byte[SpriteDataLength];
+            AuthorRomDisplay = "Unknown";
+            PixelData = new byte[PixelDataLength];
             PaletteData = new byte[PaletteDataLength];
         }
 
@@ -114,20 +159,21 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
                 // old headerless sprite file
                 Version = 0;
                 CheckSum = 0;
-                SpriteDataLength = 0x7000;
-                SpriteDataOffset = 0;
+                PixelDataLength = 0x7000;
+                PixelDataOffset = 0;
                 PaletteDataLength = 0x78;
                 PaletteDataOffset = 0x7000;
                 DisplayText = "";
                 Author = "";
-                PixelData = new byte[SpriteDataLength];
-                Array.Copy(rawData, PixelData, SpriteDataLength);
+                AuthorRomDisplay = "";
+                PixelData = new byte[PixelDataLength];
+                Array.Copy(rawData, PixelData, PixelDataLength);
                 PaletteData = new byte[PaletteDataLength];
                 Array.Copy(rawData, PaletteDataOffset, PaletteData, 0, PaletteDataLength);
                 return;
             }
 
-            if(rawData.Length < headerLength + versionLength + checksumLength + spriteDataOffsetLength + spriteDataLengthLength + paletteDataOffsetLength + paletteDataLengthLength)
+            if(rawData.Length < headerLength + versionLength + checksumLength + pixelDataOffsetLength + pixelDataLengthLength + paletteDataOffsetLength + paletteDataLengthLength)
             {
                 throw new Exception("Invalid sprite file. Too short.");
             }
@@ -140,15 +186,15 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
 
             CheckSum = bytesToUInt(rawData, checksumOffset);
 
-            SpriteDataOffset = bytesToUInt(rawData, spriteDataOffsetOffset);
-            SpriteDataLength = bytesToUShort(rawData, spriteDataLengthOffset);
+            PixelDataOffset = bytesToUInt(rawData, pixelDataOffsetOffset);
+            PixelDataLength = bytesToUShort(rawData, pixelDataLengthOffset);
 
             PaletteDataOffset = bytesToUInt(rawData, paletteDataOffsetOffset);
             PaletteDataLength = bytesToUShort(rawData, paletteDataLengthOffset);
 
             Array.Copy(rawData, reservedOffset, Reserved, 0, reservedLength);
 
-            uint endOfDisplay = GetNullTerminatorLocation(rawData, displayTextOffset);
+            uint endOfDisplay = GetNullTerminatorUnicodeLocation(rawData, displayTextOffset);
             uint displayLength = endOfDisplay - displayTextOffset;
             if (displayLength > 0)
             {
@@ -162,7 +208,7 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
             }
 
             uint authorTextOffset = endOfDisplay + 2;
-            uint endOfAuthor = GetNullTerminatorLocation(rawData, authorTextOffset);
+            uint endOfAuthor = GetNullTerminatorUnicodeLocation(rawData, authorTextOffset);
             uint authorLength = endOfAuthor - authorTextOffset;
             if(authorLength > 0)
             {
@@ -175,17 +221,46 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
                 Author = "";
             }
 
-            PixelData = new byte[SpriteDataLength];
-            Array.Copy(rawData, SpriteDataOffset, PixelData, 0, SpriteDataLength);
+            uint authorRomDisplayTextOffset = endOfAuthor + 2;
+            uint endOfAuthorRomDisplay = GetNullTerminatorAsciiLocation(rawData, authorRomDisplayTextOffset);
+            uint authorRomDisplayLength = endOfAuthorRomDisplay - authorRomDisplayTextOffset;
+            if (authorRomDisplayLength > 0)
+            {
+                byte[] authorRomDisplayTextBytes = new byte[authorRomDisplayLength];
+                Array.Copy(rawData, authorRomDisplayTextOffset, authorRomDisplayTextBytes, 0, authorRomDisplayLength);
+                AuthorRomDisplay = ASCIIEncoding.ASCII.GetString(authorRomDisplayTextBytes);
+            }
+            else
+            {
+                AuthorRomDisplay = "";
+            }
+
+            PixelData = new byte[PixelDataLength];
+            Array.Copy(rawData, PixelDataOffset, PixelData, 0, PixelDataLength);
             PaletteData = new byte[PaletteDataLength];
             Array.Copy(rawData, PaletteDataOffset, PaletteData, 0, PaletteDataLength);
+
+            HasValidChecksum = IsCheckSumValid();
         }
 
-        public uint GetNullTerminatorLocation(byte[] rawData, uint offset)
+        public uint GetNullTerminatorUnicodeLocation(byte[] rawData, uint offset)
         {
             for(uint i = offset; i < rawData.Length; i+=2)
             {
                 if(rawData[i] == 0 && i+1 < rawData.Length && rawData[i+1] == 0)
+                {
+                    return i;
+                }
+            }
+
+            return offset;
+        }
+
+        public uint GetNullTerminatorAsciiLocation(byte[] rawData, uint offset)
+        {
+            for (uint i = offset; i < rawData.Length; i++)
+            {
+                if (rawData[i] == 0)
                 {
                     return i;
                 }
@@ -206,9 +281,19 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
 
         public byte[] ToByteArray()
         {
+            return ToByteArray(false);
+        }
+
+        byte[] ToByteArray(bool skipChecksum)
+        {
+            if (false == skipChecksum)
+            {
+                UpdateChecksum();
+            }
+
             Version = currentVersion; // update the version
 
-            byte[] ret = new byte[headerLength + versionLength + checksumLength + spriteDataOffsetLength + spriteDataLengthLength + paletteDataOffsetLength + paletteDataLengthLength + reservedLength + displayBytesLength + authorBytesLength + SpriteDataLength + PaletteDataLength];
+            byte[] ret = new byte[headerLength + versionLength + checksumLength + pixelDataOffsetLength + pixelDataLengthLength + paletteDataOffsetLength + paletteDataLengthLength + reservedLength + displayBytesLength + authorBytesLength + authorRomDisplayBytesLength + PixelDataLength + PaletteDataLength];
 
             int i = 0;
             ret[i++] = (byte)Header[0];
@@ -225,15 +310,15 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
             ret[i++] = checksum[2];
             ret[i++] = checksum[3];
 
-            byte[] spriteDataOffset = BitConverter.GetBytes(SpriteDataOffset);
-            ret[i++] = spriteDataOffset[0];
-            ret[i++] = spriteDataOffset[1];
-            ret[i++] = spriteDataOffset[2];
-            ret[i++] = spriteDataOffset[3];
+            byte[] pixelDataOffset = BitConverter.GetBytes(PixelDataOffset);
+            ret[i++] = pixelDataOffset[0];
+            ret[i++] = pixelDataOffset[1];
+            ret[i++] = pixelDataOffset[2];
+            ret[i++] = pixelDataOffset[3];
 
-            byte[] spriteDataLength = BitConverter.GetBytes(SpriteDataLength);
-            ret[i++] = spriteDataLength[0];
-            ret[i++] = spriteDataLength[1];
+            byte[] pixelDataLength = BitConverter.GetBytes(PixelDataLength);
+            ret[i++] = pixelDataLength[0];
+            ret[i++] = pixelDataLength[1];
 
             byte[] paletteDataOffset = BitConverter.GetBytes(PaletteDataOffset);
             ret[i++] = paletteDataOffset[0];
@@ -264,6 +349,11 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
                 ret[i++] = authorBytes[x];
             }
 
+            for (int x = 0; x < authorRomDisplayBytes.Length; x++)
+            {
+                ret[i++] = authorRomDisplayBytes[x];
+            }
+
             for (int x=0; x < PixelData.Length; x++)
             {
                 ret[i++] = PixelData[x];
@@ -285,6 +375,59 @@ palette data (0x78 + ? bytes) (remember to add extra bytes for gloves)
         ushort bytesToUShort(byte[] bytes, int offset)
         {
             return BitConverter.ToUInt16(bytes, offset);
+        }
+
+        void RecalculatePixelAndPaletteOffset()
+        {
+            PixelDataOffset = displayTextOffset + displayBytesLength + authorBytesLength + authorRomDisplayBytesLength;
+            PaletteDataOffset = PixelDataOffset + PixelDataLength;
+        }
+
+        void UpdateChecksum()
+        {
+            byte[] checksum = { 0x00, 0x00, 0xFF, 0xFF };
+            CheckSum = BitConverter.ToUInt32(checksum, 0);
+
+            byte[] bytes = this.ToByteArray(true);
+            int sum = 0;
+            for(int i=0; i<bytes.Length; i++)
+            {
+                sum += bytes[i];
+            }
+
+            checksum[0] = (byte)(sum & 0xFF);
+            checksum[1] = (byte)((sum >> 8) & 0xFF);
+
+            int complement = (sum & 0xFFFF) ^ 0xFFFF;
+            checksum[2] = (byte)(complement & 0xFF);
+            checksum[3] = (byte)((complement >> 8) & 0xFF);
+
+            CheckSum = BitConverter.ToUInt32(checksum, 0);
+        }
+
+        public bool IsCheckSumValid()
+        {
+            byte[] storedChecksum = BitConverter.GetBytes(CheckSum);
+            byte[] checksum = { 0x00, 0x00, 0xFF, 0xFF };
+
+            byte[] bytes = this.ToByteArray(true);
+            int sum = 0;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                sum += bytes[i];
+            }
+
+            checksum[0] = (byte)(sum & 0xFF);
+            checksum[1] = (byte)((sum >> 8) & 0xFF);
+
+            int complement = (sum & 0xFFFF) ^ 0xFFFF;
+            checksum[2] = (byte)(complement & 0xFF);
+            checksum[3] = (byte)((complement >> 8) & 0xFF);
+
+            return (storedChecksum[0] == checksum[0] 
+                && storedChecksum[1] == checksum[1] 
+                && storedChecksum[2] == checksum[2] 
+                && storedChecksum[3] == checksum[3]);
         }
     }
 }
