@@ -108,7 +108,9 @@ namespace SpriteLibrary.Tests
             var file = File.ReadAllBytes("link.spr");
             var s = new Sprite(file);
             Assert.Equal(0x7000, s.PixelDataLength);
-            Assert.Equal(0x70, s.PaletteDataLength);
+            Assert.Equal(0x78, s.PaletteDataLength);
+            Assert.Equal("link", s.DisplayText);
+            Assert.True(s.HasValidChecksum);
         }
     }
 }

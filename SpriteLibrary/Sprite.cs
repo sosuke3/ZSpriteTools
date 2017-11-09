@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,8 +125,12 @@ palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
                 pixelData = value;
 
                 RecalculatePixelAndPaletteOffset();
+                BuildTileArray();
             }
         }
+
+        public Tile8x8[] Tiles { get; private set; }
+
 
         byte[] paletteData;
         public byte[] PaletteData
@@ -136,8 +141,12 @@ palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
                 paletteData = value;
 
                 RecalculatePixelAndPaletteOffset();
+                RebuildPalette();
+                BuildTileArray();
             }
         }
+
+        public Color[] Palette { get; private set; }
 
         public Sprite()
         {
@@ -150,6 +159,9 @@ palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
             AuthorRomDisplay = "Unknown";
             PixelData = new byte[PixelDataLength];
             PaletteData = new byte[PaletteDataLength];
+
+            RebuildPalette();
+            BuildTileArray();
         }
 
         public Sprite(byte[] rawData)
@@ -159,17 +171,20 @@ palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
                 // old headerless sprite file
                 Version = 0;
                 CheckSum = 0;
-                PixelDataLength = 0x7000;
-                PixelDataOffset = 0;
-                PaletteDataLength = 0x78;
-                PaletteDataOffset = 0x7000;
                 DisplayText = "";
                 Author = "";
                 AuthorRomDisplay = "";
-                PixelData = new byte[PixelDataLength];
-                Array.Copy(rawData, PixelData, PixelDataLength);
-                PaletteData = new byte[PaletteDataLength];
-                Array.Copy(rawData, PaletteDataOffset, PaletteData, 0, PaletteDataLength);
+                PixelData = new byte[0x7000];
+                Array.Copy(rawData, PixelData, 0x7000);
+                PaletteData = new byte[0x78];
+                Array.Copy(rawData, 0x7000, PaletteData, 0, 0x78);
+
+                PixelDataLength = 0x7000;
+                PaletteDataLength = 0x78;
+
+                RebuildPalette();
+                BuildTileArray();
+
                 return;
             }
 
@@ -239,6 +254,9 @@ palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
             Array.Copy(rawData, PixelDataOffset, PixelData, 0, PixelDataLength);
             PaletteData = new byte[PaletteDataLength];
             Array.Copy(rawData, PaletteDataOffset, PaletteData, 0, PaletteDataLength);
+
+            RebuildPalette();
+            BuildTileArray();
 
             HasValidChecksum = IsCheckSumValid();
         }
@@ -428,6 +446,55 @@ palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
                 && storedChecksum[1] == checksum[1] 
                 && storedChecksum[2] == checksum[2] 
                 && storedChecksum[3] == checksum[3]);
+        }
+
+        void RebuildPalette()
+        {
+            int numberOfPalettes = PaletteData.Length / 2;
+            Palette = new Color[numberOfPalettes];
+
+            for(int i=0; i<numberOfPalettes; i++)
+            {
+                Palette[i] = GetColorFromBytes(PaletteData[i * 2], PaletteData[i * 2 + 1]);
+            }
+        }
+
+        Color GetColorFromBytes(byte b1, byte b2)
+        {
+            ushort combined = (ushort)(((ushort)b1 | ((ushort)b2 << 8)));
+            float r = ((float)(combined & 0x1F) / 0x1F * 0xFF);
+            float g = ((float)((combined >> 5) & 0x1F) / 0x1F * 0xFF);
+            float b = ((float)((combined >> 10) & 0x1F) / 0x1F * 0xFF);
+
+            return Color.FromArgb((int)r, (int)g, (int)b);
+        }
+
+        void BuildTileArray()
+        {
+            if(PaletteData == null)
+            {
+                return;
+            }
+
+            if(PaletteData.Length < 32)
+            {
+                // clearly this is not a 4bpp file
+                Tiles = new Tile8x8[0];
+                return;
+            }
+
+            List<Tile8x8> tiles = new List<Tile8x8>();
+
+            for(int i=0; i<PixelData.Length; i+=32)
+            {
+                var tileBytes = new byte[32];
+                Array.Copy(PixelData, i, tileBytes, 0, 32);
+
+                var t = new Tile8x8(tileBytes);
+                tiles.Add(t);
+            }
+
+            Tiles = tiles.ToArray();
         }
     }
 }
