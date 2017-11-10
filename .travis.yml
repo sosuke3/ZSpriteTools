@@ -14,3 +14,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: sosuke3/ZSpriteTools
+    tags: true
