@@ -1,8 +1,15 @@
 language: csharp
 solution: ZSpriteTools.sln
 install:
- - nuget restore ZSpriteTools.sln
- - nuget install xunit.runner.console -Version 2.3.1 -OutputDirectory testrunner
+- nuget restore ZSpriteTools.sln
+- nuget install xunit.runner.console -Version 2.3.1 -OutputDirectory testrunner
 script:
- - xbuild /p:Configuration=Release ZSpriteTools.sln
- - mono ./testrunner/xunit.runner.console.2.3.1/tools/net452/xunit.console.exe ./SpriteLibrary.Tests/bin/Release/SpriteLibrary.Tests.dll
+- xbuild /p:Configuration=Release ZSpriteTools.sln
+- mono ./testrunner/xunit.runner.console.2.3.1/tools/net452/xunit.console.exe ./SpriteLibrary.Tests/bin/Release/SpriteLibrary.Tests.dll
+deploy:
+  provider: releases
+  api_key:
+    secure: KTh2FtJlLXh9MFKmciS/V3AtYr5VVN9VtUj3H/yU8V3qxbkd9agw6RpZxaifrAXue/+fNhh/Q4a2j0JglJzLCmH5Ymg85AMqWDdb1v0Mlggl+T2PuiSaD5jaa4wY2eS3enS7Cn+C1HFTJvdMpJ8bWJ+j3TsEBjSPg50vzX7dhFN6eoa9WggCC08uS8Z4hggvS8Gjmvs5dTAb3xELzVq5Bf0yxEsTj0myYzxPDXO1u1PTBDaPhRUpdZjhNb4PiqN+QX3dMlVf0ZzZKazAPVAjTsVatlWwOdrWIA9/81T4dmNXYJ22p4iMA08Dpu9bUiy6er6q5JUkueaKHWr3JiyqMnyjz6NrQpUlwqwESKRW7NtOzDh2EbIYRDeCvvQ5621sCTMX2EOTv+xIn0mL5zylFw0ISZp6145cvr9vBPotqQ/Gytz5W09eGEFyca0rt1nFRTF6q1TjyPNL+CP8tHV3MdAACKPc05PgVgsvPLtgcztEdfLZrBQDA99UwPkmG6ciKIe+dwChH0d8hcCrpMAaaGj+JlWWNccYOQqd2dkgn/pZ7cMR6ziImPg7KW0EQJDYfigETtim72iNs4k/OoiO4HimCk9mCuNLaS9+I3bZ9btO5X3Wh0VCmBGpccDy0Bd2w7aX7f91lcUP/t+RQQ7iVnDNKvPdgr6aIgrDRC6mYoE=
+  file: ./SpriteLibrary/bin/Release/SpriteLibrary.dll
+  on:
+    repo: sosuke3/ZSpriteTools
