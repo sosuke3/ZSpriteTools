@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/sosuke3/ZSpriteTools</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>ALttP Sprite Library.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>ALttP</tags>
+  </metadata>
+</package>

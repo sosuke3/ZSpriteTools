@@ -55,7 +55,7 @@ namespace SpriteLibrary
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
             var totalBytes = bitmapData.Stride * bitmapData.Height;
-            var bpp = Bitmap.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+            var bpp = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
             var pixels = new byte[totalBytes];
 
             for(int y = 0; y < 8; y++)

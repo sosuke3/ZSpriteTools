@@ -10,20 +10,20 @@ namespace SpriteLibrary
     public class Sprite
     {
         /*
-header flag (4 bytes) = ZSPR
-version (1 byte)
-checksum (4 byte)
-pixel data offset (4 bytes)
-pixel data length (2 bytes)
-palette data offset (4 bytes)
-palette data length (2 bytes)
-reserved (8 bytes)
-display text (x bytes) (unicode, null terminated)
-author (x bytes) (unicode, null terminated)
-author rom display (x bytes) (ascii, null terminated)
-sprite data (0x7000 bytes)
-palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
-         */
+        header flag (4 bytes) = ZSPR
+        version (1 byte)
+        checksum (4 byte) = 2 bytes + complement 2 bytes
+        pixel data offset (4 bytes)
+        pixel data length (2 bytes)
+        palette data offset (4 bytes)
+        palette data length (2 bytes)
+        reserved (8 bytes)
+        display text (x bytes) (unicode, null terminated)
+        author (x bytes) (unicode, null terminated)
+        author rom display (x bytes) (ascii, null terminated)
+        sprite data (0x7000 bytes for character sprites)
+        palette data (0x78 + 4 bytes [gloves] for character sprites) (remember to add extra bytes for gloves)
+        */
 
         public string Header { get; private set; } = "ZSPR";
         const int headerOffset = 0;
@@ -107,7 +107,7 @@ palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
                 }
                 authorRomDisplay = value;
 
-                authorRomDisplayBytes = ASCIIEncoding.ASCII.GetBytes(authorRomDisplay + '\0');
+                authorRomDisplayBytes = Encoding.ASCII.GetBytes(authorRomDisplay + '\0');
                 authorRomDisplayBytesLength = (uint)authorRomDisplayBytes.Length;
 
                 RecalculatePixelAndPaletteOffset();
@@ -243,7 +243,7 @@ palette data (0x78 + 4? bytes) (remember to add extra bytes for gloves)
             {
                 byte[] authorRomDisplayTextBytes = new byte[authorRomDisplayLength];
                 Array.Copy(rawData, authorRomDisplayTextOffset, authorRomDisplayTextBytes, 0, authorRomDisplayLength);
-                AuthorRomDisplay = ASCIIEncoding.ASCII.GetString(authorRomDisplayTextBytes);
+                AuthorRomDisplay = Encoding.ASCII.GetString(authorRomDisplayTextBytes);
             }
             else
             {
