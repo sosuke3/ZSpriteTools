@@ -8,7 +8,8 @@ script:
 - mono ./testrunner/xunit.runner.console.2.3.1/tools/net452/xunit.console.exe ./SpriteLibrary.Tests/bin/Release/SpriteLibrary.Tests.dll
 before_deploy:
  - mkdir Release
- - zip -r "./Release/ZSpriteTools-$TRAVIS_BRANCH-v$RELEASE_VERSION+$TRAVIS_BUILD_NUMBER.zip" ./ZSpriteTools/bin/Release/ZSpriteTools.exe ./ZSpriteTools/bin/Release/ZSpriteTools.exe.config ./ZSpriteTools/bin/Release/SpriteLibrary.dll
+ - cd ./ZSpriteTools/bin/Release
+ - zip -r "./Release/ZSpriteTools-$TRAVIS_BRANCH-v$RELEASE_VERSION+$TRAVIS_BUILD_NUMBER.zip" ZSpriteTools.exe ZSpriteTools.exe.config SpriteLibrary.dll
 deploy:
   provider: releases
   api_key:
