@@ -105,12 +105,22 @@ namespace SpriteLibrary.Tests
         [Fact]
         public void should_import_from_file_bytes()
         {
-            var file = File.ReadAllBytes("link.spr");
+            var file = File.ReadAllBytes("orb.new.spr");
             var s = new Sprite(file);
             Assert.Equal(0x7000, s.PixelDataLength);
             Assert.Equal(0x78, s.PaletteDataLength);
-            Assert.Equal("link", s.DisplayText);
+            Assert.Equal("Orb", s.DisplayText);
             Assert.True(s.HasValidChecksum);
+        }
+
+        [Fact]
+        public void should_import_old_format_from_file_bytes()
+        {
+            var file = File.ReadAllBytes("orb.old.spr");
+            var s = new Sprite(file);
+            Assert.Equal(0x7000, s.PixelDataLength);
+            Assert.Equal(0x78, s.PaletteDataLength);
+            Assert.False(s.HasValidChecksum);
         }
     }
 }

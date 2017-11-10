@@ -1,0 +1,8 @@
+language: csharp
+solution: ZSpriteTools.sln
+install:
+	- nuget restore ZSpriteTools.sln
+	- nuget install xunit.runner.console -Version 2.3.1 -OutputDirectory testrunner
+script:
+	- xbuild /p:Configuration=Release ZSpriteTools.sln
+	- mono ./testrunner/xunit.runner.console.2.3.1/tools/net452/xunit.console.exe ./SpriteLibrary.Tests/bin/Release/SpriteLibrary.Tests.dll
