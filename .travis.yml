@@ -9,7 +9,7 @@ script:
 before_deploy:
  - mkdir Release
  - cd ./ZSpriteTools/bin/Release
- - zip -r "./Release/ZSpriteTools-$TRAVIS_BRANCH-v$RELEASE_VERSION+$TRAVIS_BUILD_NUMBER.zip" ZSpriteTools.exe ZSpriteTools.exe.config SpriteLibrary.dll
+ - zip -r "../../../Release/ZSpriteTools-$TRAVIS_BRANCH-v$RELEASE_VERSION+$TRAVIS_BUILD_NUMBER.zip" ZSpriteTools.exe ZSpriteTools.exe.config SpriteLibrary.dll
 deploy:
   provider: releases
   api_key:
