@@ -31,4 +31,4 @@ deploy:
 - provider: GitHub
   auth_token:
     secure: ViWNMG9POKQc60IVRa88gr+T8To/aPCGDMn8xGVPGACQYx/sESKtXg77AS/LQt0F
-  draft: true
+  draft: false
