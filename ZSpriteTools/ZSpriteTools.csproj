@@ -46,9 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Metadata\AssemblySharedInfo.cs">
-      <Link>AssemblySharedInfo.cs</Link>
-    </Compile>
     <Compile Include="ZSpriteToolForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,10 +81,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Metadata\Metadata.csproj">
-      <Project>{cb3e37a7-5db0-4b45-9ca5-6edea80e1b07}</Project>
-      <Name>Metadata</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SpriteLibrary\SpriteLibrary.csproj">
       <Project>{d70b706f-5023-4e39-9bb7-206457305d3f}</Project>
       <Name>SpriteLibrary</Name>

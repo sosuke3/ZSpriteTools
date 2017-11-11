@@ -1,0 +1,39 @@
+version: 1.0.{build}
+
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+
+platform: Any CPU
+
+configuration: Release
+
+build:
+  verbosity: minimal
+  project: ZSpriteTools.sln
+
+after_build:
+- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\($configuration)\SpriteLibrary.dll
+- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\($configuration)\ZSpriteTools.exe
+- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\($configuration)\ZSpriteTools.exe.config
+
+artifacts:
+- path: SpriteLibrary\bin\$(configuration)\SpriteLibrary.dll
+- path: Release.zip
+
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: mOffQfAq2RlafQDGfzH7F4cjeBrJwQ1HE1kSj7LfdYGfxyk0v3Jw/EMLiECm78MNdCeE4Z1mioLTzBp10tKwwsFDIxxFn8GaF6CiW93SnPY=
+  draft: true
+
+notifications:
+- provider: Email
+  to:
+  - joshneta.github@gmail.com
+  on_build_success: false
+  on_build_failure: true
+  on_build_status_changed: false
