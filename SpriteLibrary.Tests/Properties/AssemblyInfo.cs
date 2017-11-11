@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("SpriteLibrary.Tests")]
 
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Sosuke3")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

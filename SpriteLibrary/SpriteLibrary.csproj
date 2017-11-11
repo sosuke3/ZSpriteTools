@@ -50,6 +50,9 @@
     <Compile Include="Tile8x8.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="SpriteLibrary.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
