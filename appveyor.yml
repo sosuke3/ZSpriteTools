@@ -34,8 +34,8 @@ after_build:
 artifacts:
 - path: SpriteLibrary\bin\%CONFIGURATION%\SpriteLibrary.dll
 - path: ZSpriteTools-$(appveyor_build_version).zip
-- path: SpriteLibrary.$(appveyor_build_version).nupkg'
-- path: SpriteLibrary.$(appveyor_build_version).symbols.nupkg'
+- path: SpriteLibrary.$(appveyor_build_version).nupkg
+- path: SpriteLibrary.$(appveyor_build_version).symbols.nupkg
 
 deploy:
 - provider: GitHub
