@@ -19,12 +19,12 @@ build:
   project: ZSpriteTools.sln
 
 after_build:
-- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\($configuration)\SpriteLibrary.dll
-- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\($configuration)\ZSpriteTools.exe
-- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\($configuration)\ZSpriteTools.exe.config
+- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\SpriteLibrary.dll
+- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\ZSpriteTools.exe
+- 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\ZSpriteTools.exe.config
 
 artifacts:
-- path: SpriteLibrary\bin\($configuration)\SpriteLibrary.dll
+- path: SpriteLibrary\bin\%CONFIGURATION%\SpriteLibrary.dll
 - path: Release.zip
 
 deploy:
@@ -32,11 +32,3 @@ deploy:
   auth_token:
     secure: mOffQfAq2RlafQDGfzH7F4cjeBrJwQ1HE1kSj7LfdYGfxyk0v3Jw/EMLiECm78MNdCeE4Z1mioLTzBp10tKwwsFDIxxFn8GaF6CiW93SnPY=
   draft: true
-
-notifications:
-- provider: Email
-  to:
-  - joshneta.github@gmail.com
-  on_build_success: false
-  on_build_failure: true
-  on_build_status_changed: false
