@@ -455,18 +455,8 @@ namespace SpriteLibrary
 
             for(int i=0; i<numberOfPalettes; i++)
             {
-                Palette[i] = GetColorFromBytes(PaletteData[i * 2], PaletteData[i * 2 + 1]);
+                Palette[i] = Utilities.GetColorFromBytes(PaletteData[i * 2], PaletteData[i * 2 + 1]);
             }
-        }
-
-        Color GetColorFromBytes(byte b1, byte b2)
-        {
-            ushort combined = (ushort)(((ushort)b1 | ((ushort)b2 << 8)));
-            float r = ((float)(combined & 0x1F) / 0x1F * 0xFF);
-            float g = ((float)((combined >> 5) & 0x1F) / 0x1F * 0xFF);
-            float b = ((float)((combined >> 10) & 0x1F) / 0x1F * 0xFF);
-
-            return Color.FromArgb((int)r, (int)g, (int)b);
         }
 
         void BuildTileArray()
