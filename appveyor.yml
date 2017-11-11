@@ -2,6 +2,9 @@ version: 1.0.{build}
 
 skip_tags: true
 
+nuget:
+  disable_publish_on_pr: true
+
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -31,8 +34,8 @@ after_build:
 artifacts:
 - path: SpriteLibrary\bin\%CONFIGURATION%\SpriteLibrary.dll
 - path: ZSpriteTools-$(appveyor_build_version).zip
-- path: SpriteLibrary\SpriteLibrary.$(appveyor_build_version).nupkg'
-- path: SpriteLibrary\SpriteLibrary.$(appveyor_build_version).symbols.nupkg'
+- path: SpriteLibrary.$(appveyor_build_version).nupkg'
+- path: SpriteLibrary.$(appveyor_build_version).symbols.nupkg'
 
 deploy:
 - provider: GitHub
@@ -40,14 +43,9 @@ deploy:
     secure: ViWNMG9POKQc60IVRa88gr+T8To/aPCGDMn8xGVPGACQYx/sESKtXg77AS/LQt0F
   draft: false
 - provider: NuGet
-  server: https://ci.appveyor.com/nuget/joshneta
+  server: https://www.myget.org/F/sosuke3-ci/api/v2
   api_key:
-    secure: cosyri+21RIzei5WbezsEPIseF4bN/aWFO+N+DyUyhQ=
-  skip_symbols: false
-  symbol_server: https://ci.appveyor.com/nuget/joshneta/api/v2/package
+    secure: v/wpf+t9YFQEkAumK2jCz1I3cEyraQUe+6488s1zo2b7yWp3VUJJB34bwzg9sOJ8
   artifact: SpriteLibrary.$(appveyor_build_version).nupkg
-#- provider: NuGet
-#  symbol_server: https://ci.appveyor.com/nuget/joshneta/api/v2/package
-#  api_key:
-#    secure: cosyri+21RIzei5WbezsEPIseF4bN/aWFO+N+DyUyhQ=
-#  artifact: /.*\.symbols\.nupkg/
+  on:
+    branch: master
