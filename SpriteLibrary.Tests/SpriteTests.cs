@@ -30,7 +30,7 @@ namespace SpriteLibrary.Tests
                                     0x25, 0x00, 0x00, 0x00, // pixel offset
                                     0x01, 0x00, // pixel length
                                     0x26, 0x00, 0x00, 0x00, // palette offset
-                                    0x01, 0x00, // palette length
+                                    0x02, 0x00, // palette length
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // reserved
                                     0x65, 0x00, 0x00, 0x00, // display text (unicode)
                                     0x41, 0x00, 0x00, 0x00, // author (unicode)
@@ -38,7 +38,7 @@ namespace SpriteLibrary.Tests
                                     // pixels
                                     0x13,
                                     // palette
-                                    0x31, 
+                                    0x31, 0x20
                                 };
             var s = new Sprite(testSprite);
             Assert.IsType<Sprite>(s);
