@@ -19,6 +19,9 @@ before_build:
 build:
   verbosity: minimal
   project: ZSpriteTools.sln
+  publish_nuget: true
+  publish_nuget_symbols: true
+  include_nuget_references: true
 
 after_build:
 - 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\SpriteLibrary.dll
@@ -28,9 +31,22 @@ after_build:
 artifacts:
 - path: SpriteLibrary\bin\%CONFIGURATION%\SpriteLibrary.dll
 - path: ZSpriteTools-$(appveyor_build_version).zip
+- path: **\*.nupkg
 
 deploy:
 - provider: GitHub
   auth_token:
     secure: ViWNMG9POKQc60IVRa88gr+T8To/aPCGDMn8xGVPGACQYx/sESKtXg77AS/LQt0F
   draft: false
+- provider: NuGet
+  symbol_server: https://ci.appveyor.com/nuget/joshneta
+  api_key:
+    secure: cosyri+21RIzei5WbezsEPIseF4bN/aWFO+N+DyUyhQ=
+  skip_symbols: false
+  symbol_server: https://ci.appveyor.com/nuget/joshneta/api/v2/package
+  artifact: SpriteLibrary.nupkg
+#- provider: NuGet
+#  symbol_server: https://ci.appveyor.com/nuget/joshneta/api/v2/package
+#  api_key:
+#    secure: cosyri+21RIzei5WbezsEPIseF4bN/aWFO+N+DyUyhQ=
+#  artifact: /.*\.symbols\.nupkg/
