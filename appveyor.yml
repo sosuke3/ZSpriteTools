@@ -24,7 +24,7 @@ after_build:
 - 7z a Release.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\($configuration)\ZSpriteTools.exe.config
 
 artifacts:
-- path: SpriteLibrary\bin\$(configuration)\SpriteLibrary.dll
+- path: SpriteLibrary\bin\($configuration)\SpriteLibrary.dll
 - path: Release.zip
 
 deploy:
