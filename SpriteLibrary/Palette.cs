@@ -96,9 +96,9 @@ namespace SpriteLibrary
                 startIndex = 1;
             }
 
-            for (int i = 0; i < this.palette.Length; i++)
+            for (int i = startIndex; i < this.palette.Length; i++)
             {
-                this.palette[i + startIndex] = Utilities.GetColorFromBytes(this.rawPalette[i * 2], this.rawPalette[i * 2 + 1]);
+                this.palette[i] = Utilities.GetColorFromBytes(this.rawPalette[(i - startIndex) * 2], this.rawPalette[(i - startIndex) * 2 + 1]);
             }
         }
 

@@ -66,7 +66,7 @@ namespace SpriteLibrary.Tests
             var bytes = new byte[] { 0x00, 0xFF }; // little endian
             var c = Utilities.GetColorFromBytes(bytes[0], bytes[1]);
 
-            Assert.Equal(Color.FromArgb(255, 198, 0), c);
+            Assert.Equal(Color.FromArgb(0, 198, 255), c);
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace SpriteLibrary.Tests
             var bytes = new byte[] { 0xFF, 0x00 }; // little endian
             var c = Utilities.GetColorFromBytes(bytes[0], bytes[1]);
 
-            Assert.Equal(Color.FromArgb(0, 58, 255), c);
+            Assert.Equal(Color.FromArgb(255, 58, 0), c);
         }
 
         [Fact]

@@ -11,9 +11,9 @@ namespace SpriteLibrary
     {
         public static Color GetColorFromBytes(ushort s)
         {
-            int r = (int)Math.Ceiling((float)((s & 0x7C00) >> 10) * 0xFF / 0x1F);
+            int b = (int)Math.Ceiling((float)((s & 0x7C00) >> 10) * 0xFF / 0x1F);
             int g = (int)Math.Ceiling((float)((s & 0x03E0) >> 5) * 0xFF / 0x1F);
-            int b = (int)Math.Ceiling((float)((s & 0x001F) >> 0) * 0xFF / 0x1F);
+            int r = (int)Math.Ceiling((float)((s & 0x001F) >> 0) * 0xFF / 0x1F);
 
             return Color.FromArgb(r, g, b);
         }

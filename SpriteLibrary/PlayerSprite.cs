@@ -42,7 +42,7 @@ namespace SpriteLibrary
             }
         }
 
-        public PlayerSprite() : base()
+        public PlayerSprite()
         {
             SetPlayerPaletteColors();
 
