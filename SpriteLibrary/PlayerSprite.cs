@@ -74,6 +74,8 @@ namespace SpriteLibrary
                 this.Palette = newPal;
                 this.Palette[60] = GlovePalette[0];
                 this.Palette[61] = GlovePalette[1];
+
+                this.RebuildPaletteData();
             }
             else if(Palette.Length == 62)
             {

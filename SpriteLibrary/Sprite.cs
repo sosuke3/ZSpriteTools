@@ -307,6 +307,8 @@ namespace SpriteLibrary
 
         protected byte[] ToByteArray(bool skipChecksum)
         {
+            this.RebuildPaletteData();
+
             if (false == skipChecksum)
             {
                 UpdateChecksum();
@@ -459,6 +461,18 @@ namespace SpriteLibrary
             for(int i=0; i<numberOfPalettes; i++)
             {
                 Palette[i] = Utilities.GetColorFromBytes(PaletteData[i * 2], PaletteData[i * 2 + 1]);
+            }
+        }
+
+        protected void RebuildPaletteData()
+        {
+            paletteData = new byte[this.Palette.Length * 2];
+
+            for(int i=0; i<this.Palette.Length; i++)
+            {
+                var bytes = Utilities.GetBytesFromColor(this.Palette[i]);
+                paletteData[i * 2] = bytes[0];
+                paletteData[i * 2 + 1] = bytes[1];
             }
         }
 
