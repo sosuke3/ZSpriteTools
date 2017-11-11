@@ -69,10 +69,10 @@ namespace SpriteLibrary
                 GlovePalette[0] = Utilities.GetColorFromBytes(0xF6, 0x52);
                 GlovePalette[1] = Utilities.GetColorFromBytes(0x76, 0x03);
             }
-            else
+            else if(Palette.Length == 62)
             {
-                GlovePalette[0] = this.Palette[61];
-                GlovePalette[1] = this.Palette[62];
+                GlovePalette[0] = this.Palette[60];
+                GlovePalette[1] = this.Palette[61];
             }
         }
 
