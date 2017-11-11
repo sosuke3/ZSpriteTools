@@ -47,6 +47,12 @@ deploy:
   api_key:
     secure: v/wpf+t9YFQEkAumK2jCz1I3cEyraQUe+6488s1zo2b7yWp3VUJJB34bwzg9sOJ8
   artifact: SpriteLibrary.$(appveyor_build_version).nupkg
+  on:
+    branch: master
+- provider: NuGet
+  api_key:
+    secure: v/wpf+t9YFQEkAumK2jCz1I3cEyraQUe+6488s1zo2b7yWp3VUJJB34bwzg9sOJ8
+  artifact: SpriteLibrary.$(appveyor_build_version).symbols.nupkg
   symbol_server: https://www.myget.org/F/sosuke3-ci/api/v2
   on:
     branch: master
