@@ -20,6 +20,8 @@ namespace ZSpriteTools
         {
             InitializeComponent();
 
+            this.Text = this.Text + " - " + ProductVersion;
+
             authorRomDisplayTextBox.MaxLength = SpriteLibrary.Sprite.AuthorRomDisplayMaxLength;
 
             //imagePanel.VerticalScroll.Maximum = 576;
@@ -29,7 +31,7 @@ namespace ZSpriteTools
         private void loadSpriteButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Sprite File (*.spr)|*.spr|All Files (*.*)|*.*";
+            ofd.Filter = "Sprite File (*.spr;*.zspr)|*.spr;*.zspr|ZSprite File (*.zspr)|*.zspr|Legacy Sprite File (*.spr)|*.spr|All Files (*.*)|*.*";
             ofd.Title = "Select a Sprite File";
 
             var result = ofd.ShowDialog();
@@ -44,7 +46,7 @@ namespace ZSpriteTools
         private void saveSpriteButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Sprite File (*.spr)|*.spr|All Files (*.*)|*.*";
+            sfd.Filter = "ZSprite File (*.zspr)|*.zspr|All Files (*.*)|*.*";
             sfd.Title = "Select a Sprite File";
 
             var result = sfd.ShowDialog();
