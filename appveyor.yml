@@ -11,6 +11,9 @@ platform: Any CPU
 
 configuration: Release
 
+before_build:
+- nuget restore
+
 build:
   verbosity: minimal
   project: ZSpriteTools.sln
