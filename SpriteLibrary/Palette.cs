@@ -11,6 +11,26 @@ namespace SpriteLibrary
 {
     public class Palette : INotifyPropertyChanged
     {
+        public static readonly string[] PaletteColorNames =
+        {
+			"Transparent",
+			"White",
+			"Belt / Yellow",
+			"Skin Shade",
+			"Skin",
+			"Outline",
+			"Hat Trim / Orange",
+			"Mouth / Red",
+			"Hair",
+			"Tunic Shade",
+			"Tunic",
+			"Hat Shade",
+			"Hat",
+			"Hands",
+			"Sleeves",
+			"Water"
+        };
+
         public Palette(int size = 16)
         {
             this.palette = new Color[size];

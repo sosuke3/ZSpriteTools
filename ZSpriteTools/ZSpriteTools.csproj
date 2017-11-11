@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpriteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SpriteForm.Designer.cs">
+      <DependentUpon>SpriteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ZSpriteToolForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +60,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="SpriteForm.resx">
+      <DependentUpon>SpriteForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ZSpriteToolForm.resx">
       <DependentUpon>ZSpriteToolForm.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -190,6 +190,32 @@ namespace ZSpriteTools
             }
         }
 
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm newMDI = new SpriteForm();
+            newMDI.MdiParent = this;
+            newMDI.Show();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Sprite File (*.spr;*.zspr)|*.spr;*.zspr|ZSprite File (*.zspr)|*.zspr|Legacy Sprite File (*.spr)|*.spr|All Files (*.*)|*.*";
+            ofd.Title = "Select a Sprite File";
+
+            var result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                var spriteFile = File.ReadAllBytes(ofd.FileName);
+                loadedSprite = new SpriteLibrary.Sprite(spriteFile);
+                UpdateForm();
+
+                SpriteForm newMDI = new SpriteForm(loadedSprite);
+                newMDI.MdiParent = this;
+                newMDI.Show();
+            }
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();

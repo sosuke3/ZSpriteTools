@@ -9,6 +9,9 @@ namespace SpriteLibrary
 {
     public class Sprite
     {
+        public const string OpenFileDialogFilter = "Sprite File (*.spr;*.zspr)|*.spr;*.zspr|ZSprite File (*.zspr)|*.zspr|Legacy Sprite File (*.spr)|*.spr|All Files (*.*)|*.*";
+        public const string SaveFileDialogFilter = "ZSprite File (*.zspr)|*.zspr|All Files (*.*)|*.*";
+
         /*
         header flag (4 bytes) = ZSPR
         version (1 byte)
