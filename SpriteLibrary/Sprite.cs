@@ -28,43 +28,43 @@ namespace SpriteLibrary
         palette data (0x78 + 4 bytes [gloves] for character sprites) (remember to add extra bytes for gloves)
         */
 
-        public string Header { get; private set; } = "ZSPR";
-        const int headerOffset = 0;
-        const int headerLength = 4;
+        public string Header { get; protected set; } = "ZSPR";
+        protected const int headerOffset = 0;
+        protected const int headerLength = 4;
 
-        public byte Version { get; private set; } = 1;
-        const int versionOffset = headerOffset + headerLength;
-        const int versionLength = 1;
-        const int currentVersion = 1;
+        public byte Version { get; protected set; } = 1;
+        protected const int versionOffset = headerOffset + headerLength;
+        protected const int versionLength = 1;
+        protected const int currentVersion = 1;
 
-        public uint CheckSum { get; private set; }
-        const int checksumOffset = versionOffset + versionLength;
-        const int checksumLength = 4;
+        public uint CheckSum { get; protected set; }
+        protected const int checksumOffset = versionOffset + versionLength;
+        protected const int checksumLength = 4;
 
-        public bool HasValidChecksum { get; private set; }
+        public bool HasValidChecksum { get; protected set; }
 
-        public uint PixelDataOffset { get; private set; }
-        const int pixelDataOffsetOffset = checksumOffset + checksumLength;
-        const int pixelDataOffsetLength = 4;
+        public uint PixelDataOffset { get; protected set; }
+        protected const int pixelDataOffsetOffset = checksumOffset + checksumLength;
+        protected const int pixelDataOffsetLength = 4;
 
-        public ushort PixelDataLength { get; private set; }
-        const int pixelDataLengthOffset = pixelDataOffsetOffset + pixelDataOffsetLength;
-        const int pixelDataLengthLength = 2;
+        public ushort PixelDataLength { get; protected set; }
+        protected const int pixelDataLengthOffset = pixelDataOffsetOffset + pixelDataOffsetLength;
+        protected const int pixelDataLengthLength = 2;
 
-        public uint PaletteDataOffset { get; private set; }
-        const int paletteDataOffsetOffset = pixelDataLengthOffset + pixelDataLengthLength;
-        const int paletteDataOffsetLength = 4;
+        public uint PaletteDataOffset { get; protected set; }
+        protected const int paletteDataOffsetOffset = pixelDataLengthOffset + pixelDataLengthLength;
+        protected const int paletteDataOffsetLength = 4;
 
-        public ushort PaletteDataLength { get; private set; }
-        const int paletteDataLengthOffset = paletteDataOffsetOffset + paletteDataOffsetLength;
-        const int paletteDataLengthLength = 2;
+        public ushort PaletteDataLength { get; protected set; }
+        protected const int paletteDataLengthOffset = paletteDataOffsetOffset + paletteDataOffsetLength;
+        protected const int paletteDataLengthLength = 2;
 
-        public byte[] Reserved { get; private set; } = new byte[reservedLength];
-        const int reservedOffset = paletteDataLengthOffset + paletteDataLengthLength;
-        const int reservedLength = 8;
+        public byte[] Reserved { get; protected set; } = new byte[reservedLength];
+        protected const int reservedOffset = paletteDataLengthOffset + paletteDataLengthLength;
+        protected const int reservedLength = 8;
 
-        string displayText;
-        byte[] displayBytes;
+        protected string displayText;
+        protected byte[] displayBytes;
         public string DisplayText
         {
             get { return displayText; }
@@ -78,11 +78,11 @@ namespace SpriteLibrary
             }
         }
 
-        const uint displayTextOffset = reservedOffset + reservedLength;
-        uint displayBytesLength = 0;
+        protected const uint displayTextOffset = reservedOffset + reservedLength;
+        protected uint displayBytesLength = 0;
 
-        string author;
-        byte[] authorBytes;
+        protected string author;
+        protected byte[] authorBytes;
         public string Author
         {
             get { return author; }
@@ -95,10 +95,10 @@ namespace SpriteLibrary
                 RecalculatePixelAndPaletteOffset();
             }
         }
-        uint authorBytesLength = 0;
+        protected uint authorBytesLength = 0;
 
-        string authorRomDisplay;
-        byte[] authorRomDisplayBytes;
+        protected string authorRomDisplay;
+        protected byte[] authorRomDisplayBytes;
         public string AuthorRomDisplay
         {
             get { return authorRomDisplay; }
@@ -116,10 +116,10 @@ namespace SpriteLibrary
                 RecalculatePixelAndPaletteOffset();
             }
         }
-        uint authorRomDisplayBytesLength;
+        protected uint authorRomDisplayBytesLength;
         public const int AuthorRomDisplayMaxLength = 20;
 
-        byte[] pixelData;
+        protected byte[] pixelData;
         public byte[] PixelData
         {
             get { return pixelData; }
@@ -132,10 +132,10 @@ namespace SpriteLibrary
             }
         }
 
-        public Tile8x8[] Tiles { get; private set; }
+        public Tile8x8[] Tiles { get; protected set; }
 
 
-        byte[] paletteData;
+        protected byte[] paletteData;
         public byte[] PaletteData
         {
             get { return paletteData; }
@@ -149,7 +149,7 @@ namespace SpriteLibrary
             }
         }
 
-        public Color[] Palette { get; private set; }
+        public Color[] Palette { get; protected set; }
 
         public Sprite()
         {
@@ -305,7 +305,7 @@ namespace SpriteLibrary
             return ToByteArray(false);
         }
 
-        byte[] ToByteArray(bool skipChecksum)
+        protected byte[] ToByteArray(bool skipChecksum)
         {
             if (false == skipChecksum)
             {
@@ -388,23 +388,23 @@ namespace SpriteLibrary
             return ret;
         }
 
-        uint bytesToUInt(byte[] bytes, int offset)
+        protected uint bytesToUInt(byte[] bytes, int offset)
         {
             return BitConverter.ToUInt32(bytes, offset);
         }
 
-        ushort bytesToUShort(byte[] bytes, int offset)
+        protected ushort bytesToUShort(byte[] bytes, int offset)
         {
             return BitConverter.ToUInt16(bytes, offset);
         }
 
-        void RecalculatePixelAndPaletteOffset()
+        protected void RecalculatePixelAndPaletteOffset()
         {
             PixelDataOffset = displayTextOffset + displayBytesLength + authorBytesLength + authorRomDisplayBytesLength;
             PaletteDataOffset = PixelDataOffset + PixelDataLength;
         }
 
-        void UpdateChecksum()
+        protected void UpdateChecksum()
         {
             byte[] checksum = { 0x00, 0x00, 0xFF, 0xFF };
             CheckSum = BitConverter.ToUInt32(checksum, 0);
@@ -451,7 +451,7 @@ namespace SpriteLibrary
                 && storedChecksum[3] == checksum[3]);
         }
 
-        void RebuildPalette()
+        protected void RebuildPalette()
         {
             int numberOfPalettes = PaletteData.Length / 2;
             Palette = new Color[numberOfPalettes];
@@ -462,7 +462,7 @@ namespace SpriteLibrary
             }
         }
 
-        void BuildTileArray()
+        protected void BuildTileArray()
         {
             if(PaletteData == null)
             {

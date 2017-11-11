@@ -68,6 +68,12 @@ namespace SpriteLibrary
                 // Vanilla Glove Colors = F652 7603
                 GlovePalette[0] = Utilities.GetColorFromBytes(0xF6, 0x52);
                 GlovePalette[1] = Utilities.GetColorFromBytes(0x76, 0x03);
+
+                var newPal = new Color[62];
+                Array.Copy(this.Palette, newPal, this.Palette.Length);
+                this.Palette = newPal;
+                this.Palette[60] = GlovePalette[0];
+                this.Palette[61] = GlovePalette[1];
             }
             else if(Palette.Length == 62)
             {
