@@ -19,9 +19,9 @@ build:
   project: ZSpriteTools.sln
 
 after_build:
-- 7z a ZSpriteTools-$(appveyor_build_version).zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\SpriteLibrary.dll
-- 7z a ZSpriteTools-$(appveyor_build_version).zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\ZSpriteTools.exe
-- 7z a ZSpriteTools-$(appveyor_build_version).zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\ZSpriteTools.exe.config
+- 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\SpriteLibrary.dll
+- 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\ZSpriteTools.exe
+- 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\ZSpriteTools.exe.config
 
 artifacts:
 - path: SpriteLibrary\bin\%CONFIGURATION%\SpriteLibrary.dll
