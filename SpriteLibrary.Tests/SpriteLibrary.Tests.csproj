@@ -69,6 +69,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="..\Metadata\AssemblySharedInfo.cs">
+      <Link>AssemblySharedInfo.cs</Link>
+    </Compile>
     <Compile Include="PlayerSpriteTests.cs" />
     <Compile Include="UtilitiesTests.cs" />
     <Compile Include="PaletteTests.cs" />
@@ -88,6 +91,10 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Metadata\Metadata.csproj">
+      <Project>{cb3e37a7-5db0-4b45-9ca5-6edea80e1b07}</Project>
+      <Name>Metadata</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpriteLibrary\SpriteLibrary.csproj">
       <Project>{d70b706f-5023-4e39-9bb7-206457305d3f}</Project>
       <Name>SpriteLibrary</Name>
