@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -295,6 +297,12 @@ namespace ZSpriteTools
             }
 
             DisableSave();
+        }
+
+        void SetFileHandler()
+        {
+            // TODO: enable this later
+            FileAssociations.EnsureAssociationsSet();
         }
     }
 }

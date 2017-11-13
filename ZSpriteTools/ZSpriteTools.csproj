@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileAssociation.cs" />
     <Compile Include="SpriteForm.cs">
       <SubType>Form</SubType>
     </Compile>
