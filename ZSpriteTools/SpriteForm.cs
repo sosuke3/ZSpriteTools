@@ -12,22 +12,29 @@ namespace ZSpriteTools
 {
     public partial class SpriteForm : Form
     {
-        SpriteLibrary.Sprite loadedSprite;
+        public SpriteLibrary.Sprite loadedSprite;
+        public string Filename;
 
         public SpriteForm()
         {
-            loadedSprite = new SpriteLibrary.Sprite();
-
             InitializeComponent();
+
+            loadedSprite = new SpriteLibrary.Sprite();
+            this.Text = loadedSprite.DisplayText;
+            this.Icon = ZSpriteTools.Properties.Resources.main;
 
             UpdateForm();
         }
 
-        public SpriteForm(SpriteLibrary.Sprite sprite)
+        public SpriteForm(string Filename, SpriteLibrary.Sprite sprite)
         {
-            loadedSprite = sprite;
-
             InitializeComponent();
+
+            loadedSprite = sprite;
+            this.Icon = ZSpriteTools.Properties.Resources.main;
+            this.Filename = Filename;
+
+            this.Text = Filename;
 
             UpdateForm();
         }
@@ -88,6 +95,18 @@ namespace ZSpriteTools
 
                 loadedSprite.Tiles[i].Draw(Graphics.FromImage(spritePictureBox.Image), loadedSprite.Palette, x, y);
             }
+        }
+
+        public void ImportRawPixels(byte[] pixels)
+        {
+            loadedSprite.PixelData = pixels;
+            UpdateForm();
+        }
+
+        public void ImportRawPalette(byte[] palette)
+        {
+            loadedSprite.PaletteData = palette;
+            UpdateForm();
         }
     }
 }
