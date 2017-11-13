@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -100,7 +101,6 @@
     <EmbeddedResource Include="main.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon1.ico" />
     <None Include="Resources\export pixels.png" />
     <None Include="Resources\import palette.png" />
     <None Include="Resources\export palette.png" />

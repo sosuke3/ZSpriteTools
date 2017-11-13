@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace ZSpriteTools
 {
@@ -16,7 +17,30 @@ namespace ZSpriteTools
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ZSpriteToolForm());
+            var args = Environment.GetCommandLineArgs();
+            SingleInstanceController controller = new SingleInstanceController();
+            controller.Run(args);
+        }
+
+        public class SingleInstanceController : WindowsFormsApplicationBase
+        {
+            public SingleInstanceController()
+            {
+                IsSingleInstance = true;
+
+                StartupNextInstance += this_StartupNextInstance;
+            }
+
+            void this_StartupNextInstance(object sender, StartupNextInstanceEventArgs e)
+            {
+                ZSpriteToolForm form = MainForm as ZSpriteToolForm; //My derived form type
+                form.LoadFile(e.CommandLine[1]);
+            }
+
+            protected override void OnCreateMainForm()
+            {
+                MainForm = new ZSpriteToolForm();
+            }
         }
     }
 }

@@ -25,8 +25,6 @@ namespace ZSpriteTools
             this.Text = this.Text + " - " + ProductVersion;
 
             authorRomDisplayTextBox.MaxLength = SpriteLibrary.Sprite.AuthorRomDisplayMaxLength;
-
-            DisableSave();
         }
 
         private void displayTextTextBox_TextChanged(object sender, EventArgs e)
@@ -75,17 +73,22 @@ namespace ZSpriteTools
             var result = ofd.ShowDialog();
             if (result == DialogResult.OK)
             {
-                var spriteFile = File.ReadAllBytes(ofd.FileName);
-                loadedSprite = new SpriteLibrary.Sprite(spriteFile);
-                if(loadedSprite.Version == 0)
-                {
-                    loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(ofd.FileName);
-                }
-
-                SpriteForm newMDI = new SpriteForm(ofd.FileName, loadedSprite);
-                newMDI.MdiParent = this;
-                newMDI.Show();
+                LoadFile(ofd.FileName);
             }
+        }
+
+        public void LoadFile(string fileName)
+        {
+            var spriteFile = File.ReadAllBytes(fileName);
+            loadedSprite = new SpriteLibrary.Sprite(spriteFile);
+            if (loadedSprite.Version == 0)
+            {
+                loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(fileName);
+            }
+
+            SpriteForm newMDI = new SpriteForm(fileName, loadedSprite);
+            newMDI.MdiParent = this;
+            newMDI.Show();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -263,6 +266,35 @@ namespace ZSpriteTools
         {
             this.saveToolStripButton.Enabled = true;
             this.saveToolStripMenuItem.Enabled = true;
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"ZSpriteTools - {ProductVersion}", "Just for Mike");
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            var commandLine = Environment.GetCommandLineArgs();
+
+            if (commandLine.Length > 1)
+            {
+                var filename = commandLine[1];
+                if (File.Exists(filename))
+                {
+                    LoadFile(filename);
+                    return;
+                }
+            }
+
+            DisableSave();
         }
     }
 }
