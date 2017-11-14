@@ -19,9 +19,9 @@ namespace SpriteLibrary.Tests
             pal.SetRawPalette(pal15);
 
             Assert.Equal(Color.FromArgb(0, 0, 0), pal[0]);
-            Assert.Equal(Color.FromArgb(255, 255, 255), pal[1]);
-            Assert.Equal(Color.FromArgb(247, 223, 66), pal[2]);
-            Assert.Equal(Color.FromArgb(198, 132, 247), pal[15]);
+            Assert.Equal(Color.FromArgb(248, 248, 248), pal[1]);
+            Assert.Equal(Color.FromArgb(240, 216, 64), pal[2]);
+            Assert.Equal(Color.FromArgb(192, 128, 240), pal[15]);
         }
 
         [Fact]
@@ -36,9 +36,9 @@ namespace SpriteLibrary.Tests
             pal.SetRawPalette(palbytes);
 
             Assert.Equal(Color.FromArgb(0, 0, 0), pal[0]);
-            Assert.Equal(Color.FromArgb(255, 255, 255), pal[1]);
-            Assert.Equal(Color.FromArgb(255, 58, 0), pal[2]);
-            Assert.Equal(Color.FromArgb(0, 198, 255), pal[3]);
+            Assert.Equal(Color.FromArgb(248, 248, 248), pal[1]);
+            Assert.Equal(Color.FromArgb(248, 56, 0), pal[2]);
+            Assert.Equal(Color.FromArgb(0, 192, 248), pal[3]);
         }
     }
 }

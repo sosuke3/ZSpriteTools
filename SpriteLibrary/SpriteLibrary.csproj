@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GIMPPalette.cs" />
     <Compile Include="Palette.cs" />
     <Compile Include="PlayerSprite.cs" />
     <Compile Include="Sprite.cs" />

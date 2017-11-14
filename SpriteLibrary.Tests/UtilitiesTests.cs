@@ -48,7 +48,7 @@ namespace SpriteLibrary.Tests
             ushort color = 0x7FFF;
             var c = Utilities.GetColorFromBytes(color);
 
-            Assert.Equal(Color.FromArgb(255, 255, 255), c);
+            Assert.Equal(Color.FromArgb(248, 248, 248), c);
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace SpriteLibrary.Tests
             var bytes = new byte[] { 0xFF, 0x7F }; // little endian
             var c = Utilities.GetColorFromBytes(bytes[0], bytes[1]);
 
-            Assert.Equal(Color.FromArgb(255, 255, 255), c);
+            Assert.Equal(Color.FromArgb(248, 248, 248), c);
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace SpriteLibrary.Tests
             var bytes = new byte[] { 0x00, 0xFF }; // little endian
             var c = Utilities.GetColorFromBytes(bytes[0], bytes[1]);
 
-            Assert.Equal(Color.FromArgb(0, 198, 255), c);
+            Assert.Equal(Color.FromArgb(0, 192, 248), c);
         }
 
         [Fact]
@@ -75,13 +75,22 @@ namespace SpriteLibrary.Tests
             var bytes = new byte[] { 0xFF, 0x00 }; // little endian
             var c = Utilities.GetColorFromBytes(bytes[0], bytes[1]);
 
-            Assert.Equal(Color.FromArgb(255, 58, 0), c);
+            Assert.Equal(Color.FromArgb(248, 56, 0), c);
         }
 
         [Fact]
         public void should_convert_R255_G57_B0_to_FF_00_bytes()
         {
             var bytes = Utilities.GetBytesFromColor(Color.FromArgb(255, 57, 0));
+
+            Assert.Equal(0xFF, bytes[0]); // little endian
+            Assert.Equal(0x00, bytes[1]);
+        }
+
+        [Fact]
+        public void should_convert_R248_G56_B0_to_FF_00_bytes()
+        {
+            var bytes = Utilities.GetBytesFromColor(Color.FromArgb(248, 56, 0));
 
             Assert.Equal(0xFF, bytes[0]); // little endian
             Assert.Equal(0x00, bytes[1]);

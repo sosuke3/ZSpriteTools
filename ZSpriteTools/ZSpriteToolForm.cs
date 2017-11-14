@@ -609,5 +609,41 @@ namespace ZSpriteTools
                 }
             }
         }
+
+        private void exportGIMPPaletteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    string filename = activeChild.Filename;
+
+                    // new file, or old format file need to show save box
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "GIMP Palette File (*.gpl)|*.gpl|All Files (*.*)|*.*";
+                    sfd.Title = "Select a GIMP Palette File";
+                    sfd.FileName = String.IsNullOrEmpty(filename)
+                                        ? activeChild.loadedSprite.DisplayText
+                                        : Path.GetFileNameWithoutExtension(filename);
+
+                    var result = sfd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = sfd.FileName;
+
+                    var pal = SpriteLibrary.GIMPPalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
+                    File.WriteAllText(filename, pal);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage);
+                }
+            }
+        }
     }
 }
