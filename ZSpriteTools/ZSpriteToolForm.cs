@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace ZSpriteTools
 {
     public partial class ZSpriteToolForm : Form
     {
-        SpriteLibrary.Sprite loadedSprite = new SpriteLibrary.Sprite();
+        const string OopsMessage = "Something went wrong.Yell at Mike.";
 
         public ZSpriteToolForm()
         {
@@ -82,7 +83,7 @@ namespace ZSpriteTools
         public void LoadFile(string fileName)
         {
             var spriteFile = File.ReadAllBytes(fileName);
-            loadedSprite = new SpriteLibrary.Sprite(spriteFile);
+            var loadedSprite = new SpriteLibrary.Sprite(spriteFile);
             if (loadedSprite.Version == 0)
             {
                 loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(fileName);
@@ -126,7 +127,7 @@ namespace ZSpriteTools
                 }
                 catch
                 {
-                    MessageBox.Show("Something went wrong. Haha");
+                    MessageBox.Show(OopsMessage);
                 }
             }
         }
@@ -151,14 +152,13 @@ namespace ZSpriteTools
                     if (result == DialogResult.OK)
                     {
                         var rawFile = File.ReadAllBytes(ofd.FileName);
-                        loadedSprite.PixelData = rawFile;
 
                         activeChild.ImportRawPixels(rawFile);
                     }
                 }
                 catch
                 {
-                    MessageBox.Show("Something went wrong. Haha");
+                    MessageBox.Show(OopsMessage);
                 }
             }
         }
@@ -178,14 +178,13 @@ namespace ZSpriteTools
                     if (result == DialogResult.OK)
                     {
                         var rawFile = File.ReadAllBytes(ofd.FileName);
-                        loadedSprite.PaletteData = rawFile;
 
                         activeChild.ImportRawPalette(rawFile);
                     }
                 }
                 catch
                 {
-                    MessageBox.Show("Something went wrong. Haha");
+                    MessageBox.Show(OopsMessage);
                 }
             }
         }
@@ -210,7 +209,7 @@ namespace ZSpriteTools
                 }
                 catch
                 {
-                    MessageBox.Show("Something went wrong. Haha");
+                    MessageBox.Show(OopsMessage);
                 }
             }
         }
@@ -235,7 +234,7 @@ namespace ZSpriteTools
                 }
                 catch
                 {
-                    MessageBox.Show("Something went wrong. Haha");
+                    MessageBox.Show(OopsMessage);
                 }
             }
         }
@@ -303,6 +302,220 @@ namespace ZSpriteTools
         {
             // TODO: enable this later
             FileAssociations.EnsureAssociationsSet();
+        }
+
+        private void exportPNGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "PNG File (*.png)|*.png|All Files (*.*)|*.*";
+                    sfd.Title = "Select a PNG File";
+                    sfd.FileName = Path.GetFileNameWithoutExtension(activeChild.Filename);
+
+                    var result = sfd.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        ExportPng(activeChild.loadedSprite, sfd.FileName);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show(OopsMessage);
+                }
+            }
+        }
+
+        void ExportPng(SpriteLibrary.Sprite sprite, string filename)
+        {
+            int rows = sprite.Tiles.Length / 16;
+            if (sprite.Tiles.Length % 16 != 0)
+            {
+                rows++;
+            }
+
+            Bitmap tempBitmap = new Bitmap(128, 448);
+            Graphics gg = Graphics.FromImage(tempBitmap);
+
+            for (int i = 0; i < sprite.Tiles.Length; i++)
+            {
+                var x = i * 8 % 128;
+                var y = i * 8 / 128 * 8;
+
+                sprite.Tiles[i].Draw(gg, sprite.Palette, x, y);
+            }
+
+            sprite.DrawPNGto4BPPPalette(gg, 120, 440);
+
+            tempBitmap.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
+        }
+
+        private void importPNGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "PNG File (*.png)|*.png|All Files (*.*)|*.*";
+            ofd.Title = "Select a PNG File";
+
+            var result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Bitmap tempBitmap = (Bitmap)Bitmap.FromFile(ofd.FileName);
+                if(tempBitmap.Width != 128 || tempBitmap.Height != 448)
+                {
+                    MessageBox.Show("Invalid PNG image. Must be 128 x 448 pixels");
+                    return;
+                }
+                var sprite = new SpriteLibrary.Sprite();
+
+                var bitmapData = tempBitmap.LockBits(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, tempBitmap.PixelFormat);
+                var totalBytes = bitmapData.Stride * bitmapData.Height;
+                var pixels = new byte[totalBytes];
+                Marshal.Copy(bitmapData.Scan0, pixels, 0, totalBytes);
+                tempBitmap.UnlockBits(bitmapData);
+
+                // load palette from png
+                int xoffset = 120;
+                int yoffset = 440;
+
+                var colors = new Color[8 * 8];
+
+                for(int y = 0; y < 8; y++)
+                {
+                    for(int x = 0; x < 8; x++)
+                    {
+                        int pixelPosition = (y + yoffset) * bitmapData.Stride + ((x + xoffset) * 4);
+
+                        int b = pixels[pixelPosition + 0];
+                        int g = pixels[pixelPosition + 1];
+                        int r = pixels[pixelPosition + 2];
+                        int a = pixels[pixelPosition + 3];
+
+                        colors[x + y * 8] = Color.FromArgb(a, r, g, b);
+                    }
+                }
+
+                var palette = new Color[62];
+                for(int i = 0; i < 15; i++)
+                {
+                    palette[i] = colors[i + 1];
+                }
+                for(int i = 15; i < 30; i++)
+                {
+                    palette[i] = colors[i + 2];
+                }
+                for (int i = 30; i < 45; i++)
+                {
+                    palette[i] = colors[i + 3];
+                }
+                for (int i = 45; i < 60; i++)
+                {
+                    palette[i] = colors[i + 4];
+                }
+                palette[60] = colors[16];
+                palette[61] = colors[32];
+
+                sprite.SetPalette(palette);
+
+                // load pixel data
+                var pixelBytes = new byte[128 * 448];
+                var greenPalette = new Dictionary<int, Color>();
+                for(int i = 0; i < 16; i++)
+                {
+                    greenPalette[i] = colors[i];
+                }
+
+                for (int y = 0; y < 448; y++)
+                {
+                    for (int x = 0; x < 128; x++)
+                    {
+                        int pixelPosition = y * bitmapData.Stride + (x * 4);
+
+                        int b = pixels[pixelPosition + 0];
+                        int g = pixels[pixelPosition + 1];
+                        int r = pixels[pixelPosition + 2];
+                        int a = pixels[pixelPosition + 3];
+
+                        var pixel = Color.FromArgb(a, r, g, b);
+
+                        if(y >= 440 && x >= 120)
+                        {
+                            // palette data, skip it
+                            pixelBytes[x + y * 128] = 0;
+                            continue;
+                        }
+
+                        if (a == 0 || greenPalette[0] == pixel)
+                        {
+                            pixelBytes[x + y * 128] = 0;
+                        }
+                        else
+                        {
+                            var pixelValue = greenPalette.FirstOrDefault(c => c.Value == pixel);
+                            if(pixelValue.Key > 0)
+                            {
+                                pixelBytes[x + y * 128] = (byte)pixelValue.Key;
+                            }
+                            else
+                            {
+                                bool wtf = true;
+                            }
+                        }
+                    }
+                }
+
+                List<byte[]> tiles = new List<byte[]>();
+
+                for (int yTile = 0; yTile < 56; yTile++)
+                {
+                    for (int xTile = 0; xTile < 16; xTile++)
+                    {
+                        var currentTile = new byte[8 * 8];
+
+                        for(int y = 0; y < 8; y++)
+                        {
+                            for(int x = 0; x < 8; x++)
+                            {
+                                currentTile[x + y * 8] = pixelBytes[(xTile * 8 + x) + (yTile * 8 + y) * 128];
+                            }
+                        }
+
+                        tiles.Add(currentTile);
+                    }
+                }
+
+                byte[] pixels4bpp = new byte[0x7000];
+
+                int offset = 0;
+                foreach(var tile in tiles)
+                {
+                    var four = new byte[32];
+                    for(int i = 0; i < 32; i++)
+                    {
+                        byte packed = 0;
+                        int plane = (i % 2) + ((i / 16) * 2);
+                        int row = i % 16 / 2;
+
+                        for(int x = 0; x < 8; x++)
+                        {
+                            packed |= (byte)(((tile[x + row * 8] >> plane) & 0x1) << (7 - x));
+                        }
+
+                        four[i] = packed;
+                    }
+
+                    Array.Copy(four, 0, pixels4bpp, offset, 32);
+                    offset += 32;
+                }
+
+                sprite.Set4bppPixelData(pixels4bpp);
+
+                SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
+                newMDI.MdiParent = this;
+                newMDI.Show();
+            }
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -131,6 +133,13 @@ namespace SpriteLibrary
                 BuildTileArray();
             }
         }
+        public void Set4bppPixelData(byte[] pixels)
+        {
+            this.pixelData = pixels;
+
+            RecalculatePixelAndPaletteOffset();
+            BuildTileArray();
+        }
 
         public Tile8x8[] Tiles { get; protected set; }
 
@@ -150,6 +159,12 @@ namespace SpriteLibrary
         }
 
         public Color[] Palette { get; protected set; }
+        public void SetPalette(Color[] palette)
+        {
+            this.Palette = palette;
+
+            RebuildPaletteData();
+        }
 
         public Sprite()
         {
@@ -467,6 +482,7 @@ namespace SpriteLibrary
         protected void RebuildPaletteData()
         {
             paletteData = new byte[this.Palette.Length * 2];
+            this.PaletteDataLength = (ushort)paletteData.Length;
 
             for(int i=0; i<this.Palette.Length; i++)
             {
@@ -502,6 +518,89 @@ namespace SpriteLibrary
             }
 
             Tiles = tiles.ToArray();
+        }
+
+        public void DrawPNGto4BPPPalette(Graphics g, int posX, int posY)
+        {
+            Bitmap bitmap = new Bitmap(8, 8, PixelFormat.Format32bppArgb);
+
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+
+            BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+
+            var totalBytes = bitmapData.Stride * bitmapData.Height;
+            var bpp = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+            var pixels = new byte[totalBytes];
+
+            for (int y = 0; y < 8; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    int pixelPosition = y * bitmapData.Stride + (x * 4);
+
+                    Color drawColor = Color.FromArgb(0, 0, 0);
+                    if (x == 0 && (y == 0 || y == 6))
+                    {
+                    }
+                    else if (x == 0 && y == 2)
+                    {
+                        if (this.Palette.Length == 60)
+                        {
+                            drawColor = Utilities.GetColorFromBytes(0xF6, 0x52);
+
+                        }
+                        else if (this.Palette.Length == 62)
+                        {
+                            drawColor = this.Palette[60];
+                        }
+                    }
+                    else if (x == 0 && y == 4)
+                    {
+                        if (this.Palette.Length == 60)
+                        {
+                            drawColor = Utilities.GetColorFromBytes(0x76, 0x03);
+
+                        }
+                        else if (this.Palette.Length == 62)
+                        {
+                            drawColor = this.Palette[61];
+                        }
+                    }
+                    else if (y >= 0 && y < 2)
+                    {
+                        drawColor = this.Palette[x + y * 8 - 1];
+                    }
+                    else if (y >= 2 && y < 4)
+                    {
+                        drawColor = this.Palette[x + y * 8 - 2];
+                    }
+                    else if (y >= 4 && y < 6)
+                    {
+                        drawColor = this.Palette[x + y * 8 - 3];
+                    }
+                    else if (y >= 6 && y < 8)
+                    {
+                        drawColor = this.Palette[x + y * 8 - 4];
+                    }
+
+                    DrawPixel(pixels, pixelPosition, drawColor);
+                }
+            }
+
+            IntPtr ptrFirstPixel = bitmapData.Scan0;
+            Marshal.Copy(pixels, 0, ptrFirstPixel, pixels.Length);
+            bitmap.UnlockBits(bitmapData);
+
+            g.DrawImage(bitmap, new Rectangle(posX, posY, 8, 8), 0, 0, 8, 8, GraphicsUnit.Pixel);
+        }
+
+        void DrawPixel(byte[] pixelArray, int position, Color color)
+        {
+            pixelArray[position + 0] = color.B;
+            pixelArray[position + 1] = color.G;
+            pixelArray[position + 2] = color.R;
+            pixelArray[position + 3] = color.A;
         }
     }
 }
