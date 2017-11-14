@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -11,6 +12,8 @@ namespace SpriteLibrary
 {
     public class Tile8x8
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public byte[] RawTile { get; private set; }
         public byte[] Pixels { get; private set; }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,8 @@ namespace ZSpriteTools
 {
     public partial class SpriteForm : Form
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public SpriteLibrary.Sprite loadedSprite;
         public string Filename;
 

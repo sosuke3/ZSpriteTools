@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,9 @@ namespace ZSpriteTools
 {
     public partial class ZSpriteToolForm : Form
     {
-        const string OopsMessage = "Something went wrong.Yell at Mike.";
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
+        const string OopsMessage = "Something went wrong. Please send your log file to Sosuke3.";
 
         public ZSpriteToolForm()
         {
@@ -125,8 +128,9 @@ namespace ZSpriteTools
                     var spriteData = activeChild.loadedSprite.ToByteArray();
                     File.WriteAllBytes(filename, spriteData);
                 }
-                catch
+                catch(Exception ex)
                 {
+                    logger.Error(ex);
                     MessageBox.Show(OopsMessage);
                 }
             }
@@ -156,8 +160,9 @@ namespace ZSpriteTools
                         activeChild.ImportRawPixels(rawFile);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    logger.Error(ex);
                     MessageBox.Show(OopsMessage);
                 }
             }
@@ -182,8 +187,9 @@ namespace ZSpriteTools
                         activeChild.ImportRawPalette(rawFile);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    logger.Error(ex);
                     MessageBox.Show(OopsMessage);
                 }
             }
@@ -207,8 +213,9 @@ namespace ZSpriteTools
                         File.WriteAllBytes(sfd.FileName, activeChild.loadedSprite.PixelData);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    logger.Error(ex);
                     MessageBox.Show(OopsMessage);
                 }
             }
@@ -232,8 +239,9 @@ namespace ZSpriteTools
                         File.WriteAllBytes(sfd.FileName, activeChild.loadedSprite.PaletteData);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    logger.Error(ex);
                     MessageBox.Show(OopsMessage);
                 }
             }
@@ -276,6 +284,8 @@ namespace ZSpriteTools
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var preferences = new PreferencesForm();
+            preferences.ShowDialog();
 
         }
 
@@ -322,8 +332,9 @@ namespace ZSpriteTools
                         ExportPng(activeChild.loadedSprite, sfd.FileName);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    logger.Error(ex);
                     MessageBox.Show(OopsMessage);
                 }
             }
@@ -515,6 +526,42 @@ namespace ZSpriteTools
                 SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
                 newMDI.MdiParent = this;
                 newMDI.Show();
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    string filename = activeChild.Filename;
+
+                    // new file, or old format file need to show save box
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "ZSprite File (*.zspr)|*.zspr|All Files (*.*)|*.*";
+                    sfd.Title = "Select a Sprite File";
+                    sfd.FileName = String.IsNullOrEmpty(filename)
+                                        ? activeChild.loadedSprite.DisplayText
+                                        : Path.GetFileNameWithoutExtension(filename);
+
+                    var result = sfd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = sfd.FileName;
+
+                    var spriteData = activeChild.loadedSprite.ToByteArray();
+                    File.WriteAllBytes(filename, spriteData);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage);
+                }
             }
         }
     }

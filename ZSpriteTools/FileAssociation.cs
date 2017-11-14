@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,8 @@ namespace ZSpriteTools
 {
     public class FileAssociation
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public string Extension { get; set; }
         public string ProgId { get; set; }
         public string FileTypeDescription { get; set; }

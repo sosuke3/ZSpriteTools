@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace SpriteLibrary
 {
     public class PlayerSprite : Sprite
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public Palette GreenMailPalette { get; set; } = new SpriteLibrary.Palette();
         public Palette BlueMailPalette { get; set; } = new SpriteLibrary.Palette();
         public Palette RedMailPalette { get; set; } = new SpriteLibrary.Palette();

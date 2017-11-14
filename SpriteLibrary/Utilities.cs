@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace SpriteLibrary
 {
     public static class Utilities
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public static Color GetColorFromBytes(ushort s)
         {
             int b = (int)Math.Ceiling((float)((s & 0x7C00) >> 10) * 0xFF / 0x1F);
