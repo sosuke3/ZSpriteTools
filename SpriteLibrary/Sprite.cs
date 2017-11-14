@@ -228,6 +228,11 @@ namespace SpriteLibrary
             PaletteDataOffset = bytesToUInt(rawData, paletteDataOffsetOffset);
             PaletteDataLength = bytesToUShort(rawData, paletteDataLengthOffset);
 
+            if (PaletteDataLength % 2 != 0)
+            {
+                throw new Exception("Invalid sprite file. Palette size must be even.");
+            }
+
             Array.Copy(rawData, reservedOffset, Reserved, 0, reservedLength);
 
             uint endOfDisplay = GetNullTerminatorUnicodeLocation(rawData, displayTextOffset);

@@ -127,6 +127,7 @@ namespace ZSpriteTools
 
                     var spriteData = activeChild.loadedSprite.ToByteArray();
                     File.WriteAllBytes(filename, spriteData);
+                    activeChild.UpdateFilename(filename);
                 }
                 catch(Exception ex)
                 {
@@ -252,6 +253,9 @@ namespace ZSpriteTools
             if(this.ActiveMdiChild == null)
             {
                 DisableSave();
+                DisableSaveAs();
+                DisableEditExportImport();
+                DisableExport();
             }
             else
             {
@@ -262,6 +266,9 @@ namespace ZSpriteTools
                 this.authorRomDisplayTextBox.Text = activeChild.loadedSprite.AuthorRomDisplay;
 
                 EnableSave();
+                EnableSaveAs();
+                EnableEditExportImport();
+                EnableExport();
             }
         }
 
@@ -275,6 +282,46 @@ namespace ZSpriteTools
         {
             this.saveToolStripButton.Enabled = true;
             this.saveToolStripMenuItem.Enabled = true;
+        }
+
+        void DisableSaveAs()
+        {
+            this.saveAsToolStripMenuItem.Enabled = false;
+        }
+
+        void EnableSaveAs()
+        {
+            this.saveAsToolStripMenuItem.Enabled = true;
+        }
+
+        void DisableExport()
+        {
+            this.exportToolStripMenuItem.Enabled = false;
+        }
+
+        void EnableExport()
+        {
+            this.exportToolStripMenuItem.Enabled = true;
+        }
+
+        void DisableEditExportImport()
+        {
+            this.importRawToolStripMenuItem.Enabled = false;
+            this.exportRawToolStripMenuItem.Enabled = false;
+            this.importRawPixelsToolStripButton.Enabled = false;
+            this.importRawPaletteToolStripButton.Enabled = false;
+            this.exportRawPixelsToolStripButton.Enabled = false;
+            this.exportRawPaletteToolStripButton.Enabled = false;
+        }
+
+        void EnableEditExportImport()
+        {
+            this.importRawToolStripMenuItem.Enabled = true;
+            this.exportRawToolStripMenuItem.Enabled = true;
+            this.importRawPixelsToolStripButton.Enabled = true;
+            this.importRawPaletteToolStripButton.Enabled = true;
+            this.exportRawPixelsToolStripButton.Enabled = true;
+            this.exportRawPaletteToolStripButton.Enabled = true;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -306,6 +353,9 @@ namespace ZSpriteTools
             }
 
             DisableSave();
+            DisableSaveAs();
+            DisableEditExportImport();
+            DisableExport();
         }
 
         void SetFileHandler()
@@ -370,6 +420,8 @@ namespace ZSpriteTools
             ofd.Filter = "PNG File (*.png)|*.png|All Files (*.*)|*.*";
             ofd.Title = "Select a PNG File";
 
+            var invalidPixelsFound = false;
+
             var result = ofd.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -380,6 +432,7 @@ namespace ZSpriteTools
                     return;
                 }
                 var sprite = new SpriteLibrary.Sprite();
+                sprite.DisplayText = Path.GetFileNameWithoutExtension(ofd.FileName);
 
                 var bitmapData = tempBitmap.LockBits(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, tempBitmap.PixelFormat);
                 var totalBytes = bitmapData.Stride * bitmapData.Height;
@@ -471,7 +524,8 @@ namespace ZSpriteTools
                             }
                             else
                             {
-                                bool wtf = true;
+                                invalidPixelsFound = true;
+                                //logger.Debug($"Import PNG: Bad pixel value found. File: {ofd.FileName}, Pixel: [{x + y * 128}] {pixel.ToString()}");
                             }
                         }
                     }
@@ -502,27 +556,17 @@ namespace ZSpriteTools
                 int offset = 0;
                 foreach(var tile in tiles)
                 {
-                    var four = new byte[32];
-                    for(int i = 0; i < 32; i++)
-                    {
-                        byte packed = 0;
-                        int plane = (i % 2) + ((i / 16) * 2);
-                        int row = i % 16 / 2;
-
-                        for(int x = 0; x < 8; x++)
-                        {
-                            packed |= (byte)(((tile[x + row * 8] >> plane) & 0x1) << (7 - x));
-                        }
-
-                        four[i] = packed;
-                    }
-
+                    var four = SpriteLibrary.Utilities.Tile8x8To4Bpp(tile);
                     Array.Copy(four, 0, pixels4bpp, offset, 32);
                     offset += 32;
                 }
 
                 sprite.Set4bppPixelData(pixels4bpp);
 
+                if(invalidPixelsFound)
+                {
+                    MessageBox.Show("PNG contains pixels that do not use the first 16 colors of the embedded palette. Pixels have been made transparent. Please verify your source file.");
+                }
                 SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
                 newMDI.MdiParent = this;
                 newMDI.Show();
@@ -556,6 +600,7 @@ namespace ZSpriteTools
 
                     var spriteData = activeChild.loadedSprite.ToByteArray();
                     File.WriteAllBytes(filename, spriteData);
+                    activeChild.UpdateFilename(filename);
                 }
                 catch (Exception ex)
                 {

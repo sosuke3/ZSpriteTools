@@ -46,5 +46,25 @@ namespace SpriteLibrary
             ret[1] = (byte)((combined >> 8) & 0xFF);
             return ret;
         }
+
+        public static byte[] Tile8x8To4Bpp(byte[] tile)
+        {
+            var four = new byte[32];
+            for (int i = 0; i < 32; i++)
+            {
+                byte packed = 0;
+                int plane = (i % 2) + ((i / 16) * 2);
+                int row = i % 16 / 2;
+
+                for (int x = 0; x < 8; x++)
+                {
+                    packed |= (byte)(((tile[x + row * 8] >> plane) & 0x1) << (7 - x));
+                }
+
+                four[i] = packed;
+            }
+
+            return four;
+        }
     }
 }

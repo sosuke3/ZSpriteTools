@@ -111,5 +111,11 @@ namespace ZSpriteTools
             loadedSprite.PaletteData = palette;
             UpdateForm();
         }
+
+        public void UpdateFilename(string filename)
+        {
+            this.Filename = filename;
+            this.Text = filename;
+        }
     }
 }

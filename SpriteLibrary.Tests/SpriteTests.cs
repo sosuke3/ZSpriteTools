@@ -22,6 +22,28 @@ namespace SpriteLibrary.Tests
         }
 
         [Fact]
+        public void should_throw_exception_creating_new_sprite_from_byte_array()
+        {
+            byte[] testSprite = { (byte)'Z', (byte)'S', (byte)'P', (byte)'R', // header
+                                    1, // version
+                                    0x00, 0x00, 0xFF, 0xFF, // checksum
+                                    0x25, 0x00, 0x00, 0x00, // pixel offset
+                                    0x01, 0x00, // pixel length
+                                    0x26, 0x00, 0x00, 0x00, // palette offset
+                                    0x01, 0x00, // palette length
+                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // reserved
+                                    0x65, 0x00, 0x00, 0x00, // display text (unicode)
+                                    0x41, 0x00, 0x00, 0x00, // author (unicode)
+                                    0x51, 0x00, // author rom display (ascii)
+                                    // pixels
+                                    0x13,
+                                    // palette
+                                    0x31
+                                };
+            Assert.Throws<Exception>(() => { new Sprite(testSprite); });
+        }
+
+        [Fact]
         public void should_create_new_sprite_from_byte_array()
         {
             byte[] testSprite = { (byte)'Z', (byte)'S', (byte)'P', (byte)'R', // header
