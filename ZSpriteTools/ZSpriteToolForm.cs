@@ -425,7 +425,7 @@ namespace ZSpriteTools
             var result = ofd.ShowDialog();
             if (result == DialogResult.OK)
             {
-                Bitmap tempBitmap = (Bitmap)Bitmap.FromFile(ofd.FileName);
+                Bitmap tempBitmap = (Bitmap)Image.FromFile(ofd.FileName);
                 if(tempBitmap.Width != 128 || tempBitmap.Height != 448)
                 {
                     MessageBox.Show("Invalid PNG image. Must be 128 x 448 pixels");

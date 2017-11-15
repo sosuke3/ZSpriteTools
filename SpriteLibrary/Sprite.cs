@@ -25,7 +25,8 @@ namespace SpriteLibrary
         pixel data length (2 bytes)
         palette data offset (4 bytes)
         palette data length (2 bytes)
-        reserved (8 bytes)
+        type (2 bytes)
+        reserved (6 bytes)
         display text (x bytes) (unicode, null terminated)
         author (x bytes) (unicode, null terminated)
         author rom display (x bytes) (ascii, null terminated)
@@ -64,9 +65,13 @@ namespace SpriteLibrary
         protected const int paletteDataLengthOffset = paletteDataOffsetOffset + paletteDataOffsetLength;
         protected const int paletteDataLengthLength = 2;
 
+        public ushort SpriteType { get; protected set; }
+        protected const int spriteTypeOffset = paletteDataLengthOffset + paletteDataLengthLength;
+        protected const int spriteTypeLength = 2;
+
         public byte[] Reserved { get; protected set; } = new byte[reservedLength];
-        protected const int reservedOffset = paletteDataLengthOffset + paletteDataLengthLength;
-        protected const int reservedLength = 8;
+        protected const int reservedOffset = spriteTypeOffset + spriteTypeLength;
+        protected const int reservedLength = 6;
 
         protected string displayText;
         protected byte[] displayBytes;
@@ -175,6 +180,7 @@ namespace SpriteLibrary
             CheckSum = 0xFFFF0000;
             PixelDataLength = 0x7000;
             PaletteDataLength = 0x78;
+            SpriteType = 0;
             DisplayText = "Unknown";
             Author = "Unknown";
             AuthorRomDisplay = "Unknown";
@@ -192,6 +198,7 @@ namespace SpriteLibrary
                 // old headerless sprite file
                 Version = 0;
                 CheckSum = 0;
+                SpriteType = 1;
                 DisplayText = "";
                 Author = "";
                 AuthorRomDisplay = "";
@@ -232,6 +239,8 @@ namespace SpriteLibrary
             {
                 throw new Exception("Invalid sprite file. Palette size must be even.");
             }
+
+            SpriteType = bytesToUShort(rawData, spriteTypeOffset);
 
             Array.Copy(rawData, reservedOffset, Reserved, 0, reservedLength);
 
@@ -339,7 +348,7 @@ namespace SpriteLibrary
 
             Version = currentVersion; // update the version
 
-            byte[] ret = new byte[headerLength + versionLength + checksumLength + pixelDataOffsetLength + pixelDataLengthLength + paletteDataOffsetLength + paletteDataLengthLength + reservedLength + displayBytesLength + authorBytesLength + authorRomDisplayBytesLength + PixelDataLength + PaletteDataLength];
+            byte[] ret = new byte[headerLength + versionLength + checksumLength + pixelDataOffsetLength + pixelDataLengthLength + paletteDataOffsetLength + paletteDataLengthLength + spriteTypeLength + reservedLength + displayBytesLength + authorBytesLength + authorRomDisplayBytesLength + PixelDataLength + PaletteDataLength];
 
             int i = 0;
             ret[i++] = (byte)Header[0];
@@ -376,14 +385,16 @@ namespace SpriteLibrary
             ret[i++] = paletteDataLength[0];
             ret[i++] = paletteDataLength[1];
 
+            byte[] spriteType = BitConverter.GetBytes(SpriteType);
+            ret[i++] = spriteType[0];
+            ret[i++] = spriteType[1];
+
             ret[i++] = Reserved[0];
             ret[i++] = Reserved[1];
             ret[i++] = Reserved[2];
             ret[i++] = Reserved[3];
             ret[i++] = Reserved[4];
             ret[i++] = Reserved[5];
-            ret[i++] = Reserved[6];
-            ret[i++] = Reserved[7];
 
             for (int x = 0; x < displayBytes.Length; x++)
             {

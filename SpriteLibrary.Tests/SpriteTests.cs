@@ -40,7 +40,7 @@ namespace SpriteLibrary.Tests
                                     // palette
                                     0x31
                                 };
-            Assert.Throws<Exception>(() => { new Sprite(testSprite); });
+            Assert.Throws<Exception>(() => { var x = new Sprite(testSprite); });
         }
 
         [Fact]

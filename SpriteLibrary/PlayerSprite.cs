@@ -50,6 +50,8 @@ namespace SpriteLibrary
             SetPlayerPaletteColors();
 
             SetupPropertyChangedHandlers();
+
+            SpriteType = 1;
         }
 
         public PlayerSprite(byte[] rawData) : base(rawData)
@@ -57,6 +59,8 @@ namespace SpriteLibrary
             SetPlayerPaletteColors();
 
             SetupPropertyChangedHandlers();
+
+            SpriteType = 1;
         }
 
         void SetPlayerPaletteColors()
