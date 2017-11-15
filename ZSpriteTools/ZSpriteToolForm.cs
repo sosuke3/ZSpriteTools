@@ -685,5 +685,41 @@ namespace ZSpriteTools
                 }
             }
         }
+
+        private void exportYYCharPaletteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    string filename = activeChild.Filename;
+
+                    // new file, or old format file need to show save box
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "YY-Char Palette File (*.pal)|*.pal|All Files (*.*)|*.*";
+                    sfd.Title = "Select a YY-Char Palette File";
+                    sfd.FileName = String.IsNullOrEmpty(filename)
+                                        ? activeChild.loadedSprite.DisplayText
+                                        : Path.GetFileNameWithoutExtension(filename);
+
+                    var result = sfd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = sfd.FileName;
+
+                    var pal = SpriteLibrary.YYCharPalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
+                    File.WriteAllBytes(filename, pal);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage);
+                }
+            }
+        }
     }
 }
