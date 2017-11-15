@@ -256,6 +256,7 @@ namespace ZSpriteTools
                 DisableSaveAs();
                 DisableEditExportImport();
                 DisableExport();
+                DisableImport();
             }
             else
             {
@@ -269,6 +270,7 @@ namespace ZSpriteTools
                 EnableSaveAs();
                 EnableEditExportImport();
                 EnableExport();
+                EnableImport();
             }
         }
 
@@ -302,6 +304,18 @@ namespace ZSpriteTools
         void EnableExport()
         {
             this.exportToolStripMenuItem.Enabled = true;
+        }
+
+        void DisableImport()
+        {
+            this.importGIMPPaletteToolStripMenuItem.Enabled = false;
+            this.importYYCharPaletteToolStripMenuItem.Enabled = false;
+        }
+
+        void EnableImport()
+        {
+            this.importGIMPPaletteToolStripMenuItem.Enabled = true;
+            this.importYYCharPaletteToolStripMenuItem.Enabled = true;
         }
 
         void DisableEditExportImport()
@@ -356,6 +370,7 @@ namespace ZSpriteTools
             DisableSaveAs();
             DisableEditExportImport();
             DisableExport();
+            DisableImport();
         }
 
         void SetFileHandler()
@@ -713,6 +728,46 @@ namespace ZSpriteTools
 
                     var pal = SpriteLibrary.YYCharPalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
                     File.WriteAllBytes(filename, pal);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage);
+                }
+            }
+        }
+
+        private void importYYCharPaletteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    string filename = activeChild.Filename;
+
+                    // new file, or old format file need to show save box
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.Filter = "YY-Char Palette File (*.pal)|*.pal|All Files (*.*)|*.*";
+                    ofd.Title = "Select a YY-Char Palette File";
+
+                    var result = ofd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = ofd.FileName;
+
+                    var pal = SpriteLibrary.YYCharPalette.BuildSpritePaletteColorsFromByteArray(File.ReadAllBytes(filename));
+                    if (pal.Length < 60)
+                    {
+                        MessageBox.Show("Palette is not long enough. Character Sprites require at least 60 entries.");
+                        return;
+                    }
+
+                    activeChild.loadedSprite.SetPalette(pal);
+                    activeChild.UpdateForm();
                 }
                 catch (Exception ex)
                 {

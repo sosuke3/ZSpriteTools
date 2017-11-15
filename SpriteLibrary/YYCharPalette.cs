@@ -62,5 +62,37 @@ namespace SpriteLibrary
             palette[index + 1] = color.G;
             palette[index + 2] = color.B;
         }
+
+        public static Color[] BuildSpritePaletteColorsFromByteArray(byte[] yyPalette)
+        {
+            if(yyPalette.Length < 64 * 3)
+            {
+                throw new Exception("Invalid YY-Char Palette. Needs more colors.");
+            }
+
+            List<Color> palette = new List<Color>();
+
+            int yyIndex = 0;
+            for(int i=0; i<64; i++)
+            {
+                int r = yyPalette[yyIndex];
+                int g = yyPalette[yyIndex + 1];
+                int b = yyPalette[yyIndex + 2];
+                palette.Add(Color.FromArgb(r, g, b));
+
+                yyIndex += 3;
+            }
+
+            // move gloves to end
+            palette.Add(palette[16 + 13]);
+            palette.Add(palette[32 + 13]);
+            // remove transparent
+            palette.RemoveAt(48);
+            palette.RemoveAt(32);
+            palette.RemoveAt(16);
+            palette.RemoveAt(0);
+
+            return palette.ToArray();
+        }
     }
 }
