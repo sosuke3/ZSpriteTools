@@ -42,7 +42,7 @@ namespace ZSpriteTools
             UpdateForm();
         }
 
-        private void UpdateForm()
+        public void UpdateForm()
         {
             BuildPalette();
             BuildSprite();

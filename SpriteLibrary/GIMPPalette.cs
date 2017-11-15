@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SpriteLibrary
@@ -54,28 +55,68 @@ namespace SpriteLibrary
             var r = String.Format("{0,3}", color.R);
             var g = String.Format("{0,3}", color.G);
             var b = String.Format("{0,3}", color.B);
-            output.AppendLine($"{r} {g} {b} {name}");
+            output.AppendLine($"{r} {g} {b}\t{name}");
         }
 
-        static Color[] BuildPaletteColorsFromStringArray(string[] gimpFile)
+        public static Color[] BuildSpritePaletteColorsFromStringArray(string[] gimpFile)
         {
-            if(gimpFile[0] != "GIMP Palette")
+            int currentLine = 0;
+            if(gimpFile[currentLine++] != "GIMP Palette")
             {
                 throw new Exception("File is not a GIMP palette.");
             }
 
-            return null;
+            if(gimpFile[currentLine++].StartsWith("Name: ", StringComparison.Ordinal))
+            {
+                if(gimpFile[currentLine++].StartsWith("Column: ", StringComparison.Ordinal))
+                {
+
+                }
+            }
+
+            List<Color> palette = new List<Color>();
+
+            while(currentLine < gimpFile.Length)
+            {
+                var line = gimpFile[currentLine++];
+                if(!line.StartsWith("#", StringComparison.Ordinal) && !String.IsNullOrEmpty(line))
+                {
+                    var colors = Regex.Replace(line.Trim(), @"\s+", " ").Split(' ', '\t');
+                    int r, g, b;
+                    if(!Int32.TryParse(colors[0], out r))
+                    {
+                        throw new Exception($"Invalid red color value in palette [line {currentLine-1}]: {colors[0]}");
+                    }
+                    if (!Int32.TryParse(colors[1], out g))
+                    {
+                        throw new Exception($"Invalid green color value in palette [line {currentLine - 1}]: {colors[1]}");
+                    }
+                    if (!Int32.TryParse(colors[2], out b))
+                    {
+                        throw new Exception($"Invalid blue color value in palette [line {currentLine - 1}]: {colors[2]}");
+                    }
+
+                    if(r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+                    {
+                        throw new Exception($"Invalid color value in palette [line {currentLine - 1}]");
+                    }
+
+                    palette.Add(Color.FromArgb(r, g, b));
+                }
+            }
+
+            // move gloves to end
+            palette.Add(palette[16]);
+            palette.Add(palette[32]);
+            // remove transparent
+            palette.RemoveAt(48);
+            palette.RemoveAt(32);
+            palette.RemoveAt(16);
+            palette.RemoveAt(0);
+
+
+            return palette.ToArray();
         }
-        /*
-        GIMP Palette
-        Name: Link
-        Columns: 0
-        #
-          0   0   0	Transparent
-        248 248 248	White
-        240 216  64	Yellow
-        184 104  32	Skin
-        */
 
         static string[] IndexNames =
         {

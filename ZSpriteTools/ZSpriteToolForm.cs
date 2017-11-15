@@ -645,5 +645,45 @@ namespace ZSpriteTools
                 }
             }
         }
+
+        private void importGIMPPaletteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    string filename = activeChild.Filename;
+
+                    // new file, or old format file need to show save box
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.Filter = "GIMP Palette File (*.gpl)|*.gpl|All Files (*.*)|*.*";
+                    ofd.Title = "Select a GIMP Palette File";
+
+                    var result = ofd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = ofd.FileName;
+
+                    var pal = SpriteLibrary.GIMPPalette.BuildSpritePaletteColorsFromStringArray(File.ReadAllLines(filename));
+                    if(pal.Length < 60)
+                    {
+                        MessageBox.Show("Palette is not long enough. Character Sprites require at least 60 entries.");
+                        return;
+                    }
+
+                    activeChild.loadedSprite.SetPalette(pal);
+                    activeChild.UpdateForm();
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage);
+                }
+            }
+        }
     }
 }

@@ -40,6 +40,8 @@
             this.importPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportGIMPPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,8 +79,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.displayTextTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.exportGIMPPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.importGIMPPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -153,7 +155,9 @@
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importPNGToolStripMenuItem});
+            this.importPNGToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.importGIMPPaletteToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.importToolStripMenuItem.Text = "Import";
@@ -178,9 +182,21 @@
             // exportPNGToolStripMenuItem
             // 
             this.exportPNGToolStripMenuItem.Name = "exportPNGToolStripMenuItem";
-            this.exportPNGToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportPNGToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.exportPNGToolStripMenuItem.Text = "PNG";
             this.exportPNGToolStripMenuItem.Click += new System.EventHandler(this.exportPNGToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(139, 6);
+            // 
+            // exportGIMPPaletteToolStripMenuItem
+            // 
+            this.exportGIMPPaletteToolStripMenuItem.Name = "exportGIMPPaletteToolStripMenuItem";
+            this.exportGIMPPaletteToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.exportGIMPPaletteToolStripMenuItem.Text = "GIMP Palette";
+            this.exportGIMPPaletteToolStripMenuItem.Click += new System.EventHandler(this.exportGIMPPaletteToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -212,7 +228,7 @@
             this.importRawPixelDataToolStripMenuItem,
             this.importRawPaletteDataToolStripMenuItem});
             this.importRawToolStripMenuItem.Name = "importRawToolStripMenuItem";
-            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.importRawToolStripMenuItem.Text = "Import Raw";
             // 
             // importRawPixelDataToolStripMenuItem
@@ -235,7 +251,7 @@
             this.exportRawPixelDataToolStripMenuItem,
             this.exportRawPaletteDataToolStripMenuItem});
             this.exportRawToolStripMenuItem.Name = "exportRawToolStripMenuItem";
-            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.exportRawToolStripMenuItem.Text = "Export Raw";
             // 
             // exportRawPixelDataToolStripMenuItem
@@ -255,12 +271,12 @@
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(132, 6);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
@@ -506,17 +522,17 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Display Text:";
             // 
-            // exportGIMPPaletteToolStripMenuItem
+            // toolStripSeparator7
             // 
-            this.exportGIMPPaletteToolStripMenuItem.Name = "exportGIMPPaletteToolStripMenuItem";
-            this.exportGIMPPaletteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportGIMPPaletteToolStripMenuItem.Text = "GIMP Palette";
-            this.exportGIMPPaletteToolStripMenuItem.Click += new System.EventHandler(this.exportGIMPPaletteToolStripMenuItem_Click);
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
             // 
-            // toolStripSeparator6
+            // importGIMPPaletteToolStripMenuItem
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
+            this.importGIMPPaletteToolStripMenuItem.Name = "importGIMPPaletteToolStripMenuItem";
+            this.importGIMPPaletteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importGIMPPaletteToolStripMenuItem.Text = "GIMP Palette";
+            this.importGIMPPaletteToolStripMenuItem.Click += new System.EventHandler(this.importGIMPPaletteToolStripMenuItem_Click);
             // 
             // ZSpriteToolForm
             // 
@@ -594,6 +610,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem exportGIMPPaletteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem importGIMPPaletteToolStripMenuItem;
     }
 }
 
