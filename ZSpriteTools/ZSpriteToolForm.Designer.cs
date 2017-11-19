@@ -242,11 +242,12 @@
             this.importRawPixelDataToolStripMenuItem,
             this.importRawPaletteDataToolStripMenuItem});
             this.importRawToolStripMenuItem.Name = "importRawToolStripMenuItem";
-            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.importRawToolStripMenuItem.Text = "Import Raw";
             // 
             // importRawPixelDataToolStripMenuItem
             // 
+            this.importRawPixelDataToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.importPixelsIcon;
             this.importRawPixelDataToolStripMenuItem.Name = "importRawPixelDataToolStripMenuItem";
             this.importRawPixelDataToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.importRawPixelDataToolStripMenuItem.Text = "Import Raw Pixel Data";
@@ -254,6 +255,7 @@
             // 
             // importRawPaletteDataToolStripMenuItem
             // 
+            this.importRawPaletteDataToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.importPaletteIcon;
             this.importRawPaletteDataToolStripMenuItem.Name = "importRawPaletteDataToolStripMenuItem";
             this.importRawPaletteDataToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.importRawPaletteDataToolStripMenuItem.Text = "Import Raw Palette Data";
@@ -265,11 +267,12 @@
             this.exportRawPixelDataToolStripMenuItem,
             this.exportRawPaletteDataToolStripMenuItem});
             this.exportRawToolStripMenuItem.Name = "exportRawToolStripMenuItem";
-            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportRawToolStripMenuItem.Text = "Export Raw";
             // 
             // exportRawPixelDataToolStripMenuItem
             // 
+            this.exportRawPixelDataToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.exportPixelsIcon;
             this.exportRawPixelDataToolStripMenuItem.Name = "exportRawPixelDataToolStripMenuItem";
             this.exportRawPixelDataToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.exportRawPixelDataToolStripMenuItem.Text = "Export Raw Pixel Data";
@@ -277,6 +280,7 @@
             // 
             // exportRawPaletteDataToolStripMenuItem
             // 
+            this.exportRawPaletteDataToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.exportPaletteIcon;
             this.exportRawPaletteDataToolStripMenuItem.Name = "exportRawPaletteDataToolStripMenuItem";
             this.exportRawPaletteDataToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.exportRawPaletteDataToolStripMenuItem.Text = "Export Raw Palette Data";
@@ -580,7 +584,7 @@
             // 
             this.importRomToolStripMenuItem.Name = "importRomToolStripMenuItem";
             this.importRomToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.importRomToolStripMenuItem.Text = "Rom";
+            this.importRomToolStripMenuItem.Text = "Sprite From ROM";
             this.importRomToolStripMenuItem.Click += new System.EventHandler(this.importRomToolStripMenuItem_Click);
             // 
             // exportRomToolStripMenuItem
