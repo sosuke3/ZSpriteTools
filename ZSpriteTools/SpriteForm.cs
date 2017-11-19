@@ -87,17 +87,30 @@ namespace ZSpriteTools
                 rows++;
             }
 
-            spritePictureBox.Image = new Bitmap(128, rows * 8);
-            spritePictureBox.BackColor = Color.LightGray;
-            spritePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-
+            var tempBitmap = new Bitmap(128, rows * 8);
+            var graphics = Graphics.FromImage(tempBitmap);
             for (int i = 0; i < loadedSprite.Tiles.Length; i++)
             {
                 var x = i * 8 % 128;
                 var y = i * 8 / 128 * 8;
 
-                loadedSprite.Tiles[i].Draw(Graphics.FromImage(spritePictureBox.Image), loadedSprite.Palette, x, y);
+                loadedSprite.Tiles[i].Draw(graphics, loadedSprite.Palette, x, y);
             }
+
+            spritePictureBox.BackColor = Color.LightGray;
+            spritePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            spritePictureBox.Image = ResizeBitmap(tempBitmap, 512, 1792);
+        }
+
+        private Bitmap ResizeBitmap(Bitmap input, int width, int height)
+        {
+            var ret = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(ret))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                g.DrawImage(input, 0, 0, width, height);
+            }
+            return ret;
         }
 
         public void ImportRawPixels(byte[] pixels)
