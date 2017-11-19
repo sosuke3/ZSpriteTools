@@ -132,7 +132,7 @@ namespace ZSpriteTools
                 catch(Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -164,7 +164,7 @@ namespace ZSpriteTools
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -191,7 +191,7 @@ namespace ZSpriteTools
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -212,12 +212,14 @@ namespace ZSpriteTools
                     if (result == DialogResult.OK)
                     {
                         File.WriteAllBytes(sfd.FileName, activeChild.loadedSprite.PixelData);
+
+                        MessageBox.Show($"Created {sfd.FileName}", "File Saved");
                     }
                 }
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -238,12 +240,13 @@ namespace ZSpriteTools
                     if (result == DialogResult.OK)
                     {
                         File.WriteAllBytes(sfd.FileName, activeChild.loadedSprite.PaletteData);
+                        MessageBox.Show($"Created {sfd.FileName}", "File Saved");
                     }
                 }
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -310,12 +313,14 @@ namespace ZSpriteTools
         {
             this.importGIMPPaletteToolStripMenuItem.Enabled = false;
             this.importYYCharPaletteToolStripMenuItem.Enabled = false;
+            this.importGraphicsGalePaletteToolStripMenuItem.Enabled = false;
         }
 
         void EnableImport()
         {
             this.importGIMPPaletteToolStripMenuItem.Enabled = true;
             this.importYYCharPaletteToolStripMenuItem.Enabled = true;
+            this.importGraphicsGalePaletteToolStripMenuItem.Enabled = true;
         }
 
         void DisableEditExportImport()
@@ -395,12 +400,13 @@ namespace ZSpriteTools
                     if (result == DialogResult.OK)
                     {
                         ExportPng(activeChild.loadedSprite, sfd.FileName);
+                        MessageBox.Show($"Created {sfd.FileName}", "File Saved");
                     }
                 }
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -443,7 +449,7 @@ namespace ZSpriteTools
                 Bitmap tempBitmap = (Bitmap)Image.FromFile(ofd.FileName);
                 if(tempBitmap.Width != 128 || tempBitmap.Height != 448)
                 {
-                    MessageBox.Show("Invalid PNG image. Must be 128 x 448 pixels");
+                    MessageBox.Show("Invalid PNG image. Must be 128 x 448 pixels", "Error");
                     return;
                 }
                 var sprite = new SpriteLibrary.Sprite();
@@ -580,7 +586,7 @@ namespace ZSpriteTools
 
                 if(invalidPixelsFound)
                 {
-                    MessageBox.Show("PNG contains pixels that do not use the first 16 colors of the embedded palette. Pixels have been made transparent. Please verify your source file.");
+                    MessageBox.Show("PNG contains pixels that do not use the first 16 colors of the embedded palette. Pixels have been made transparent. Please verify your source file.", "Error");
                 }
                 SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
                 newMDI.MdiParent = this;
@@ -620,7 +626,7 @@ namespace ZSpriteTools
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -652,11 +658,13 @@ namespace ZSpriteTools
 
                     var pal = SpriteLibrary.GIMPPalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
                     File.WriteAllText(filename, pal);
+
+                    MessageBox.Show($"Created {filename}", "File Saved");
                 }
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -686,7 +694,7 @@ namespace ZSpriteTools
                     var pal = SpriteLibrary.GIMPPalette.BuildSpritePaletteColorsFromStringArray(File.ReadAllLines(filename));
                     if(pal.Length < 60)
                     {
-                        MessageBox.Show("Palette is not long enough. Character Sprites require at least 60 entries.");
+                        MessageBox.Show("Palette is not long enough. Character Sprites require at least 60 entries.", "Error");
                         return;
                     }
 
@@ -696,7 +704,7 @@ namespace ZSpriteTools
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -728,11 +736,13 @@ namespace ZSpriteTools
 
                     var pal = SpriteLibrary.YYCharPalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
                     File.WriteAllBytes(filename, pal);
+
+                    MessageBox.Show($"Created {filename}", "File Saved");
                 }
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
@@ -762,7 +772,7 @@ namespace ZSpriteTools
                     var pal = SpriteLibrary.YYCharPalette.BuildSpritePaletteColorsFromByteArray(File.ReadAllBytes(filename));
                     if (pal.Length < 60)
                     {
-                        MessageBox.Show("Palette is not long enough. Character Sprites require at least 60 entries.");
+                        MessageBox.Show("Palette is not long enough. Character Sprites require at least 60 entries.", "Error");
                         return;
                     }
 
@@ -772,7 +782,189 @@ namespace ZSpriteTools
                 catch (Exception ex)
                 {
                     logger.Error(ex);
-                    MessageBox.Show(OopsMessage);
+                    MessageBox.Show(OopsMessage, "Error");
+                }
+            }
+        }
+
+        private void exportGraphicsGalePaletteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    string filename = activeChild.Filename;
+
+                    // new file, or old format file need to show save box
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "Graphics Gale Palette File (*.pal)|*.pal|All Files (*.*)|*.*";
+                    sfd.Title = "Select a Graphics Gale Palette File";
+                    sfd.FileName = String.IsNullOrEmpty(filename)
+                                        ? activeChild.loadedSprite.DisplayText
+                                        : Path.GetFileNameWithoutExtension(filename);
+
+                    var result = sfd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = sfd.FileName;
+
+                    var pal = SpriteLibrary.GraphicsGalePalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
+                    File.WriteAllText(filename, pal);
+
+                    MessageBox.Show($"Created {filename}", "File Saved");
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage, "Error");
+                }
+            }
+        }
+
+        private void importGraphicsGalePaletteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    string filename = activeChild.Filename;
+
+                    // new file, or old format file need to show save box
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.Filter = "Graphics Gale Palette File (*.pal)|*.pal|All Files (*.*)|*.*";
+                    ofd.Title = "Select a Graphics Gale Palette File";
+
+                    var result = ofd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = ofd.FileName;
+
+                    var pal = SpriteLibrary.GraphicsGalePalette.BuildSpritePaletteColorsFromStringArray(File.ReadAllLines(filename));
+                    if (pal.Length < 60)
+                    {
+                        MessageBox.Show("Palette is not long enough. Character Sprites require at least 60 entries.", "Error");
+                        return;
+                    }
+
+                    activeChild.loadedSprite.SetPalette(pal);
+                    activeChild.UpdateForm();
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage, "Error");
+                }
+            }
+        }
+
+        private void exportRomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    string filename = activeChild.Filename;
+
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "Rom File (*.sfc)|*.sfc|All Files (*.*)|*.*";
+                    sfd.Title = "Select a Rom File";
+
+                    var result = sfd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = sfd.FileName;
+
+                    var rom = new SpriteLibrary.Rom(filename);
+                    rom.InjectSprite(activeChild.loadedSprite);
+
+                    File.WriteAllBytes(filename, rom.RomData);
+
+                    MessageBox.Show($"Modified sprite in {filename}", "File Saved");
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage, "Error");
+                }
+            }
+        }
+
+        private void importRomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Rom File (*.sfc)|*.sfc|All Files (*.*)|*.*";
+            ofd.Title = "Select a Rom File";
+
+            var result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                var rom = new SpriteLibrary.Rom(ofd.FileName);
+                var sprite = rom.GetSprite();
+
+                SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
+                newMDI.MdiParent = this;
+                newMDI.Show();
+            }
+        }
+
+        private void exportCopyToNewROMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+            if (activeChild != null)
+            {
+                try
+                {
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.Filter = "Rom File (*.sfc)|*.sfc|All Files (*.*)|*.*";
+                    ofd.Title = "Select a Base Rom File";
+
+                    var result = ofd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    string filename = activeChild.Filename;
+
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "Rom File (*.sfc)|*.sfc|All Files (*.*)|*.*";
+                    sfd.Title = "Select a New Rom File";
+                    sfd.FileName = String.IsNullOrEmpty(filename)
+                                        ? activeChild.loadedSprite.DisplayText
+                                        : Path.GetFileNameWithoutExtension(filename);
+                    sfd.FileName += " - " + Path.GetFileNameWithoutExtension(ofd.FileName);
+
+                    result = sfd.ShowDialog();
+                    if (result != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    filename = sfd.FileName;
+
+                    var rom = new SpriteLibrary.Rom(ofd.FileName);
+                    rom.InjectSprite(activeChild.loadedSprite);
+
+                    File.WriteAllBytes(filename, rom.RomData);
+
+                    MessageBox.Show($"Created {filename}", "File Saved");
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex);
+                    MessageBox.Show(OopsMessage, "Error");
                 }
             }
         }
