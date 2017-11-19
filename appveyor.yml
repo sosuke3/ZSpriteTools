@@ -27,6 +27,9 @@ build:
   include_nuget_references: true
 
 after_build:
+- 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\nlog.config
+- 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\NLog.dll
+- 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\NLog.xml
 - 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\SpriteLibrary.dll
 - 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\ZSpriteTools.exe
 - 7z a ZSpriteTools-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\ZSpriteTools\bin\%CONFIGURATION%\ZSpriteTools.exe.config
