@@ -35,6 +35,7 @@ artifacts:
 - path: '**\SpriteLibrary.$(appveyor_build_version).nupkg'
 - path: '**\SpriteLibrary.$(appveyor_build_version).symbols.nupkg'
 - path: ZSpriteTools\Releases\*.*
+- path: ZSpriteTools\Releases\RELEASES
 
 deploy:
 - provider: GitHub
