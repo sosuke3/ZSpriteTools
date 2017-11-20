@@ -982,70 +982,11 @@ namespace ZSpriteTools
             Process.Start(LogPath);
         }
 
-        // Squirrel stuff
-        private const ShortcutLocation DefaultLocations = ShortcutLocation.StartMenu | ShortcutLocation.Desktop;
-        private const string githubURL = "https://github.com/sosuke3/ZSpriteTools";
-        public async Task UpdateApp()
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var mgr = await UpdateManager.GitHubUpdateManager(githubURL))
-            {
-                var updates = await mgr.CheckForUpdate();
-                if (updates.ReleasesToApply.Any())
-                {
-                    var lastVersion = updates.ReleasesToApply.OrderBy(x => x.Version).Last();
-                    await mgr.DownloadReleases(new[] { lastVersion });
-                    await mgr.ApplyReleases(updates);
-                    await mgr.UpdateApp();
-
-                    MessageBox.Show("The application has been updated - please close and restart.");
-                }
-                else
-                {
-                    MessageBox.Show("No Updates are available at this time.");
-                }
-            }
-        }
-
-        public static void OnAppUpdate(Version version)
-        {
-            // Could use this to do stuff here too.
-        }
-
-        public static void OnInitialInstall(Version version)
-        {
-            var exePath = Assembly.GetEntryAssembly().Location;
-            string appName = Path.GetFileName(exePath);
-
-            using (var mgr = UpdateManager.GitHubUpdateManager(githubURL))
-            {
-                // Create Desktop and Start Menu shortcuts
-                mgr.Result.CreateShortcutsForExecutable(appName, DefaultLocations, false);
-            }
-        }
-
-        public static void OnAppUninstall(Version version)
-        {
-            var exePath = Assembly.GetEntryAssembly().Location;
-            string appName = Path.GetFileName(exePath);
-
-            using (var mgr = UpdateManager.GitHubUpdateManager(githubURL))
-            {
-                // Remove Desktop and Start Menu shortcuts
-                mgr.Result.RemoveShortcutsForExecutable(appName, DefaultLocations);
-            }
-        }
-
-        private async void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                await UpdateApp();
-            }
-            catch(Exception ex)
-            {
-                logger.Error(ex);
-                MessageBox.Show("Something went wrong trying to update.", "Error");
-            }
+            var update = new UpdateForm();
+            update.StartPosition = FormStartPosition.CenterParent;
+            update.ShowDialog(this);
         }
     }
 }

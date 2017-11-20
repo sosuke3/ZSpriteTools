@@ -20,9 +20,9 @@ namespace ZSpriteTools
         static void Main()
         {
 #if !DEBUG
-            SquirrelAwareApp.HandleEvents(onAppUpdate: ZSpriteToolForm.OnAppUpdate,
-                                          onAppUninstall: ZSpriteToolForm.OnAppUninstall,
-                                          onInitialInstall: ZSpriteToolForm.OnInitialInstall);
+            SquirrelAwareApp.HandleEvents(onAppUpdate: UpdateForm.OnAppUpdate,
+                                          onAppUninstall: UpdateForm.OnAppUninstall,
+                                          onInitialInstall: UpdateForm.OnInitialInstall);
 #endif
 
             Application.EnableVisualStyles();
