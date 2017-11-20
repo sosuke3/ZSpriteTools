@@ -38,13 +38,17 @@ namespace ZSpriteTools
             {
                 IsSingleInstance = true;
 
-                StartupNextInstance += this_StartupNextInstance;
+                StartupNextInstance += StartupAlreadyRunningHandler;
             }
 
-            void this_StartupNextInstance(object sender, StartupNextInstanceEventArgs e)
+            void StartupAlreadyRunningHandler(object sender, StartupNextInstanceEventArgs e)
             {
-                ZSpriteToolForm form = MainForm as ZSpriteToolForm; //My derived form type
-                form.LoadFile(e.CommandLine[1]);
+                ZSpriteToolForm form = MainForm as ZSpriteToolForm;
+
+                if (e.CommandLine.Count > 1)
+                {
+                    form.LoadFile(e.CommandLine[1]);
+                }
             }
 
             protected override void OnCreateMainForm()

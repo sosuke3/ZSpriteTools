@@ -93,16 +93,24 @@ namespace ZSpriteTools
 
         public void LoadFile(string fileName)
         {
-            var spriteFile = File.ReadAllBytes(fileName);
-            var loadedSprite = new SpriteLibrary.Sprite(spriteFile);
-            if (loadedSprite.Version == 0)
+            try
             {
-                loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(fileName);
-            }
+                var spriteFile = File.ReadAllBytes(fileName);
+                var loadedSprite = new SpriteLibrary.Sprite(spriteFile);
+                if (loadedSprite.Version == 0)
+                {
+                    loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(fileName);
+                }
 
-            SpriteForm newMDI = new SpriteForm(fileName, loadedSprite);
-            newMDI.MdiParent = this;
-            newMDI.Show();
+                SpriteForm newMDI = new SpriteForm(fileName, loadedSprite);
+                newMDI.MdiParent = this;
+                newMDI.Show();
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+                MessageBox.Show($"Failed to load file {fileName}. Make sure it's a sprite file.", "Error");
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -360,7 +368,6 @@ namespace ZSpriteTools
         {
             var preferences = new PreferencesForm();
             preferences.ShowDialog();
-
         }
 
         protected override void OnLoad(EventArgs e)
@@ -987,6 +994,12 @@ namespace ZSpriteTools
             var update = new UpdateForm();
             update.StartPosition = FormStartPosition.CenterParent;
             update.ShowDialog(this);
+        }
+
+        private void settingsToolStripButton_Click(object sender, EventArgs e)
+        {
+            var preferences = new PreferencesForm();
+            preferences.ShowDialog();
         }
     }
 }

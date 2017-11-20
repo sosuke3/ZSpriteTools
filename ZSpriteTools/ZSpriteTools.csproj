@@ -123,6 +123,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Resources\VSO_NewFile_40x.png" />
+    <None Include="Resources\Settings_32x.png" />
+    <None Include="Resources\Save_32x.png" />
+    <None Include="Resources\OpenFolder_32x.png" />
+    <None Include="Resources\Close_16xLG.png" />
     <EmbeddedResource Include="PreferencesForm.resx">
       <DependentUpon>PreferencesForm.cs</DependentUpon>
     </EmbeddedResource>
