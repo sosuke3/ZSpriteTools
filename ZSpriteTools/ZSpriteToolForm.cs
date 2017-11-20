@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -13,6 +14,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Squirrel;
 
 namespace ZSpriteTools
 {
@@ -20,10 +22,16 @@ namespace ZSpriteTools
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        const string OopsMessage = "Something went wrong. Please send your log file to Sosuke3.";
+        static string LogPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ZSpriteTools");
+        static string OopsMessage = $"Something went wrong. Please send your log file to Sosuke3. Go to \"Help->Open Log Folder\" to view log folder.";
 
         public ZSpriteToolForm()
         {
+            if(false == Directory.Exists(LogPath))
+            {
+                Directory.CreateDirectory(LogPath);
+            }
+
             this.Icon = ZSpriteTools.Properties.Resources.main;
 
             InitializeComponent();
@@ -126,7 +134,7 @@ namespace ZSpriteTools
                     }
 
                     var spriteData = activeChild.loadedSprite.ToByteArray();
-                    File.WriteAllBytes(filename, spriteData);
+                    FileUtilities.WriteAllBytes(filename, spriteData);
                     activeChild.UpdateFilename(filename);
                 }
                 catch(Exception ex)
@@ -211,7 +219,7 @@ namespace ZSpriteTools
                     var result = sfd.ShowDialog();
                     if (result == DialogResult.OK)
                     {
-                        File.WriteAllBytes(sfd.FileName, activeChild.loadedSprite.PixelData);
+                        FileUtilities.WriteAllBytes(sfd.FileName, activeChild.loadedSprite.PixelData);
 
                         MessageBox.Show($"Created {sfd.FileName}", "File Saved");
                     }
@@ -239,7 +247,7 @@ namespace ZSpriteTools
                     var result = sfd.ShowDialog();
                     if (result == DialogResult.OK)
                     {
-                        File.WriteAllBytes(sfd.FileName, activeChild.loadedSprite.PaletteData);
+                        FileUtilities.WriteAllBytes(sfd.FileName, activeChild.loadedSprite.PaletteData);
                         MessageBox.Show($"Created {sfd.FileName}", "File Saved");
                     }
                 }
@@ -620,7 +628,7 @@ namespace ZSpriteTools
                     filename = sfd.FileName;
 
                     var spriteData = activeChild.loadedSprite.ToByteArray();
-                    File.WriteAllBytes(filename, spriteData);
+                    FileUtilities.WriteAllBytes(filename, spriteData);
                     activeChild.UpdateFilename(filename);
                 }
                 catch (Exception ex)
@@ -657,7 +665,7 @@ namespace ZSpriteTools
                     filename = sfd.FileName;
 
                     var pal = SpriteLibrary.GIMPPalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
-                    File.WriteAllText(filename, pal);
+                    FileUtilities.WriteAllText(filename, pal);
 
                     MessageBox.Show($"Created {filename}", "File Saved");
                 }
@@ -735,7 +743,7 @@ namespace ZSpriteTools
                     filename = sfd.FileName;
 
                     var pal = SpriteLibrary.YYCharPalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
-                    File.WriteAllBytes(filename, pal);
+                    FileUtilities.WriteAllBytes(filename, pal);
 
                     MessageBox.Show($"Created {filename}", "File Saved");
                 }
@@ -813,7 +821,7 @@ namespace ZSpriteTools
                     filename = sfd.FileName;
 
                     var pal = SpriteLibrary.GraphicsGalePalette.BuildPaletteFromColorArray(activeChild.loadedSprite.Palette);
-                    File.WriteAllText(filename, pal);
+                    FileUtilities.WriteAllText(filename, pal);
 
                     MessageBox.Show($"Created {filename}", "File Saved");
                 }
@@ -889,7 +897,7 @@ namespace ZSpriteTools
                     var rom = new SpriteLibrary.Rom(filename);
                     rom.InjectSprite(activeChild.loadedSprite);
 
-                    File.WriteAllBytes(filename, rom.RomData);
+                    FileUtilities.WriteAllBytes(filename, rom.RomData);
 
                     MessageBox.Show($"Modified sprite in {filename}", "File Saved");
                 }
@@ -957,7 +965,7 @@ namespace ZSpriteTools
                     var rom = new SpriteLibrary.Rom(ofd.FileName);
                     rom.InjectSprite(activeChild.loadedSprite);
 
-                    File.WriteAllBytes(filename, rom.RomData);
+                    FileUtilities.WriteAllBytes(filename, rom.RomData);
 
                     MessageBox.Show($"Created {filename}", "File Saved");
                 }
@@ -966,6 +974,77 @@ namespace ZSpriteTools
                     logger.Error(ex);
                     MessageBox.Show(OopsMessage, "Error");
                 }
+            }
+        }
+
+        private void openLogDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(LogPath);
+        }
+
+        // Squirrel stuff
+        private const ShortcutLocation DefaultLocations = ShortcutLocation.StartMenu | ShortcutLocation.Desktop;
+        private const string githubURL = "https://github.com/sosuke3/ZSpriteTools";
+        public async Task UpdateApp()
+        {
+            using (var mgr = await UpdateManager.GitHubUpdateManager(githubURL))
+            {
+                var updates = await mgr.CheckForUpdate();
+                if (updates.ReleasesToApply.Any())
+                {
+                    var lastVersion = updates.ReleasesToApply.OrderBy(x => x.Version).Last();
+                    await mgr.DownloadReleases(new[] { lastVersion });
+                    await mgr.ApplyReleases(updates);
+                    await mgr.UpdateApp();
+
+                    MessageBox.Show("The application has been updated - please close and restart.");
+                }
+                else
+                {
+                    MessageBox.Show("No Updates are available at this time.");
+                }
+            }
+        }
+
+        public static void OnAppUpdate(Version version)
+        {
+            // Could use this to do stuff here too.
+        }
+
+        public static void OnInitialInstall(Version version)
+        {
+            var exePath = Assembly.GetEntryAssembly().Location;
+            string appName = Path.GetFileName(exePath);
+
+            using (var mgr = UpdateManager.GitHubUpdateManager(githubURL))
+            {
+                // Create Desktop and Start Menu shortcuts
+                mgr.Result.CreateShortcutsForExecutable(appName, DefaultLocations, false);
+            }
+        }
+
+        public static void OnAppUninstall(Version version)
+        {
+            var exePath = Assembly.GetEntryAssembly().Location;
+            string appName = Path.GetFileName(exePath);
+
+            using (var mgr = UpdateManager.GitHubUpdateManager(githubURL))
+            {
+                // Remove Desktop and Start Menu shortcuts
+                mgr.Result.RemoveShortcutsForExecutable(appName, DefaultLocations);
+            }
+        }
+
+        private async void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await UpdateApp();
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+                MessageBox.Show("Something went wrong trying to update.", "Error");
             }
         }
     }

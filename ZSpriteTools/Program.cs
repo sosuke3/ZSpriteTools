@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.ApplicationServices;
 using NLog;
+using Squirrel;
 
 namespace ZSpriteTools
 {
@@ -18,6 +19,12 @@ namespace ZSpriteTools
         [STAThread]
         static void Main()
         {
+#if !DEBUG
+            SquirrelAwareApp.HandleEvents(onAppUpdate: ZSpriteToolForm.OnAppUpdate,
+                                          onAppUninstall: ZSpriteToolForm.OnAppUninstall,
+                                          onInitialInstall: ZSpriteToolForm.OnInitialInstall);
+#endif
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var args = Environment.GetCommandLineArgs();

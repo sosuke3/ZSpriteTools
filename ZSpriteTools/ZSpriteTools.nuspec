@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ZSpriteTools</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Sosuke3</authors>
+    <owners>Sosuke3</owners>
+    <projectUrl>https://github.com/sosuke3/ZSpriteTools</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ZSpriteTools</description>
+    <releaseNotes>.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <dependencies />
+  </metadata>
+  <files>
+    <file src="*.*" target="lib\net45\" exclude="*.pdb;*.nupkg;*.vshost.*"/>
+  </files>
+</package>

@@ -38,10 +38,19 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.importGIMPPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importYYCharPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importGraphicsGalePaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportPNGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportCopyToNewROMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.exportGIMPPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportYYCharPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportGraphicsGalePaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +65,7 @@
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openLogDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -79,15 +89,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.displayTextTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.importGIMPPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportYYCharPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importYYCharPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportGraphicsGalePaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importGraphicsGalePaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportCopyToNewROMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -127,7 +130,7 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -135,7 +138,7 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -143,21 +146,21 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // importToolStripMenuItem
             // 
@@ -169,7 +172,7 @@
             this.importYYCharPaletteToolStripMenuItem,
             this.importGraphicsGalePaletteToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // importPNGToolStripMenuItem
@@ -178,6 +181,39 @@
             this.importPNGToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.importPNGToolStripMenuItem.Text = "PNG";
             this.importPNGToolStripMenuItem.Click += new System.EventHandler(this.importPNGToolStripMenuItem_Click);
+            // 
+            // importRomToolStripMenuItem
+            // 
+            this.importRomToolStripMenuItem.Name = "importRomToolStripMenuItem";
+            this.importRomToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.importRomToolStripMenuItem.Text = "Sprite From ROM";
+            this.importRomToolStripMenuItem.Click += new System.EventHandler(this.importRomToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(182, 6);
+            // 
+            // importGIMPPaletteToolStripMenuItem
+            // 
+            this.importGIMPPaletteToolStripMenuItem.Name = "importGIMPPaletteToolStripMenuItem";
+            this.importGIMPPaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.importGIMPPaletteToolStripMenuItem.Text = "GIMP Palette";
+            this.importGIMPPaletteToolStripMenuItem.Click += new System.EventHandler(this.importGIMPPaletteToolStripMenuItem_Click);
+            // 
+            // importYYCharPaletteToolStripMenuItem
+            // 
+            this.importYYCharPaletteToolStripMenuItem.Name = "importYYCharPaletteToolStripMenuItem";
+            this.importYYCharPaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.importYYCharPaletteToolStripMenuItem.Text = "YY-Char Palette";
+            this.importYYCharPaletteToolStripMenuItem.Click += new System.EventHandler(this.importYYCharPaletteToolStripMenuItem_Click);
+            // 
+            // importGraphicsGalePaletteToolStripMenuItem
+            // 
+            this.importGraphicsGalePaletteToolStripMenuItem.Name = "importGraphicsGalePaletteToolStripMenuItem";
+            this.importGraphicsGalePaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.importGraphicsGalePaletteToolStripMenuItem.Text = "Graphics Gale Palette";
+            this.importGraphicsGalePaletteToolStripMenuItem.Click += new System.EventHandler(this.importGraphicsGalePaletteToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -190,7 +226,7 @@
             this.exportYYCharPaletteToolStripMenuItem,
             this.exportGraphicsGalePaletteToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // exportPNGToolStripMenuItem
@@ -199,6 +235,20 @@
             this.exportPNGToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.exportPNGToolStripMenuItem.Text = "PNG";
             this.exportPNGToolStripMenuItem.Click += new System.EventHandler(this.exportPNGToolStripMenuItem_Click);
+            // 
+            // exportCopyToNewROMToolStripMenuItem
+            // 
+            this.exportCopyToNewROMToolStripMenuItem.Name = "exportCopyToNewROMToolStripMenuItem";
+            this.exportCopyToNewROMToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.exportCopyToNewROMToolStripMenuItem.Text = "Copy To New ROM";
+            this.exportCopyToNewROMToolStripMenuItem.Click += new System.EventHandler(this.exportCopyToNewROMToolStripMenuItem_Click);
+            // 
+            // exportRomToolStripMenuItem
+            // 
+            this.exportRomToolStripMenuItem.Name = "exportRomToolStripMenuItem";
+            this.exportRomToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.exportRomToolStripMenuItem.Text = "Inject Into ROM";
+            this.exportRomToolStripMenuItem.Click += new System.EventHandler(this.exportRomToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
@@ -212,16 +262,30 @@
             this.exportGIMPPaletteToolStripMenuItem.Text = "GIMP Palette";
             this.exportGIMPPaletteToolStripMenuItem.Click += new System.EventHandler(this.exportGIMPPaletteToolStripMenuItem_Click);
             // 
+            // exportYYCharPaletteToolStripMenuItem
+            // 
+            this.exportYYCharPaletteToolStripMenuItem.Name = "exportYYCharPaletteToolStripMenuItem";
+            this.exportYYCharPaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.exportYYCharPaletteToolStripMenuItem.Text = "YY-Char Palette";
+            this.exportYYCharPaletteToolStripMenuItem.Click += new System.EventHandler(this.exportYYCharPaletteToolStripMenuItem_Click);
+            // 
+            // exportGraphicsGalePaletteToolStripMenuItem
+            // 
+            this.exportGraphicsGalePaletteToolStripMenuItem.Name = "exportGraphicsGalePaletteToolStripMenuItem";
+            this.exportGraphicsGalePaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.exportGraphicsGalePaletteToolStripMenuItem.Text = "Graphics Gale Palette";
+            this.exportGraphicsGalePaletteToolStripMenuItem.Click += new System.EventHandler(this.exportGraphicsGalePaletteToolStripMenuItem_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -242,7 +306,7 @@
             this.importRawPixelDataToolStripMenuItem,
             this.importRawPaletteDataToolStripMenuItem});
             this.importRawToolStripMenuItem.Name = "importRawToolStripMenuItem";
-            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.importRawToolStripMenuItem.Text = "Import Raw";
             // 
             // importRawPixelDataToolStripMenuItem
@@ -267,7 +331,7 @@
             this.exportRawPixelDataToolStripMenuItem,
             this.exportRawPaletteDataToolStripMenuItem});
             this.exportRawToolStripMenuItem.Name = "exportRawToolStripMenuItem";
-            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.exportRawToolStripMenuItem.Text = "Export Raw";
             // 
             // exportRawPixelDataToolStripMenuItem
@@ -315,15 +379,25 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.openLogDirectoryToolStripMenuItem,
+            this.aboutToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.checkForUpdatesToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
+            // openLogDirectoryToolStripMenuItem
+            // 
+            this.openLogDirectoryToolStripMenuItem.Name = "openLogDirectoryToolStripMenuItem";
+            this.openLogDirectoryToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.openLogDirectoryToolStripMenuItem.Text = "Open Log Folder";
+            this.openLogDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openLogDirectoryToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -540,66 +614,17 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Display Text:";
             // 
-            // toolStripSeparator7
+            // checkForUpdatesToolStripMenuItem
             // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(182, 6);
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check For Updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
-            // importGIMPPaletteToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.importGIMPPaletteToolStripMenuItem.Name = "importGIMPPaletteToolStripMenuItem";
-            this.importGIMPPaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.importGIMPPaletteToolStripMenuItem.Text = "GIMP Palette";
-            this.importGIMPPaletteToolStripMenuItem.Click += new System.EventHandler(this.importGIMPPaletteToolStripMenuItem_Click);
-            // 
-            // exportYYCharPaletteToolStripMenuItem
-            // 
-            this.exportYYCharPaletteToolStripMenuItem.Name = "exportYYCharPaletteToolStripMenuItem";
-            this.exportYYCharPaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.exportYYCharPaletteToolStripMenuItem.Text = "YY-Char Palette";
-            this.exportYYCharPaletteToolStripMenuItem.Click += new System.EventHandler(this.exportYYCharPaletteToolStripMenuItem_Click);
-            // 
-            // importYYCharPaletteToolStripMenuItem
-            // 
-            this.importYYCharPaletteToolStripMenuItem.Name = "importYYCharPaletteToolStripMenuItem";
-            this.importYYCharPaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.importYYCharPaletteToolStripMenuItem.Text = "YY-Char Palette";
-            this.importYYCharPaletteToolStripMenuItem.Click += new System.EventHandler(this.importYYCharPaletteToolStripMenuItem_Click);
-            // 
-            // exportGraphicsGalePaletteToolStripMenuItem
-            // 
-            this.exportGraphicsGalePaletteToolStripMenuItem.Name = "exportGraphicsGalePaletteToolStripMenuItem";
-            this.exportGraphicsGalePaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.exportGraphicsGalePaletteToolStripMenuItem.Text = "Graphics Gale Palette";
-            this.exportGraphicsGalePaletteToolStripMenuItem.Click += new System.EventHandler(this.exportGraphicsGalePaletteToolStripMenuItem_Click);
-            // 
-            // importGraphicsGalePaletteToolStripMenuItem
-            // 
-            this.importGraphicsGalePaletteToolStripMenuItem.Name = "importGraphicsGalePaletteToolStripMenuItem";
-            this.importGraphicsGalePaletteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.importGraphicsGalePaletteToolStripMenuItem.Text = "Graphics Gale Palette";
-            this.importGraphicsGalePaletteToolStripMenuItem.Click += new System.EventHandler(this.importGraphicsGalePaletteToolStripMenuItem_Click);
-            // 
-            // importRomToolStripMenuItem
-            // 
-            this.importRomToolStripMenuItem.Name = "importRomToolStripMenuItem";
-            this.importRomToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.importRomToolStripMenuItem.Text = "Sprite From ROM";
-            this.importRomToolStripMenuItem.Click += new System.EventHandler(this.importRomToolStripMenuItem_Click);
-            // 
-            // exportRomToolStripMenuItem
-            // 
-            this.exportRomToolStripMenuItem.Name = "exportRomToolStripMenuItem";
-            this.exportRomToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.exportRomToolStripMenuItem.Text = "Inject Into ROM";
-            this.exportRomToolStripMenuItem.Click += new System.EventHandler(this.exportRomToolStripMenuItem_Click);
-            // 
-            // exportCopyToNewROMToolStripMenuItem
-            // 
-            this.exportCopyToNewROMToolStripMenuItem.Name = "exportCopyToNewROMToolStripMenuItem";
-            this.exportCopyToNewROMToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.exportCopyToNewROMToolStripMenuItem.Text = "Copy To New ROM";
-            this.exportCopyToNewROMToolStripMenuItem.Click += new System.EventHandler(this.exportCopyToNewROMToolStripMenuItem_Click);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(170, 6);
             // 
             // ZSpriteToolForm
             // 
@@ -686,6 +711,9 @@
         private System.Windows.Forms.ToolStripMenuItem importRomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportRomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportCopyToNewROMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openLogDirectoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
     }
 }
 
