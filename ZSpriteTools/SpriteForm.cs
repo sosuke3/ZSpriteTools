@@ -15,21 +15,21 @@ namespace ZSpriteTools
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public SpriteLibrary.Sprite loadedSprite;
+        public SpriteLibrary.PlayerSprite loadedSprite;
         public string Filename;
 
         public SpriteForm()
         {
             InitializeComponent();
 
-            loadedSprite = new SpriteLibrary.Sprite();
+            loadedSprite = new SpriteLibrary.PlayerSprite();
             this.Text = loadedSprite.DisplayText;
             this.Icon = ZSpriteTools.Properties.Resources.main;
 
             UpdateForm();
         }
 
-        public SpriteForm(string Filename, SpriteLibrary.Sprite sprite)
+        public SpriteForm(string Filename, SpriteLibrary.PlayerSprite sprite)
         {
             InitializeComponent();
 

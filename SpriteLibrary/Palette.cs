@@ -62,6 +62,8 @@ namespace SpriteLibrary
         Color[] palette { get; set; }
         byte[] rawPalette { get; set; }
 
+        public Color[] PaletteColors { get { return palette; } }
+
         public Color this[int i]
         {
             get

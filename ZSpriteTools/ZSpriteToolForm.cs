@@ -25,7 +25,7 @@ namespace ZSpriteTools
         static string LogPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ZSpriteTools");
         static string OopsMessage = $"Something went wrong. Please send your log file to Sosuke3. Go to \"Help->Open Log Folder\" to view log folder.";
 
-        SpriteLibrary.Sprite currentSprite;
+        SpriteLibrary.PlayerSprite currentSprite;
         SpriteLibrary.AnimationType currentAnimation;
         Timer frameTimer;
 
@@ -45,6 +45,9 @@ namespace ZSpriteTools
             authorRomDisplayTextBox.MaxLength = SpriteLibrary.Sprite.AuthorRomDisplayMaxLength;
 
             LoadAnimationComboBox();
+
+            this.paletteComboBox.SelectedIndex = 0;
+            this.animationComboBox.SelectedIndex = 0;
 
             frameTimer = new Timer();
             frameTimer.Interval = 16;
@@ -116,7 +119,7 @@ namespace ZSpriteTools
             try
             {
                 var spriteFile = File.ReadAllBytes(fileName);
-                var loadedSprite = new SpriteLibrary.Sprite(spriteFile);
+                var loadedSprite = new SpriteLibrary.PlayerSprite(spriteFile);
                 if (loadedSprite.Version == 0)
                 {
                     loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(fileName);
@@ -126,8 +129,7 @@ namespace ZSpriteTools
                 newMDI.MdiParent = this;
                 newMDI.Show();
 
-                currentSprite = newMDI.loadedSprite;
-                currentSprite.SetAnimation(currentAnimation);
+                UpdateCurrentSprite(newMDI.loadedSprite);
             }
             catch (Exception ex)
             {
@@ -135,7 +137,6 @@ namespace ZSpriteTools
                 MessageBox.Show($"Failed to load file {fileName}. Make sure it's a sprite file.", "Error");
             }
         }
-
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
@@ -300,7 +301,7 @@ namespace ZSpriteTools
                 DisableExport();
                 DisableImport();
 
-                currentSprite = null;
+                UpdateCurrentSprite(null);
             }
             else
             {
@@ -340,8 +341,7 @@ namespace ZSpriteTools
                 EnableExport();
                 EnableImport();
 
-                currentSprite = activeChild.loadedSprite;
-                currentSprite.SetAnimation(currentAnimation);
+                UpdateCurrentSprite(activeChild.loadedSprite);
             }
         }
 
@@ -478,7 +478,7 @@ namespace ZSpriteTools
             }
         }
 
-        void ExportPng(SpriteLibrary.Sprite sprite, string filename)
+        void ExportPng(SpriteLibrary.PlayerSprite sprite, string filename)
         {
             int rows = sprite.Tiles.Length / 16;
             if (sprite.Tiles.Length % 16 != 0)
@@ -520,7 +520,7 @@ namespace ZSpriteTools
                         MessageBox.Show("Invalid PNG image. Must be 128 x 448 pixels", "Error");
                         return;
                     }
-                    var sprite = new SpriteLibrary.Sprite();
+                    var sprite = new SpriteLibrary.PlayerSprite();
                     sprite.DisplayText = Path.GetFileNameWithoutExtension(ofd.FileName);
 
                     var bitmapData = tempBitmap.LockBits(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, tempBitmap.PixelFormat);
@@ -1123,7 +1123,7 @@ namespace ZSpriteTools
                 var destFilename = Path.Combine(destinationFolder, Path.GetFileNameWithoutExtension(file) + ".zspr");
 
                 var spriteFile = File.ReadAllBytes(file);
-                var loadedSprite = new SpriteLibrary.Sprite(spriteFile);
+                var loadedSprite = new SpriteLibrary.PlayerSprite(spriteFile);
                 if (loadedSprite.Version == 0)
                 {
                     loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(file);
@@ -1161,14 +1161,99 @@ namespace ZSpriteTools
             Bitmap tempBitmap = new Bitmap(64, 64, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(tempBitmap);
 
-            var origin = new Point(24, 24);// new Point(24, 24);
+            //var origin = new Point(24, 24);// new Point(24, 24);
 
-            currentSprite.DrawAnimation(g, origin);
+            currentSprite.DrawAnimation(g);
 
             if (this.panelImagePreview.Controls[0] is PictureBox)
             {
                 PictureBox test = this.panelImagePreview.Controls[0] as PictureBox;
                 test.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 256, 256);
+            }
+        }
+
+        private void BuildPalette(int paletteType)
+        {
+            if(currentSprite == null)
+            {
+                return;
+            }
+            currentSprite.SetAnimationPalette(paletteComboBox.SelectedIndex);
+
+            palettePictureBox.BackColor = Color.Black;
+            //palettePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            Color[] palette = null;
+            switch(paletteType)
+            {
+                case 0:
+                    palette = currentSprite.GreenMailPalette.PaletteColors;
+                    break;
+                case 1:
+                    palette = currentSprite.BlueMailPalette.PaletteColors;
+                    break;
+                case 2:
+                    palette = currentSprite.RedMailPalette.PaletteColors;
+                    break;
+                case 3:
+                    palette = currentSprite.BunnyPalette.PaletteColors;
+                    break;
+                default:
+                    return;
+            }
+
+            int width = 16 * 8;
+            int height = 16 * 2;
+
+            palettePictureBox.Image = new Bitmap(16 * 8, 16 * 2);
+
+            Graphics g = Graphics.FromImage(palettePictureBox.Image);
+
+            int x = 0;
+            int y = 0;
+
+            for (int i = 0; i < palette.Length; i++)
+            {
+                x = i * 16 % (width);
+                y = i * 16 / (width) * 16;
+
+                g.FillRectangle(new SolidBrush(palette[i]), x, y, 16, 16);
+            }
+
+        }
+
+        private void paletteComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BuildPalette(paletteComboBox.SelectedIndex);
+        }
+
+        private void UpdateCurrentSprite(SpriteLibrary.PlayerSprite loadedSprite)
+        {
+            currentSprite = loadedSprite;
+            if (loadedSprite != null)
+            {
+                currentSprite.SetAnimation(currentAnimation);
+                currentSprite.SetAnimationPalette(paletteComboBox.SelectedIndex);
+            }
+        }
+
+        private void clearPNGPaletteTileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(currentSprite == null)
+            {
+                return;
+            }
+
+            var empty = new byte[32];
+            var pixels = currentSprite.PixelData;
+            Array.Copy(empty, 0, pixels, 0x7000 - 32, 32);
+            currentSprite.PixelData = pixels;
+
+            if (this.ActiveMdiChild != null)
+            {
+                SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+
+                activeChild.UpdateForm();
             }
         }
     }

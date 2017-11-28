@@ -134,5 +134,257 @@ namespace SpriteLibrary
         {
             CopyMailPaletteToMergedPalette(BunnyPalette, 45);
         }
+
+        int currentFrame = 0;
+        AnimationType currentAnimation = null;
+        int currentPalette = 0;
+        Point origin = new Point(xoffset, yoffset);
+        const int xoffset = 4;
+        const int yoffset = 4;
+
+        public void SetAnimation(AnimationType pose)
+        {
+            currentAnimation = pose;
+            currentFrame = 0;
+
+            if (pose == null)
+            {
+                origin = new Point(xoffset, yoffset);
+            }
+            else
+            {
+                int x = 0;
+                int y = 0;
+                if (pose.Steps != null)
+                {
+                    foreach (var step in pose.Steps)
+                    {
+                        if (step.Sprites != null)
+                        {
+                            foreach (var sprite in step.Sprites)
+                            {
+                                x = Math.Min(x, sprite.Position.X);
+                                y = Math.Min(y, sprite.Position.Y);
+                            }
+                        }
+                    }
+                }
+
+                origin = new Point(Math.Abs(x) + xoffset, Math.Abs(y) + yoffset);
+            }
+        }
+
+        public void DrawAnimation(Graphics g)
+        {
+            if (currentAnimation == null)
+            {
+                return;
+            }
+
+            try
+            {
+                Step step = null;
+                int totalLength = 0;
+                currentFrame += 1;
+
+                foreach (var s in currentAnimation.Steps)
+                {
+                    if (totalLength + s.Length > currentFrame)
+                    {
+                        step = s;
+                        break;
+                    }
+
+                    totalLength += s.Length;
+                }
+                if (step == null)
+                {
+                    currentFrame = 0;
+                    step = currentAnimation.Steps.FirstOrDefault();
+                }
+
+                foreach (var s in step.Sprites)
+                {
+                    DrawTile(g, s.Row, s.Col, s.Position, origin, s.Size, s.Flip);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void DrawTile(Graphics g, string Row, int Col, Point pos, Point origin, TileDrawType drawType = TileDrawType.FULL, TileFlipType flipType = TileFlipType.NO_FLIP)
+        {
+            if (String.IsNullOrEmpty(Row))
+            {
+                throw new ArgumentException("Row is empty", nameof(Row));
+            }
+            var isValidRowType = Enum.GetNames(typeof(RowType)).Contains(Row);
+            if (!isValidRowType)
+            {
+                throw new ArgumentException("Row contains an invalid value", nameof(Row));
+            }
+
+            var rowType = Enum.Parse(typeof(RowType), Row);
+            if ((int)rowType > (int)RowType.AB)
+            {
+                // shield, etc
+                // TODO: implement these later
+                return;
+            }
+
+            int rowValue;
+
+            if (Row == "AA" || Row == "AB")
+            {
+                rowValue = 'Z' - 'A';
+                if (Row == "AA")
+                {
+                    rowValue += 1;
+                }
+                else
+                {
+                    rowValue += 2;
+                }
+            }
+            else
+            {
+                rowValue = Row[0] - 'A';
+            }
+
+            int y = rowValue * 2;
+            int x = Col * 2;
+
+            List<int> tileIndices = new List<int>();
+
+            int width = 2;
+            int height = 2;
+            switch (drawType)
+            {
+                case TileDrawType.FULL:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    width = 2;
+                    height = 2;
+                    break;
+                case TileDrawType.TOP_HALF:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    width = 2;
+                    height = 1;
+                    break;
+                case TileDrawType.BOTTOM_HALF:
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    width = 2;
+                    height = 1;
+                    break;
+                case TileDrawType.RIGHT_HALF:
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    width = 1;
+                    height = 2;
+                    break;
+                case TileDrawType.LEFT_HALF:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    width = 1;
+                    height = 2;
+                    break;
+                case TileDrawType.TOP_RIGHT:
+                    tileIndices.Add(x + 1 + y * 16);
+                    width = 1;
+                    height = 1;
+                    break;
+                case TileDrawType.TOP_LEFT:
+                    tileIndices.Add(x + y * 16);
+                    width = 1;
+                    height = 1;
+                    break;
+                case TileDrawType.BOTTOM_RIGHT:
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    width = 1;
+                    height = 1;
+                    break;
+                case TileDrawType.BOTTOM_LEFT:
+                    tileIndices.Add(x + (y + 1) * 16);
+                    width = 1;
+                    height = 1;
+                    break;
+                case TileDrawType.TALL_8X24:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + (y + 2) * 16);
+                    width = 1;
+                    height = 3;
+                    break;
+                case TileDrawType.WIDE_24X8:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + 2 + y * 16);
+                    width = 3;
+                    height = 1;
+                    break;
+                case TileDrawType.LARGE_16X24:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    tileIndices.Add(x + (y + 2) * 16);
+                    tileIndices.Add(x + 1 + (y + 2) * 16);
+                    width = 2;
+                    height = 3;
+                    break;
+                case TileDrawType.LARGE_32X24:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + 2 + y * 16);
+                    tileIndices.Add(x + 3 + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    tileIndices.Add(x + 2 + (y + 1) * 16);
+                    tileIndices.Add(x + 3 + (y + 1) * 16);
+                    tileIndices.Add(x + (y + 2) * 16);
+                    tileIndices.Add(x + 1 + (y + 2) * 16);
+                    tileIndices.Add(x + 2 + (y + 2) * 16);
+                    tileIndices.Add(x + 3 + (y + 2) * 16);
+                    width = 4;
+                    height = 3;
+                    break;
+                case TileDrawType.EMPTY:
+                default:
+                    return;
+            }
+
+            var pal = new Color[15];
+            switch(currentPalette)
+            {
+                case 0:
+                    Array.Copy(this.GreenMailPalette.PaletteColors, 1, pal, 0, 15);
+                    break;
+                case 1:
+                    Array.Copy(this.BlueMailPalette.PaletteColors, 1, pal, 0, 15);
+                    break;
+                case 2:
+                    Array.Copy(this.RedMailPalette.PaletteColors, 1, pal, 0, 15);
+                    break;
+                case 3:
+                    Array.Copy(this.BunnyPalette.PaletteColors, 1, pal, 0, 15);
+                    break;
+                default:
+                    Array.Copy(this.Palette, pal, 15);
+                    break;
+            }
+
+            DrawTiles(g, pos, origin, width, height, pal, tileIndices.ToArray());
+        }
+
+        public void SetAnimationPalette(int selectedIndex)
+        {
+            this.currentPalette = selectedIndex;
+        }
     }
 }

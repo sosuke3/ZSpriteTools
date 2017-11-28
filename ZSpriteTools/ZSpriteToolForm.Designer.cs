@@ -87,18 +87,23 @@
             this.settingsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.paletteComboBox = new System.Windows.Forms.ComboBox();
+            this.palettePictureBox = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.animationComboBox = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.panelImagePreview = new System.Windows.Forms.Panel();
             this.authorRomDisplayTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.authorTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.displayTextTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.panelImagePreview = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.animationComboBox = new System.Windows.Forms.ComboBox();
+            this.clearPNGPaletteTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.palettePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -311,6 +316,7 @@
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importRawToolStripMenuItem,
             this.exportRawToolStripMenuItem,
+            this.clearPNGPaletteTileToolStripMenuItem,
             this.toolStripSeparator4,
             this.preferencesToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -323,7 +329,7 @@
             this.importRawPixelDataToolStripMenuItem,
             this.importRawPaletteDataToolStripMenuItem});
             this.importRawToolStripMenuItem.Name = "importRawToolStripMenuItem";
-            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.importRawToolStripMenuItem.Text = "Import Raw";
             // 
             // importRawPixelDataToolStripMenuItem
@@ -348,7 +354,7 @@
             this.exportRawPixelDataToolStripMenuItem,
             this.exportRawPaletteDataToolStripMenuItem});
             this.exportRawToolStripMenuItem.Name = "exportRawToolStripMenuItem";
-            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.exportRawToolStripMenuItem.Text = "Export Raw";
             // 
             // exportRawPixelDataToolStripMenuItem
@@ -370,13 +376,13 @@
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(132, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(186, 6);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.settingsIcon;
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
@@ -591,6 +597,9 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.paletteComboBox);
+            this.panel1.Controls.Add(this.palettePictureBox);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.animationComboBox);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.panelImagePreview);
@@ -601,10 +610,74 @@
             this.panel1.Controls.Add(this.displayTextTextBox);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(966, 49);
+            this.panel1.Location = new System.Drawing.Point(917, 49);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(229, 532);
+            this.panel1.Size = new System.Drawing.Size(278, 532);
             this.panel1.TabIndex = 4;
+            // 
+            // paletteComboBox
+            // 
+            this.paletteComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.paletteComboBox.FormattingEnabled = true;
+            this.paletteComboBox.Items.AddRange(new object[] {
+            "Green",
+            "Blue",
+            "Red",
+            "Bunny"});
+            this.paletteComboBox.Location = new System.Drawing.Point(3, 135);
+            this.paletteComboBox.Name = "paletteComboBox";
+            this.paletteComboBox.Size = new System.Drawing.Size(272, 21);
+            this.paletteComboBox.TabIndex = 17;
+            this.paletteComboBox.SelectedIndexChanged += new System.EventHandler(this.paletteComboBox_SelectedIndexChanged);
+            // 
+            // palettePictureBox
+            // 
+            this.palettePictureBox.Location = new System.Drawing.Point(3, 162);
+            this.palettePictureBox.Name = "palettePictureBox";
+            this.palettePictureBox.Size = new System.Drawing.Size(272, 54);
+            this.palettePictureBox.TabIndex = 16;
+            this.palettePictureBox.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 119);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(43, 13);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Palette:";
+            // 
+            // animationComboBox
+            // 
+            this.animationComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.animationComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.animationComboBox.FormattingEnabled = true;
+            this.animationComboBox.Location = new System.Drawing.Point(3, 235);
+            this.animationComboBox.Name = "animationComboBox";
+            this.animationComboBox.Size = new System.Drawing.Size(271, 21);
+            this.animationComboBox.TabIndex = 14;
+            this.animationComboBox.SelectedIndexChanged += new System.EventHandler(this.animationComboBox_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 219);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Animation:";
+            // 
+            // panelImagePreview
+            // 
+            this.panelImagePreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelImagePreview.AutoScroll = true;
+            this.panelImagePreview.Location = new System.Drawing.Point(6, 262);
+            this.panelImagePreview.Name = "panelImagePreview";
+            this.panelImagePreview.Size = new System.Drawing.Size(269, 267);
+            this.panelImagePreview.TabIndex = 12;
             // 
             // authorRomDisplayTextBox
             // 
@@ -613,7 +686,7 @@
             this.authorRomDisplayTextBox.Location = new System.Drawing.Point(3, 96);
             this.authorRomDisplayTextBox.MaxLength = 20;
             this.authorRomDisplayTextBox.Name = "authorRomDisplayTextBox";
-            this.authorRomDisplayTextBox.Size = new System.Drawing.Size(223, 20);
+            this.authorRomDisplayTextBox.Size = new System.Drawing.Size(272, 20);
             this.authorRomDisplayTextBox.TabIndex = 11;
             this.authorRomDisplayTextBox.TextChanged += new System.EventHandler(this.authorRomDisplayTextBox_TextChanged);
             // 
@@ -632,7 +705,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.authorTextBox.Location = new System.Drawing.Point(3, 57);
             this.authorTextBox.Name = "authorTextBox";
-            this.authorTextBox.Size = new System.Drawing.Size(223, 20);
+            this.authorTextBox.Size = new System.Drawing.Size(272, 20);
             this.authorTextBox.TabIndex = 9;
             this.authorTextBox.TextChanged += new System.EventHandler(this.authorTextBox_TextChanged);
             // 
@@ -651,7 +724,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.displayTextTextBox.Location = new System.Drawing.Point(3, 18);
             this.displayTextTextBox.Name = "displayTextTextBox";
-            this.displayTextTextBox.Size = new System.Drawing.Size(223, 20);
+            this.displayTextTextBox.Size = new System.Drawing.Size(272, 20);
             this.displayTextTextBox.TabIndex = 7;
             this.displayTextTextBox.TextChanged += new System.EventHandler(this.displayTextTextBox_TextChanged);
             // 
@@ -664,36 +737,12 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Display Text:";
             // 
-            // panelImagePreview
+            // clearPNGPaletteTileToolStripMenuItem
             // 
-            this.panelImagePreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelImagePreview.AutoScroll = true;
-            this.panelImagePreview.Location = new System.Drawing.Point(6, 187);
-            this.panelImagePreview.Name = "panelImagePreview";
-            this.panelImagePreview.Size = new System.Drawing.Size(220, 342);
-            this.panelImagePreview.TabIndex = 12;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 139);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 13);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Animation:";
-            // 
-            // animationComboBox
-            // 
-            this.animationComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.animationComboBox.FormattingEnabled = true;
-            this.animationComboBox.Location = new System.Drawing.Point(3, 155);
-            this.animationComboBox.Name = "animationComboBox";
-            this.animationComboBox.Size = new System.Drawing.Size(222, 21);
-            this.animationComboBox.TabIndex = 14;
-            this.animationComboBox.SelectedIndexChanged += new System.EventHandler(this.animationComboBox_SelectedIndexChanged);
+            this.clearPNGPaletteTileToolStripMenuItem.Name = "clearPNGPaletteTileToolStripMenuItem";
+            this.clearPNGPaletteTileToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.clearPNGPaletteTileToolStripMenuItem.Text = "Clear PNG Palette Tile";
+            this.clearPNGPaletteTileToolStripMenuItem.Click += new System.EventHandler(this.clearPNGPaletteTileToolStripMenuItem_Click);
             // 
             // ZSpriteToolForm
             // 
@@ -715,6 +764,7 @@
             this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.palettePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -788,6 +838,10 @@
         private System.Windows.Forms.Panel panelImagePreview;
         private System.Windows.Forms.ComboBox animationComboBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox paletteComboBox;
+        private System.Windows.Forms.PictureBox palettePictureBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolStripMenuItem clearPNGPaletteTileToolStripMenuItem;
     }
 }
 
