@@ -130,9 +130,9 @@ namespace SpriteLibrary.Tests
             var file = File.ReadAllBytes("data\\orb.new.spr");
             var s = new Sprite(file);
             Assert.Equal(0x7000, s.PixelDataLength);
-            Assert.Equal(0x78, s.PaletteDataLength);
+            Assert.Equal(0x7C, s.PaletteDataLength);
             Assert.Equal("Orb", s.DisplayText);
-            Assert.True(s.HasValidChecksum);
+            Assert.False(s.HasValidChecksum);
         }
 
         [Fact]
