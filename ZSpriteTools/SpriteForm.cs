@@ -99,18 +99,7 @@ namespace ZSpriteTools
 
             spritePictureBox.BackColor = Color.LightGray;
             spritePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            spritePictureBox.Image = ResizeBitmap(tempBitmap, 512, 1792);
-        }
-
-        private Bitmap ResizeBitmap(Bitmap input, int width, int height)
-        {
-            var ret = new Bitmap(width, height);
-            using (Graphics g = Graphics.FromImage(ret))
-            {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                g.DrawImage(input, 0, 0, width, height);
-            }
-            return ret;
+            spritePictureBox.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 512, 1792);
         }
 
         public void ImportRawPixels(byte[] pixels)

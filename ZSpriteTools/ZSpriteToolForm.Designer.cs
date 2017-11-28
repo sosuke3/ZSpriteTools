@@ -51,6 +51,7 @@
             this.exportGIMPPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportYYCharPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportGraphicsGalePaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.batchConvertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,6 +84,7 @@
             this.exportRawPixelsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.exportRawPaletteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.settingsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.authorRomDisplayTextBox = new System.Windows.Forms.TextBox();
@@ -91,7 +93,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.displayTextTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.settingsToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.panelImagePreview = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.animationComboBox = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -121,6 +125,7 @@
             this.toolStripSeparator1,
             this.importToolStripMenuItem,
             this.exportToolStripMenuItem,
+            this.batchConvertToolStripMenuItem,
             this.toolStripSeparator5,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -132,7 +137,7 @@
             this.newToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.newFileIcon;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -141,7 +146,7 @@
             this.openToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.openIcon;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -150,21 +155,21 @@
             this.saveToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.saveIcon;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(146, 6);
             // 
             // importToolStripMenuItem
             // 
@@ -176,7 +181,7 @@
             this.importYYCharPaletteToolStripMenuItem,
             this.importGraphicsGalePaletteToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // importPNGToolStripMenuItem
@@ -230,7 +235,7 @@
             this.exportYYCharPaletteToolStripMenuItem,
             this.exportGraphicsGalePaletteToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // exportPNGToolStripMenuItem
@@ -280,17 +285,24 @@
             this.exportGraphicsGalePaletteToolStripMenuItem.Text = "Graphics Gale Palette";
             this.exportGraphicsGalePaletteToolStripMenuItem.Click += new System.EventHandler(this.exportGraphicsGalePaletteToolStripMenuItem_Click);
             // 
+            // batchConvertToolStripMenuItem
+            // 
+            this.batchConvertToolStripMenuItem.Name = "batchConvertToolStripMenuItem";
+            this.batchConvertToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.batchConvertToolStripMenuItem.Text = "Batch Convert";
+            this.batchConvertToolStripMenuItem.Click += new System.EventHandler(this.batchConvertToolStripMenuItem_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(146, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.closeIcon;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -311,7 +323,7 @@
             this.importRawPixelDataToolStripMenuItem,
             this.importRawPaletteDataToolStripMenuItem});
             this.importRawToolStripMenuItem.Name = "importRawToolStripMenuItem";
-            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.importRawToolStripMenuItem.Text = "Import Raw";
             // 
             // importRawPixelDataToolStripMenuItem
@@ -336,7 +348,7 @@
             this.exportRawPixelDataToolStripMenuItem,
             this.exportRawPaletteDataToolStripMenuItem});
             this.exportRawToolStripMenuItem.Name = "exportRawToolStripMenuItem";
-            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.exportRawToolStripMenuItem.Text = "Export Raw";
             // 
             // exportRawPixelDataToolStripMenuItem
@@ -358,13 +370,13 @@
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(132, 6);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Image = global::ZSpriteTools.Properties.Resources.settingsIcon;
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
@@ -558,6 +570,16 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
+            // settingsToolStripButton
+            // 
+            this.settingsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.settingsToolStripButton.Image = global::ZSpriteTools.Properties.Resources.settingsIcon;
+            this.settingsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.settingsToolStripButton.Name = "settingsToolStripButton";
+            this.settingsToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.settingsToolStripButton.Text = "Settings";
+            this.settingsToolStripButton.Click += new System.EventHandler(this.settingsToolStripButton_Click);
+            // 
             // helpToolStripButton
             // 
             this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -569,6 +591,9 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.animationComboBox);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.panelImagePreview);
             this.panel1.Controls.Add(this.authorRomDisplayTextBox);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.authorTextBox);
@@ -576,17 +601,19 @@
             this.panel1.Controls.Add(this.displayTextTextBox);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(1019, 49);
+            this.panel1.Location = new System.Drawing.Point(966, 49);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(176, 532);
+            this.panel1.Size = new System.Drawing.Size(229, 532);
             this.panel1.TabIndex = 4;
             // 
             // authorRomDisplayTextBox
             // 
+            this.authorRomDisplayTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.authorRomDisplayTextBox.Location = new System.Drawing.Point(3, 96);
             this.authorRomDisplayTextBox.MaxLength = 20;
             this.authorRomDisplayTextBox.Name = "authorRomDisplayTextBox";
-            this.authorRomDisplayTextBox.Size = new System.Drawing.Size(162, 20);
+            this.authorRomDisplayTextBox.Size = new System.Drawing.Size(223, 20);
             this.authorRomDisplayTextBox.TabIndex = 11;
             this.authorRomDisplayTextBox.TextChanged += new System.EventHandler(this.authorRomDisplayTextBox_TextChanged);
             // 
@@ -601,9 +628,11 @@
             // 
             // authorTextBox
             // 
+            this.authorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.authorTextBox.Location = new System.Drawing.Point(3, 57);
             this.authorTextBox.Name = "authorTextBox";
-            this.authorTextBox.Size = new System.Drawing.Size(162, 20);
+            this.authorTextBox.Size = new System.Drawing.Size(223, 20);
             this.authorTextBox.TabIndex = 9;
             this.authorTextBox.TextChanged += new System.EventHandler(this.authorTextBox_TextChanged);
             // 
@@ -618,9 +647,11 @@
             // 
             // displayTextTextBox
             // 
+            this.displayTextTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.displayTextTextBox.Location = new System.Drawing.Point(3, 18);
             this.displayTextTextBox.Name = "displayTextTextBox";
-            this.displayTextTextBox.Size = new System.Drawing.Size(162, 20);
+            this.displayTextTextBox.Size = new System.Drawing.Size(223, 20);
             this.displayTextTextBox.TabIndex = 7;
             this.displayTextTextBox.TextChanged += new System.EventHandler(this.displayTextTextBox_TextChanged);
             // 
@@ -633,15 +664,36 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Display Text:";
             // 
-            // settingsToolStripButton
+            // panelImagePreview
             // 
-            this.settingsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.settingsToolStripButton.Image = global::ZSpriteTools.Properties.Resources.settingsIcon;
-            this.settingsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.settingsToolStripButton.Name = "settingsToolStripButton";
-            this.settingsToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.settingsToolStripButton.Text = "Settings";
-            this.settingsToolStripButton.Click += new System.EventHandler(this.settingsToolStripButton_Click);
+            this.panelImagePreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelImagePreview.AutoScroll = true;
+            this.panelImagePreview.Location = new System.Drawing.Point(6, 187);
+            this.panelImagePreview.Name = "panelImagePreview";
+            this.panelImagePreview.Size = new System.Drawing.Size(220, 342);
+            this.panelImagePreview.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 139);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Animation:";
+            // 
+            // animationComboBox
+            // 
+            this.animationComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.animationComboBox.FormattingEnabled = true;
+            this.animationComboBox.Location = new System.Drawing.Point(3, 155);
+            this.animationComboBox.Name = "animationComboBox";
+            this.animationComboBox.Size = new System.Drawing.Size(222, 21);
+            this.animationComboBox.TabIndex = 14;
+            this.animationComboBox.SelectedIndexChanged += new System.EventHandler(this.animationComboBox_SelectedIndexChanged);
             // 
             // ZSpriteToolForm
             // 
@@ -732,6 +784,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton settingsToolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem batchConvertToolStripMenuItem;
+        private System.Windows.Forms.Panel panelImagePreview;
+        private System.Windows.Forms.ComboBox animationComboBox;
+        private System.Windows.Forms.Label label4;
     }
 }
 

@@ -25,6 +25,10 @@ namespace ZSpriteTools
         static string LogPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ZSpriteTools");
         static string OopsMessage = $"Something went wrong. Please send your log file to Sosuke3. Go to \"Help->Open Log Folder\" to view log folder.";
 
+        SpriteLibrary.Sprite currentSprite;
+        SpriteLibrary.AnimationType currentAnimation;
+        Timer frameTimer;
+
         public ZSpriteToolForm()
         {
             if(false == Directory.Exists(LogPath))
@@ -39,6 +43,22 @@ namespace ZSpriteTools
             this.Text = this.Text + " - " + ProductVersion;
 
             authorRomDisplayTextBox.MaxLength = SpriteLibrary.Sprite.AuthorRomDisplayMaxLength;
+
+            LoadAnimationComboBox();
+
+            frameTimer = new Timer();
+            frameTimer.Interval = 16;
+            frameTimer.Tick += FrameTimer_Tick;
+            frameTimer.Start();
+        }
+
+        private void LoadAnimationComboBox()
+        {
+            animationComboBox.Items.Clear();
+            foreach(var a in SpriteLibrary.Animations.Instance.AnimationData)
+            {
+                animationComboBox.Items.Add(new ComboBoxItem() { Text = a.Value.Name, Value = a.Key });
+            }
         }
 
         private void displayTextTextBox_TextChanged(object sender, EventArgs e)
@@ -105,8 +125,11 @@ namespace ZSpriteTools
                 SpriteForm newMDI = new SpriteForm(fileName, loadedSprite);
                 newMDI.MdiParent = this;
                 newMDI.Show();
+
+                currentSprite = newMDI.loadedSprite;
+                currentSprite.SetAnimation(currentAnimation);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.Error(ex);
                 MessageBox.Show($"Failed to load file {fileName}. Make sure it's a sprite file.", "Error");
@@ -276,6 +299,8 @@ namespace ZSpriteTools
                 DisableEditExportImport();
                 DisableExport();
                 DisableImport();
+
+                currentSprite = null;
             }
             else
             {
@@ -285,11 +310,38 @@ namespace ZSpriteTools
                 this.authorTextBox.Text = activeChild.loadedSprite.Author;
                 this.authorRomDisplayTextBox.Text = activeChild.loadedSprite.AuthorRomDisplay;
 
+                this.panelImagePreview.Controls.Clear();
+
+                //Bitmap tempBitmap = new Bitmap(64, 64, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                //Graphics g = Graphics.FromImage(tempBitmap);
+
+                //var origin = new Point(24, 24);// new Point(24, 24);
+
+                //activeChild.loadedSprite.DrawAnimation(g, "swim", origin);
+
+                ////activeChild.loadedSprite.DrawTile(g, "G", 0, new Point(0, 0), origin, SpriteLibrary.TileDrawType.BOTTOM_HALF);
+                ////activeChild.loadedSprite.DrawTile(g, "G", 1, new Point(16, 0), origin, SpriteLibrary.TileDrawType.BOTTOM_LEFT);
+                ////activeChild.loadedSprite.DrawTile(g, "H", 0, new Point(0, 8), origin);
+                ////activeChild.loadedSprite.DrawTile(g, "H", 1, new Point(16, 8), origin, SpriteLibrary.TileDrawType.LEFT_HALF);
+                ////activeChild.loadedSprite.DrawTiles(g, 0, 1, 16, 17);
+
+                PictureBox test = new PictureBox();
+                test.Width = 256;
+                test.Height = 256;
+                test.BackColor = Color.Black;
+                test.SizeMode = PictureBoxSizeMode.Normal;
+                //test.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 256, 256);
+
+                this.panelImagePreview.Controls.Add(test);
+
                 EnableSave();
                 EnableSaveAs();
                 EnableEditExportImport();
                 EnableExport();
                 EnableImport();
+
+                currentSprite = activeChild.loadedSprite;
+                currentSprite.SetAnimation(currentAnimation);
             }
         }
 
@@ -452,160 +504,162 @@ namespace ZSpriteTools
 
         private void importPNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "PNG File (*.png)|*.png|All Files (*.*)|*.*";
-            ofd.Title = "Select a PNG File";
-
-            var invalidPixelsFound = false;
-
-            var result = ofd.ShowDialog();
-            if (result == DialogResult.OK)
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                Bitmap tempBitmap = (Bitmap)Image.FromFile(ofd.FileName);
-                if(tempBitmap.Width != 128 || tempBitmap.Height != 448)
+                ofd.Filter = "PNG File (*.png)|*.png|All Files (*.*)|*.*";
+                ofd.Title = "Select a PNG File";
+
+                var invalidPixelsFound = false;
+
+                var result = ofd.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    MessageBox.Show("Invalid PNG image. Must be 128 x 448 pixels", "Error");
-                    return;
-                }
-                var sprite = new SpriteLibrary.Sprite();
-                sprite.DisplayText = Path.GetFileNameWithoutExtension(ofd.FileName);
-
-                var bitmapData = tempBitmap.LockBits(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, tempBitmap.PixelFormat);
-                var totalBytes = bitmapData.Stride * bitmapData.Height;
-                var pixels = new byte[totalBytes];
-                Marshal.Copy(bitmapData.Scan0, pixels, 0, totalBytes);
-                tempBitmap.UnlockBits(bitmapData);
-
-                // load palette from png
-                int xoffset = 120;
-                int yoffset = 440;
-
-                var colors = new Color[8 * 8];
-
-                for(int y = 0; y < 8; y++)
-                {
-                    for(int x = 0; x < 8; x++)
+                    Bitmap tempBitmap = (Bitmap)Image.FromFile(ofd.FileName);
+                    if (tempBitmap.Width != 128 || tempBitmap.Height != 448)
                     {
-                        int pixelPosition = (y + yoffset) * bitmapData.Stride + ((x + xoffset) * 4);
-
-                        int b = pixels[pixelPosition + 0];
-                        int g = pixels[pixelPosition + 1];
-                        int r = pixels[pixelPosition + 2];
-                        int a = pixels[pixelPosition + 3];
-
-                        colors[x + y * 8] = Color.FromArgb(a, r, g, b);
+                        MessageBox.Show("Invalid PNG image. Must be 128 x 448 pixels", "Error");
+                        return;
                     }
-                }
+                    var sprite = new SpriteLibrary.Sprite();
+                    sprite.DisplayText = Path.GetFileNameWithoutExtension(ofd.FileName);
 
-                var palette = new Color[62];
-                for(int i = 0; i < 15; i++)
-                {
-                    palette[i] = colors[i + 1];
-                }
-                for(int i = 15; i < 30; i++)
-                {
-                    palette[i] = colors[i + 2];
-                }
-                for (int i = 30; i < 45; i++)
-                {
-                    palette[i] = colors[i + 3];
-                }
-                for (int i = 45; i < 60; i++)
-                {
-                    palette[i] = colors[i + 4];
-                }
-                palette[60] = colors[16];
-                palette[61] = colors[32];
+                    var bitmapData = tempBitmap.LockBits(new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, tempBitmap.PixelFormat);
+                    var totalBytes = bitmapData.Stride * bitmapData.Height;
+                    var pixels = new byte[totalBytes];
+                    Marshal.Copy(bitmapData.Scan0, pixels, 0, totalBytes);
+                    tempBitmap.UnlockBits(bitmapData);
 
-                sprite.SetPalette(palette);
+                    // load palette from png
+                    int xoffset = 120;
+                    int yoffset = 440;
 
-                // load pixel data
-                var pixelBytes = new byte[128 * 448];
-                var greenPalette = new Dictionary<int, Color>();
-                for(int i = 0; i < 16; i++)
-                {
-                    greenPalette[i] = colors[i];
-                }
+                    var colors = new Color[8 * 8];
 
-                for (int y = 0; y < 448; y++)
-                {
-                    for (int x = 0; x < 128; x++)
+                    for (int y = 0; y < 8; y++)
                     {
-                        int pixelPosition = y * bitmapData.Stride + (x * 4);
-
-                        int b = pixels[pixelPosition + 0];
-                        int g = pixels[pixelPosition + 1];
-                        int r = pixels[pixelPosition + 2];
-                        int a = pixels[pixelPosition + 3];
-
-                        var pixel = Color.FromArgb(a, r, g, b);
-
-                        if(y >= 440 && x >= 120)
+                        for (int x = 0; x < 8; x++)
                         {
-                            // palette data, skip it
-                            pixelBytes[x + y * 128] = 0;
-                            continue;
+                            int pixelPosition = (y + yoffset) * bitmapData.Stride + ((x + xoffset) * 4);
+
+                            int b = pixels[pixelPosition + 0];
+                            int g = pixels[pixelPosition + 1];
+                            int r = pixels[pixelPosition + 2];
+                            int a = pixels[pixelPosition + 3];
+
+                            colors[x + y * 8] = Color.FromArgb(a, r, g, b);
                         }
+                    }
 
-                        if (a == 0 || greenPalette[0] == pixel)
+                    var palette = new Color[62];
+                    for (int i = 0; i < 15; i++)
+                    {
+                        palette[i] = colors[i + 1];
+                    }
+                    for (int i = 15; i < 30; i++)
+                    {
+                        palette[i] = colors[i + 2];
+                    }
+                    for (int i = 30; i < 45; i++)
+                    {
+                        palette[i] = colors[i + 3];
+                    }
+                    for (int i = 45; i < 60; i++)
+                    {
+                        palette[i] = colors[i + 4];
+                    }
+                    palette[60] = colors[16];
+                    palette[61] = colors[32];
+
+                    sprite.SetPalette(palette);
+
+                    // load pixel data
+                    var pixelBytes = new byte[128 * 448];
+                    var greenPalette = new Dictionary<int, Color>();
+                    for (int i = 0; i < 16; i++)
+                    {
+                        greenPalette[i] = colors[i];
+                    }
+
+                    for (int y = 0; y < 448; y++)
+                    {
+                        for (int x = 0; x < 128; x++)
                         {
-                            pixelBytes[x + y * 128] = 0;
-                        }
-                        else
-                        {
-                            var pixelValue = greenPalette.FirstOrDefault(c => c.Value == pixel);
-                            if(pixelValue.Key > 0)
+                            int pixelPosition = y * bitmapData.Stride + (x * 4);
+
+                            int b = pixels[pixelPosition + 0];
+                            int g = pixels[pixelPosition + 1];
+                            int r = pixels[pixelPosition + 2];
+                            int a = pixels[pixelPosition + 3];
+
+                            var pixel = Color.FromArgb(a, r, g, b);
+
+                            if (y >= 440 && x >= 120)
                             {
-                                pixelBytes[x + y * 128] = (byte)pixelValue.Key;
+                                // palette data, skip it
+                                pixelBytes[x + y * 128] = 0;
+                                continue;
+                            }
+
+                            if (a == 0 || greenPalette[0] == pixel)
+                            {
+                                pixelBytes[x + y * 128] = 0;
                             }
                             else
                             {
-                                invalidPixelsFound = true;
-                                //logger.Debug($"Import PNG: Bad pixel value found. File: {ofd.FileName}, Pixel: [{x + y * 128}] {pixel.ToString()}");
+                                var pixelValue = greenPalette.FirstOrDefault(c => c.Value == pixel);
+                                if (pixelValue.Key > 0)
+                                {
+                                    pixelBytes[x + y * 128] = (byte)pixelValue.Key;
+                                }
+                                else
+                                {
+                                    invalidPixelsFound = true;
+                                    //logger.Debug($"Import PNG: Bad pixel value found. File: {ofd.FileName}, Pixel: [{x + y * 128}] {pixel.ToString()}");
+                                }
                             }
                         }
                     }
-                }
 
-                List<byte[]> tiles = new List<byte[]>();
+                    List<byte[]> tiles = new List<byte[]>();
 
-                for (int yTile = 0; yTile < 56; yTile++)
-                {
-                    for (int xTile = 0; xTile < 16; xTile++)
+                    for (int yTile = 0; yTile < 56; yTile++)
                     {
-                        var currentTile = new byte[8 * 8];
-
-                        for(int y = 0; y < 8; y++)
+                        for (int xTile = 0; xTile < 16; xTile++)
                         {
-                            for(int x = 0; x < 8; x++)
+                            var currentTile = new byte[8 * 8];
+
+                            for (int y = 0; y < 8; y++)
                             {
-                                currentTile[x + y * 8] = pixelBytes[(xTile * 8 + x) + (yTile * 8 + y) * 128];
+                                for (int x = 0; x < 8; x++)
+                                {
+                                    currentTile[x + y * 8] = pixelBytes[(xTile * 8 + x) + (yTile * 8 + y) * 128];
+                                }
                             }
+
+                            tiles.Add(currentTile);
                         }
-
-                        tiles.Add(currentTile);
                     }
+
+                    byte[] pixels4bpp = new byte[0x7000];
+
+                    int offset = 0;
+                    foreach (var tile in tiles)
+                    {
+                        var four = SpriteLibrary.Utilities.Tile8x8To4Bpp(tile);
+                        Array.Copy(four, 0, pixels4bpp, offset, 32);
+                        offset += 32;
+                    }
+
+                    sprite.Set4bppPixelData(pixels4bpp);
+
+                    if (invalidPixelsFound)
+                    {
+                        MessageBox.Show("PNG contains pixels that do not use the first 16 colors of the embedded palette. Pixels have been made transparent. Please verify your source file.", "Error");
+                    }
+                    SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
+                    newMDI.MdiParent = this;
+                    newMDI.Show();
                 }
-
-                byte[] pixels4bpp = new byte[0x7000];
-
-                int offset = 0;
-                foreach(var tile in tiles)
-                {
-                    var four = SpriteLibrary.Utilities.Tile8x8To4Bpp(tile);
-                    Array.Copy(four, 0, pixels4bpp, offset, 32);
-                    offset += 32;
-                }
-
-                sprite.Set4bppPixelData(pixels4bpp);
-
-                if(invalidPixelsFound)
-                {
-                    MessageBox.Show("PNG contains pixels that do not use the first 16 colors of the embedded palette. Pixels have been made transparent. Please verify your source file.", "Error");
-                }
-                SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
-                newMDI.MdiParent = this;
-                newMDI.Show();
             }
         }
 
@@ -1000,6 +1054,130 @@ namespace ZSpriteTools
         {
             var preferences = new PreferencesForm();
             preferences.ShowDialog();
+        }
+
+        private void batchConvertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var sourceFolder = "";
+            var destinationFolder = "";
+
+            using (var fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Select Source Folder";
+                //fbd.SelectedPath = @"D:\Projects\Zelda\Sprites";
+                //if (!String.IsNullOrEmpty(config.DefaultFolder) && Directory.Exists(config.DefaultFolder))
+                //{
+                //    fbd.SelectedPath = config.DefaultFolder;
+                //}
+                //else
+                //{
+                //    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                //}
+
+                var result = fbd.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    sourceFolder = fbd.SelectedPath;
+                    //config.DefaultFolder = fbd.SelectedPath;
+
+                    //var fileName = fbd.SelectedPath;
+
+                    //MessageBox.Show($"{fileName} has been created!", "Enemizer Rom Created");
+                }
+            }
+
+            using (var fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Select Destination Folder";
+                fbd.SelectedPath = sourceFolder;
+                //if (!String.IsNullOrEmpty(config.DefaultFolder) && Directory.Exists(config.DefaultFolder))
+                //{
+                //    fbd.SelectedPath = config.DefaultFolder;
+                //}
+                //else
+                //{
+                //    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                //}
+
+                var result = fbd.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    destinationFolder = fbd.SelectedPath;
+                    //config.DefaultFolder = fbd.SelectedPath;
+
+                    //var fileName = fbd.SelectedPath;
+
+                    //MessageBox.Show($"{fileName} has been created!", "Enemizer Rom Created");
+                }
+            }
+
+            if(String.IsNullOrEmpty(sourceFolder) || String.IsNullOrEmpty(destinationFolder))
+            {
+                return;
+            }
+
+            var files = Directory.GetFiles(sourceFolder, "*.spr");
+
+            foreach(var file in files)
+            {
+                var destFilename = Path.Combine(destinationFolder, Path.GetFileNameWithoutExtension(file) + ".zspr");
+
+                var spriteFile = File.ReadAllBytes(file);
+                var loadedSprite = new SpriteLibrary.Sprite(spriteFile);
+                if (loadedSprite.Version == 0)
+                {
+                    loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(file);
+                }
+
+                var spriteData = loadedSprite.ToByteArray();
+                FileUtilities.WriteAllBytes(destFilename, spriteData);
+            }
+        }
+
+        private void animationComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string key = ((ComboBoxItem)animationComboBox.SelectedItem).Value;
+            if(SpriteLibrary.Animations.Instance.AnimationData.TryGetValue(key, out currentAnimation))
+            {
+                currentSprite.SetAnimation(currentAnimation);
+            }
+            else
+            {
+                currentAnimation = null;
+            }
+        }
+
+        private void FrameTimer_Tick(object sender, EventArgs e)
+        {
+            if (currentSprite == null || currentAnimation == null)
+            {
+                return;
+            }
+            // do animation stuff
+
+            Bitmap tempBitmap = new Bitmap(64, 64, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(tempBitmap);
+
+            var origin = new Point(24, 24);// new Point(24, 24);
+
+            currentSprite.DrawAnimation(g, origin);
+
+            if (this.panelImagePreview.Controls[0] is PictureBox)
+            {
+                PictureBox test = this.panelImagePreview.Controls[0] as PictureBox;
+                test.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 256, 256);
+            }
+        }
+    }
+
+    public struct ComboBoxItem
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }

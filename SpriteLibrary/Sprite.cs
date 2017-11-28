@@ -309,6 +309,223 @@ namespace SpriteLibrary
             return offset;
         }
 
+        int currentFrame = 0;
+        AnimationType currentAnimation = null;
+
+        public void SetAnimation(AnimationType pose)
+        {
+            currentAnimation = pose;
+            currentFrame = 0;
+        }
+
+        public void DrawAnimation(Graphics g, Point origin)
+        {
+            if(currentAnimation == null)
+            {
+                return;
+            }
+
+            try
+            {
+                Step step = null;
+                int totalLength = 0;
+                currentFrame += 1;
+
+                foreach(var s in currentAnimation.Steps)
+                {
+                    if(totalLength + s.Length > currentFrame)
+                    {
+                        step = s;
+                        break;
+                    }
+
+                    totalLength += s.Length;
+                }
+                if(step == null)
+                {
+                    currentFrame = 0;
+                    step = currentAnimation.Steps.FirstOrDefault();
+                }
+
+                foreach (var s in step.Sprites)
+                {
+                    DrawTile(g, s.Row, s.Col, s.Position, origin, s.Size, s.Flip);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        public void DrawTile(Graphics g, string Row, int Col, Point pos, Point origin, TileDrawType drawType = TileDrawType.FULL, TileFlipType flipType = TileFlipType.NO_FLIP)
+        {
+            if (String.IsNullOrEmpty(Row))
+            {
+                throw new ArgumentException("Row is empty", nameof(Row));
+            }
+            var isValidRowType = Enum.GetNames(typeof(RowType)).Contains(Row);
+            if (!isValidRowType)
+            {
+                throw new ArgumentException("Row contains an invalid value", nameof(Row));
+            }
+
+            var rowType = Enum.Parse(typeof(RowType), Row);
+            if((int)rowType > (int)RowType.AB)
+            {
+                // shield, etc
+                // TODO: implement these later
+                return;
+            }
+
+            int rowValue;
+
+            if(Row == "AA" || Row == "AB")
+            {
+                rowValue = 'Z' - 'A';
+                if(Row == "AA")
+                {
+                    rowValue += 1;
+                }
+                else
+                {
+                    rowValue += 2;
+                }
+            }
+            else
+            {
+                rowValue = Row[0] - 'A';
+            }
+
+            int y = rowValue * 2;
+            int x = Col * 2;
+
+            List<int> tileIndices = new List<int>();
+
+            int width = 2;
+            int height = 2;
+            switch (drawType)
+            {
+                case TileDrawType.FULL:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    width = 2;
+                    height = 2;
+                    break;
+                case TileDrawType.TOP_HALF:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    width = 2;
+                    height = 1;
+                    break;
+                case TileDrawType.BOTTOM_HALF:
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    width = 2;
+                    height = 1;
+                    break;
+                case TileDrawType.RIGHT_HALF:
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    width = 1;
+                    height = 2;
+                    break;
+                case TileDrawType.LEFT_HALF:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    width = 1;
+                    height = 2;
+                    break;
+                case TileDrawType.TOP_RIGHT:
+                    tileIndices.Add(x + 1 + y * 16);
+                    width = 1;
+                    height = 1;
+                    break;
+                case TileDrawType.TOP_LEFT:
+                    tileIndices.Add(x + y * 16);
+                    width = 1;
+                    height = 1;
+                    break;
+                case TileDrawType.BOTTOM_RIGHT:
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    width = 1;
+                    height = 1;
+                    break;
+                case TileDrawType.BOTTOM_LEFT:
+                    tileIndices.Add(x + (y + 1) * 16);
+                    width = 1;
+                    height = 1;
+                    break;
+                case TileDrawType.TALL_8X24:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + (y + 2) * 16);
+                    width = 1;
+                    height = 3;
+                    break;
+                case TileDrawType.WIDE_24X8:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + 2 + y * 16);
+                    width = 3;
+                    height = 1;
+                    break;
+                case TileDrawType.LARGE_16X24:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    tileIndices.Add(x + (y + 2) * 16);
+                    tileIndices.Add(x + 1 + (y + 2) * 16);
+                    width = 2;
+                    height = 3;
+                    break;
+                case TileDrawType.LARGE_32X24:
+                    tileIndices.Add(x + y * 16);
+                    tileIndices.Add(x + 1 + y * 16);
+                    tileIndices.Add(x + 2 + y * 16);
+                    tileIndices.Add(x + 3 + y * 16);
+                    tileIndices.Add(x + (y + 1) * 16);
+                    tileIndices.Add(x + 1 + (y + 1) * 16);
+                    tileIndices.Add(x + 2 + (y + 1) * 16);
+                    tileIndices.Add(x + 3 + (y + 1) * 16);
+                    tileIndices.Add(x + (y + 2) * 16);
+                    tileIndices.Add(x + 1 + (y + 2) * 16);
+                    tileIndices.Add(x + 2 + (y + 2) * 16);
+                    tileIndices.Add(x + 3 + (y + 2) * 16);
+                    width = 4;
+                    height = 3;
+                    break;
+                case TileDrawType.EMPTY:
+                default:
+                    return;
+            }
+
+            DrawTiles(g, pos, origin, width, height, tileIndices.ToArray());
+        }
+
+        public void DrawTiles(Graphics g, Point pos, Point origin, int width, int height, params int [] tileIndexes)
+        {
+
+            var pal = new Color[15];
+            Array.Copy(this.Palette, pal, 15);
+
+            int x = 0;
+            int y = 0;
+            foreach(var i in tileIndexes)
+            {
+                this.Tiles[i].Draw(g, pal, origin.X + pos.X + x * 8, origin.Y + pos.Y + y * 8);
+                x++;
+                if(x > width - 1)
+                {
+                    x = 0;
+                    y++;
+                }
+            }
+        }
+
         public uint GetNullTerminatorAsciiLocation(byte[] rawData, uint offset)
         {
             for (uint i = offset; i < rawData.Length; i++)
@@ -500,7 +717,19 @@ namespace SpriteLibrary
 
         protected void RebuildPaletteData()
         {
-            paletteData = new byte[this.Palette.Length * 2];
+            if(this.Palette.Length != 60)
+            {
+                paletteData = new byte[this.Palette.Length * 2];
+            }
+            else
+            {
+                paletteData = new byte[this.Palette.Length * 2 + 4];
+                // F652 7603
+                paletteData[120] = 0xF6;
+                paletteData[121] = 0x52;
+                paletteData[122] = 0x76;
+                paletteData[123] = 0x03;
+            }
             this.PaletteDataLength = (ushort)paletteData.Length;
 
             for(int i=0; i<this.Palette.Length; i++)
@@ -509,6 +738,15 @@ namespace SpriteLibrary
                 paletteData[i * 2] = bytes[0];
                 paletteData[i * 2 + 1] = bytes[1];
             }
+
+            if (this.Palette.Length == 62 && this.Palette[60] == Color.Black)
+            {
+                paletteData[120] = 0xF6;
+                paletteData[121] = 0x52;
+                paletteData[122] = 0x76;
+                paletteData[123] = 0x03;
+            }
+
         }
 
         protected void BuildTileArray()
@@ -621,5 +859,55 @@ namespace SpriteLibrary
             pixelArray[position + 2] = color.R;
             pixelArray[position + 3] = color.A;
         }
+    }
+
+    public enum TileDrawType
+    {
+        FULL,
+        TOP_HALF,
+        BOTTOM_HALF,
+        RIGHT_HALF,
+        LEFT_HALF,
+        TOP_RIGHT,
+        TOP_LEFT,
+        BOTTOM_RIGHT,
+        BOTTOM_LEFT,
+        TALL_8X24,
+        WIDE_24X8,
+        LARGE_16X24,
+        LARGE_32X24,
+        EMPTY
+    }
+
+    public enum TileFlipType
+    {
+        NO_FLIP,
+        X_FLIP,
+        Y_FLIP,
+        XY_FLIP,
+    }
+
+    public enum RowType
+    {
+        A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, AA, AB, 
+        SWORD, FSWORD, MSWORD, TSWORD, BSWORD,
+        SHIELD, FSHIELD, RSHIELD, MSHIELD,
+        SHADOW,
+        ITEMSHADOW,
+        BOOK,
+        PENDANT,
+        CRYSTAL,
+        BUSH,
+        CANE,
+        ROD,
+        HAMMER,
+        HOOKSHOT,
+        BOOMERANG,
+        NET,
+        BOW,
+        SHOVEL,
+        DUCK,
+        BED,
+        GRASS
     }
 }

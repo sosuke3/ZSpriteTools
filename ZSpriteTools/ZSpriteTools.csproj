@@ -123,6 +123,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="AnimationData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\VSO_NewFile_40x.png" />
     <None Include="Resources\Settings_32x.png" />
     <None Include="Resources\Save_32x.png" />

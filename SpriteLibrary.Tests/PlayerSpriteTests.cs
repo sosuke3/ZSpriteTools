@@ -11,7 +11,7 @@ namespace SpriteLibrary.Tests
         [Fact]
         public void should_update_main_palette()
         {
-            var file = File.ReadAllBytes("orb.new.spr");
+            var file = File.ReadAllBytes("data\\orb.new.spr");
             var s = new PlayerSprite(file);
 
             var c = Color.FromArgb(0, 0, 0);

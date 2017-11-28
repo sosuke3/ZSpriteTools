@@ -11,7 +11,7 @@ namespace SpriteLibrary.Tests
         [Fact]
         public void should_build_palette_from_raw_data()
         {
-            var file = File.ReadAllBytes("orb.old.spr");
+            var file = File.ReadAllBytes("data\\orb.old.spr");
             var pal15 = new byte[30];
             Array.Copy(file, 0x7000, pal15, 0, 30);
 
