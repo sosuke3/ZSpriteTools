@@ -1139,7 +1139,10 @@ namespace ZSpriteTools
             string key = ((ComboBoxItem)animationComboBox.SelectedItem).Value;
             if(SpriteLibrary.Animations.Instance.AnimationData.TryGetValue(key, out currentAnimation))
             {
-                currentSprite.SetAnimation(currentAnimation);
+                if (currentSprite != null)
+                {
+                    currentSprite.SetAnimation(currentAnimation);
+                }
             }
             else
             {
