@@ -40,5 +40,30 @@ namespace SpriteLibrary.Tests
             Assert.Equal(Color.FromArgb(248, 56, 0), pal[2]);
             Assert.Equal(Color.FromArgb(0, 192, 248), pal[3]);
         }
+
+        [Fact]
+        public void should_build_zap_palette_from_raw_array()
+        {
+            var palbytes = new byte[] { 0x00, 0x00,
+                                        0xFA, 0x0E,
+                                        0xD1, 0x7D,
+                                        0x00, 0x00,
+                                        0x1A, 0x7F,
+                                        0x00, 0x00,
+                                        0x1A, 0x7F,
+                                        0x6E, 0x71,
+                                        0xD1, 0x7D,
+                                        0xA7, 0x40,
+                                        0xD1, 0x7D,
+                                        0xA7, 0x40,
+                                        0xE9, 0x48,
+                                        0xCF, 0x50,
+                                        0xFF, 0x7F, };
+
+            var pal = new Palette();
+            pal.SetRawPalette(palbytes);
+
+            Assert.Equal(Color.FromArgb(0, 0, 0), pal[0]);
+        }
     }
 }

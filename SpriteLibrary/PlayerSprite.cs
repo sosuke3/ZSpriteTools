@@ -202,6 +202,25 @@ namespace SpriteLibrary
             }
         }
 
+        private static Color[] ZAPPALETTE = {
+            //Color.FromArgb(0, 0, 0),
+            Color.FromArgb(0, 0, 0),
+            Color.FromArgb(208, 184, 24),
+            Color.FromArgb(136, 112, 248),
+            Color.FromArgb(0, 0, 0),
+            Color.FromArgb(208, 192, 248),
+            Color.FromArgb(0, 0, 0),
+            Color.FromArgb(208, 192, 248),
+            Color.FromArgb(112, 88, 224),
+            Color.FromArgb(136, 112, 248),
+            Color.FromArgb(56, 40, 128),
+            Color.FromArgb(136, 112, 248),
+            Color.FromArgb(56, 40, 128),
+            Color.FromArgb(72, 56, 144),
+            Color.FromArgb(120, 48, 160),
+            Color.FromArgb(248, 248, 248),
+        };
+
         public void DrawAnimation(Graphics g)
         {
             if (currentAnimation == null)
@@ -405,6 +424,11 @@ namespace SpriteLibrary
                 default:
                     Array.Copy(this.Palette, pal, 15);
                     break;
+            }
+
+            if(currentAnimation.Name == "Zap")
+            {
+                pal = ZAPPALETTE;
             }
 
             DrawTiles(g, pos, origin, width, height, pal, tileIndices.ToArray());

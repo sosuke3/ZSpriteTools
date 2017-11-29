@@ -50,7 +50,7 @@ namespace ZSpriteTools
             this.animationComboBox.SelectedIndex = 0;
 
             frameTimer = new Timer();
-            frameTimer.Interval = 16;
+            frameTimer.Interval = 17;
             frameTimer.Tick += FrameTimer_Tick;
             frameTimer.Start();
         }
