@@ -101,9 +101,31 @@ namespace SpriteLibrary
 
         void CopyMailPaletteToMergedPalette(Palette pal, int offset)
         {
+            if(this.Palette.Length < offset + pal.Length)
+            {
+                var thisPalette = this.Palette;
+                Array.Resize<Color>(ref thisPalette, offset + pal.Length);
+                this.Palette = thisPalette;
+            }
+
             for (int i = 1; i < pal.Length; i++)
             {
                 this.Palette[offset + i - 1] = pal[i];
+            }
+        }
+
+        void CopyGlovePaletteToMergedPalette(Palette pal, int offset)
+        {
+            if (this.Palette.Length < offset + pal.Length)
+            {
+                var thisPalette = this.Palette;
+                Array.Resize<Color>(ref thisPalette, offset + pal.Length);
+                this.Palette = thisPalette;
+            }
+
+            for (int i = 0; i < pal.Length; i++)
+            {
+                this.Palette[offset + i] = pal[i];
             }
         }
 
@@ -113,6 +135,7 @@ namespace SpriteLibrary
             BlueMailPalette.PropertyChanged += BlueMailPalette_PropertyChanged;
             RedMailPalette.PropertyChanged += RedMailPalette_PropertyChanged;
             BunnyPalette.PropertyChanged += BunnyPalette_PropertyChanged;
+            GlovePalette.PropertyChanged += GlovePalette_PropertyChanged;
         }
 
         void GreenMailPalette_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -133,6 +156,11 @@ namespace SpriteLibrary
         void BunnyPalette_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             CopyMailPaletteToMergedPalette(BunnyPalette, 45);
+        }
+
+        void GlovePalette_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            CopyGlovePaletteToMergedPalette(GlovePalette, 60);
         }
 
         int currentFrame = 0;

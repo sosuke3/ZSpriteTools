@@ -1223,6 +1223,14 @@ namespace ZSpriteTools
                 g.FillRectangle(new SolidBrush(palette[i]), x, y, paletteSquareSize, paletteSquareSize);
             }
 
+            glovesPalettePictureBox.BackColor = Color.Black;
+            glovesPalettePictureBox.Width = paletteSquareSize * 2;
+            glovesPalettePictureBox.Height = paletteSquareSize;
+            glovesPalettePictureBox.Image = new Bitmap(paletteSquareSize * 2, paletteSquareSize);
+
+            g = Graphics.FromImage(glovesPalettePictureBox.Image);
+            g.FillRectangle(new SolidBrush(currentSprite.GlovePalette[0]), 0, 0, paletteSquareSize, paletteSquareSize);
+            g.FillRectangle(new SolidBrush(currentSprite.GlovePalette[1]), paletteSquareSize, 0, paletteSquareSize, paletteSquareSize);
         }
 
         private void paletteComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -1299,6 +1307,35 @@ namespace ZSpriteTools
             if(colorDialog.ShowDialog() == DialogResult.OK)
             {
                 palette[index] = colorDialog.Color;
+            }
+
+            BuildPalette(paletteComboBox.SelectedIndex);
+            if (this.ActiveMdiChild != null)
+            {
+                SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+
+                activeChild.UpdateForm();
+            }
+        }
+
+        private void glovesPalettePictureBox_DoubleClick(object sender, EventArgs e)
+        {
+            var mouseE = e as MouseEventArgs;
+            var x = mouseE.X / paletteSquareSize;
+            var y = mouseE.Y / paletteSquareSize;
+
+            if (x >= 2 || y >= 1)
+            {
+                // clicked outside palette area (control is too big)
+                return;
+            }
+
+            ColorDialog colorDialog = new ColorDialog();
+            colorDialog.Color = currentSprite.GlovePalette[x];
+
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                currentSprite.GlovePalette[x] = colorDialog.Color;
             }
 
             BuildPalette(paletteComboBox.SelectedIndex);

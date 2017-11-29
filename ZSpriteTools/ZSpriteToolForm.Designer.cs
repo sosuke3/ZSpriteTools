@@ -100,10 +100,13 @@
             this.displayTextTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.clearPNGPaletteTileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label6 = new System.Windows.Forms.Label();
+            this.glovesPalettePictureBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.palettePictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.glovesPalettePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -597,6 +600,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.glovesPalettePictureBox);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.paletteComboBox);
             this.panel1.Controls.Add(this.palettePictureBox);
             this.panel1.Controls.Add(this.label5);
@@ -634,7 +639,7 @@
             // 
             this.palettePictureBox.Location = new System.Drawing.Point(3, 162);
             this.palettePictureBox.Name = "palettePictureBox";
-            this.palettePictureBox.Size = new System.Drawing.Size(219, 54);
+            this.palettePictureBox.Size = new System.Drawing.Size(192, 48);
             this.palettePictureBox.TabIndex = 16;
             this.palettePictureBox.TabStop = false;
             this.palettePictureBox.DoubleClick += new System.EventHandler(this.palettePictureBox_DoubleClick);
@@ -745,6 +750,24 @@
             this.clearPNGPaletteTileToolStripMenuItem.Text = "Clear PNG Palette Tile";
             this.clearPNGPaletteTileToolStripMenuItem.Click += new System.EventHandler(this.clearPNGPaletteTileToolStripMenuItem_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(201, 170);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Gloves:";
+            // 
+            // glovesPalettePictureBox
+            // 
+            this.glovesPalettePictureBox.Location = new System.Drawing.Point(201, 186);
+            this.glovesPalettePictureBox.Name = "glovesPalettePictureBox";
+            this.glovesPalettePictureBox.Size = new System.Drawing.Size(48, 24);
+            this.glovesPalettePictureBox.TabIndex = 19;
+            this.glovesPalettePictureBox.TabStop = false;
+            this.glovesPalettePictureBox.DoubleClick += new System.EventHandler(this.glovesPalettePictureBox_DoubleClick);
+            // 
             // ZSpriteToolForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -766,6 +789,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.palettePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.glovesPalettePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -843,6 +867,8 @@
         private System.Windows.Forms.PictureBox palettePictureBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripMenuItem clearPNGPaletteTileToolStripMenuItem;
+        private System.Windows.Forms.PictureBox glovesPalettePictureBox;
+        private System.Windows.Forms.Label label6;
     }
 }
 
