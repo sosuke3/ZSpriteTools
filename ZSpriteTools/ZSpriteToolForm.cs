@@ -48,6 +48,7 @@ namespace ZSpriteTools
 
             this.paletteComboBox.SelectedIndex = 0;
             this.animationComboBox.SelectedIndex = 0;
+            this.animationPictureBox.BackColor = Color.Black;
 
             frameTimer = new Timer();
             frameTimer.Interval = 17;
@@ -310,30 +311,6 @@ namespace ZSpriteTools
                 this.displayTextTextBox.Text = activeChild.loadedSprite.DisplayText;
                 this.authorTextBox.Text = activeChild.loadedSprite.Author;
                 this.authorRomDisplayTextBox.Text = activeChild.loadedSprite.AuthorRomDisplay;
-
-                this.panelImagePreview.Controls.Clear();
-
-                //Bitmap tempBitmap = new Bitmap(64, 64, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                //Graphics g = Graphics.FromImage(tempBitmap);
-
-                //var origin = new Point(24, 24);// new Point(24, 24);
-
-                //activeChild.loadedSprite.DrawAnimation(g, "swim", origin);
-
-                ////activeChild.loadedSprite.DrawTile(g, "G", 0, new Point(0, 0), origin, SpriteLibrary.TileDrawType.BOTTOM_HALF);
-                ////activeChild.loadedSprite.DrawTile(g, "G", 1, new Point(16, 0), origin, SpriteLibrary.TileDrawType.BOTTOM_LEFT);
-                ////activeChild.loadedSprite.DrawTile(g, "H", 0, new Point(0, 8), origin);
-                ////activeChild.loadedSprite.DrawTile(g, "H", 1, new Point(16, 8), origin, SpriteLibrary.TileDrawType.LEFT_HALF);
-                ////activeChild.loadedSprite.DrawTiles(g, 0, 1, 16, 17);
-
-                PictureBox test = new PictureBox();
-                test.Width = 256;
-                test.Height = 256;
-                test.BackColor = Color.Black;
-                test.SizeMode = PictureBoxSizeMode.Normal;
-                //test.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 256, 256);
-
-                this.panelImagePreview.Controls.Add(test);
 
                 EnableSave();
                 EnableSaveAs();
@@ -1165,11 +1142,7 @@ namespace ZSpriteTools
 
             currentSprite.DrawAnimation(g);
 
-            if (this.panelImagePreview.Controls[0] is PictureBox)
-            {
-                PictureBox test = this.panelImagePreview.Controls[0] as PictureBox;
-                test.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 256, 256);
-            }
+            animationPictureBox.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 256, 256);
         }
 
         const int paletteSquareSize = 24;
@@ -1344,6 +1317,16 @@ namespace ZSpriteTools
                 SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
 
                 activeChild.UpdateForm();
+            }
+        }
+
+        private void animationPreviewSetBackgroundColorMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+            colorDialog.Color = animationPictureBox.BackColor;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                animationPictureBox.BackColor = colorDialog.Color;
             }
         }
     }

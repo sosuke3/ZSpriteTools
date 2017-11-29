@@ -1,123 +1,4 @@
 {
-	"neutralRight": {
-		"name": "Neutral (right)",
-		"steps": [
-			{
-				"sprites": [
-					{
-						"row": "A",
-						"col": 0,
-						"pos": [-2,-1],
-						"size": "FULL"
-					},
-					{
-						"row": "B",
-						"col": 0,
-						"pos": [-1,7],
-						"size": "FULL"
-					},
-					{
-						"row": "SHIELD",
-						"col": 1,
-						"pos": [13,2],
-						"size": "RIGHT_HALF"
-					}
-				],
-				"length": 15,
-				"shadow": "NORM"
-			}
-		]
-	},
-	"neutralLeft": {
-		"name": "Neutral (left)",
-		"steps": [
-			{
-				"sprites": [
-					{
-						"row": "A",
-						"col": 0,
-						"pos": [2,-1],
-						"size": "FULL",
-						"trans": "Y_FLIP"
-					},
-					{
-						"row": "B",
-						"col": 0,
-						"pos": [1,7],
-						"size": "FULL",
-						"trans": "Y_FLIP"
-					},
-					{
-						"row": "SHIELD",
-						"col": 1,
-						"pos": [-5,2],
-						"size": "RIGHT_HALF",
-						"trans": "Y_FLIP"
-					}
-				],
-				"length": 15,
-				"shadow": "NORM"
-			}
-		]
-	},
-	"neutralUp": {
-		"name": "Neutral (up)",
-		"steps": [
-			{
-				"sprites": [
-					{
-						"row": "A",
-						"col": 2,
-						"pos": [0,0],
-						"size": "FULL"
-					},
-					{
-						"row": "C",
-						"col": 1,
-						"pos": [0,8],
-						"size": "FULL"
-					},
-					{
-						"row": "SHIELD",
-						"col": 2,
-						"pos": [5,3],
-						"size": "FULL"
-					}
-				],
-				"length": 15,
-				"shadow": "NORM"
-			}
-		]
-	},
-	"neutralDown": {
-		"name": "Neutral (down)",
-		"steps": [
-			{
-				"sprites": [
-					{
-						"row": "SHIELD",
-						"col": 0,
-						"pos": [-4,7],
-						"size": "FULL"
-					},
-					{
-						"row": "A",
-						"col": 1,
-						"pos": [0,0],
-						"size": "FULL"
-					},
-					{
-						"row": "B",
-						"col": 3,
-						"pos": [0,8],
-						"size": "FULL"
-					}
-				],
-				"length": 15,
-				"shadow": "NORM"
-			}
-		]
-	},
 	"stand": {
 		"name": "Stand",
 		"steps": [
@@ -1266,7 +1147,28 @@
 		"name": "Attack",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+        "sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+          {
+            "row": "B",
+            "col": 0,
+            "pos": [ -1, 7 ],
+            "size": "FULL"
+          },
+          {
+            "row": "SHIELD",
+            "col": 1,
+            "pos": [ 13, 2 ],
+            "size": "RIGHT_HALF"
+          }
+        ],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -1511,7 +1413,28 @@
 		"name": "Attack (up)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -1792,7 +1715,28 @@
 		"name": "Attack (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -3326,7 +3270,28 @@
 		"name": "Dash spinup",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -3814,7 +3779,28 @@
 		"name": "Dash spinup (up)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -4374,7 +4360,28 @@
 		"name": "Dash spinup (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -5491,7 +5498,28 @@
 		"name": "Zap",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -9517,7 +9545,28 @@
 		"name": "Bow",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -9617,9 +9666,30 @@
 	"bowUp": {
 		"name": "Bow (up)",
 		"steps": [
-			{
-				"neutralPose": "UP"
-			},
+      {
+        "sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+          {
+            "row": "C",
+            "col": 1,
+            "pos": [ 0, 8 ],
+            "size": "FULL"
+          },
+          {
+            "row": "SHIELD",
+            "col": 2,
+            "pos": [ 5, 3 ],
+            "size": "FULL"
+          }
+        ],
+        "length": 15,
+        "shadow": "NORM"
+      },
 			{
 				"sprites": [
 					{
@@ -9720,7 +9790,28 @@
 		"name": "Bow (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -9823,7 +9914,28 @@
 		"name": "Boomerang",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -10363,7 +10475,28 @@
 		"name": "Boomerang (up)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -10807,7 +10940,28 @@
 		"name": "Boomerang (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -11354,7 +11508,28 @@
 		"name": "Hookshot",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -11737,7 +11912,28 @@
 		"name": "Hookshot (up)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -12178,7 +12374,28 @@
 		"name": "Hookshot (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -12560,7 +12777,28 @@
 		"name": "Powder",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -12664,7 +12902,28 @@
 		"name": "Powder (up)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -12768,7 +13027,28 @@
 		"name": "Powder (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -12874,7 +13154,28 @@
 		"name": "Rod",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -12987,7 +13288,28 @@
 		"name": "Rod (up)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -13100,7 +13422,28 @@
 		"name": "Rod (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -13217,7 +13560,28 @@
 		"name": "Bombos",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -13759,7 +14123,28 @@
 		"name": "Ether",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -15425,7 +15810,28 @@
 		"name": "Quake",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -16770,7 +17176,28 @@
 		"name": "Hammer",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -16883,7 +17310,28 @@
 		"name": "Hammer (up)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -16996,7 +17444,28 @@
 		"name": "Hammer (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -17113,7 +17582,28 @@
 		"name": "Shovel",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -17196,7 +17686,28 @@
 		"name": "Bug net",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -17567,7 +18078,28 @@
 		"name": "Cane",
 		"steps": [
 			{
-				"neutralPose": "RIGHT"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 0,
+            "pos": [ -2, -1 ],
+            "size": "FULL"
+          },
+					{
+						"row": "B",
+						"col": 0,
+						"pos": [-1,7],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 1,
+						"pos": [13,2],
+						"size": "RIGHT_HALF"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -17653,7 +18185,28 @@
 		"name": "Cane (up)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -17740,7 +18293,28 @@
 		"name": "Cane (down)",
 		"steps": [
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -18237,7 +18811,28 @@
 		"name": "Walk upstairs (1F)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -19216,7 +19811,28 @@
 				"shadow": "NORM"
 			},
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			}
 		]
 	},
@@ -19224,7 +19840,28 @@
 		"name": "Walk downstairs (2F)",
 		"steps": [
 			{
-				"neutralPose": "UP"
+				"sprites": [
+          {
+            "row": "A",
+            "col": 2,
+            "pos": [ 0, 0 ],
+            "size": "FULL"
+          },
+					{
+						"row": "C",
+						"col": 1,
+						"pos": [0,8],
+						"size": "FULL"
+					},
+					{
+						"row": "SHIELD",
+						"col": 2,
+						"pos": [5,3],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			},
 			{
 				"sprites": [
@@ -20354,7 +20991,28 @@
 				"shadow": "NORM"
 			},
 			{
-				"neutralPose": "DOWN"
+				"sprites": [
+          {
+            "row": "SHIELD",
+            "col": 0,
+            "pos": [ -4, 7 ],
+            "size": "FULL"
+          },
+					{
+						"row": "A",
+						"col": 1,
+						"pos": [0,0],
+						"size": "FULL"
+					},
+					{
+						"row": "B",
+						"col": 3,
+						"pos": [0,8],
+						"size": "FULL"
+					}
+				],
+				"length": 15,
+				"shadow": "NORM"
 			}
 		]
 	},

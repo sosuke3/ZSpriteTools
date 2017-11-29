@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -431,7 +432,33 @@ namespace SpriteLibrary
                 pal = ZAPPALETTE;
             }
 
-            DrawTiles(g, pos, origin, width, height, pal, tileIndices.ToArray());
+            //DrawTiles(g, pos, origin, width, height, pal, tileIndices.ToArray());
+
+            Bitmap tempImage = new Bitmap(width * 8, height * 8, PixelFormat.Format32bppArgb);
+            using (Graphics tempG = Graphics.FromImage(tempImage))
+            {
+                tempG.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+                tempG.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                DrawTiles(tempG, new Point(0, 0), new Point(0, 0), width, height, pal, tileIndices.ToArray());
+            }
+
+            var shiftedPosition = new Point(pos.X + origin.X, pos.Y + origin.Y);
+            switch(flipType)
+            {
+                case TileFlipType.NO_FLIP:
+                    //tempImage.RotateFlip(RotateFlipType.RotateNoneFlipNone);
+                    break;
+                case TileFlipType.X_FLIP: // flip about X access not on X access
+                    tempImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                    break;
+                case TileFlipType.Y_FLIP: // flip about Y access not on Y access
+                    tempImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                    break;
+                case TileFlipType.XY_FLIP:
+                    tempImage.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+                    break;
+            }
+            g.DrawImage(tempImage, shiftedPosition);
         }
 
         public void SetAnimationPalette(int selectedIndex)
