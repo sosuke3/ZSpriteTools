@@ -634,9 +634,10 @@
             // 
             this.palettePictureBox.Location = new System.Drawing.Point(3, 162);
             this.palettePictureBox.Name = "palettePictureBox";
-            this.palettePictureBox.Size = new System.Drawing.Size(272, 54);
+            this.palettePictureBox.Size = new System.Drawing.Size(219, 54);
             this.palettePictureBox.TabIndex = 16;
             this.palettePictureBox.TabStop = false;
+            this.palettePictureBox.DoubleClick += new System.EventHandler(this.palettePictureBox_DoubleClick);
             // 
             // label5
             // 

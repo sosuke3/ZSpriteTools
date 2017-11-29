@@ -413,7 +413,7 @@ namespace ZSpriteTools
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"ZSpriteTools - {ProductVersion}", "Just for Mike");
+            MessageBox.Show($"ZSpriteTools - {ProductVersion}\r\nSpecial thanks to fatmanspanda for providing animation frame data", "About");
         }
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1172,6 +1172,8 @@ namespace ZSpriteTools
             }
         }
 
+        const int paletteSquareSize = 24;
+
         private void BuildPalette(int paletteType)
         {
             if(currentSprite == null)
@@ -1202,10 +1204,11 @@ namespace ZSpriteTools
                     return;
             }
 
-            int width = 16 * 8;
-            int height = 16 * 2;
-
-            palettePictureBox.Image = new Bitmap(16 * 8, 16 * 2);
+            int width = paletteSquareSize * 8;
+            int height = paletteSquareSize * 2;
+            palettePictureBox.Width = width;
+            palettePictureBox.Height = height;
+            palettePictureBox.Image = new Bitmap(width, height);
 
             Graphics g = Graphics.FromImage(palettePictureBox.Image);
 
@@ -1214,10 +1217,10 @@ namespace ZSpriteTools
 
             for (int i = 0; i < palette.Length; i++)
             {
-                x = i * 16 % (width);
-                y = i * 16 / (width) * 16;
+                x = i * paletteSquareSize % (width);
+                y = i * paletteSquareSize / (width) * paletteSquareSize;
 
-                g.FillRectangle(new SolidBrush(palette[i]), x, y, 16, 16);
+                g.FillRectangle(new SolidBrush(palette[i]), x, y, paletteSquareSize, paletteSquareSize);
             }
 
         }
@@ -1234,6 +1237,7 @@ namespace ZSpriteTools
             {
                 currentSprite.SetAnimation(currentAnimation);
                 currentSprite.SetAnimationPalette(paletteComboBox.SelectedIndex);
+                BuildPalette(paletteComboBox.SelectedIndex);
             }
         }
 
@@ -1249,6 +1253,55 @@ namespace ZSpriteTools
             Array.Copy(empty, 0, pixels, 0x7000 - 32, 32);
             currentSprite.PixelData = pixels;
 
+            if (this.ActiveMdiChild != null)
+            {
+                SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
+
+                activeChild.UpdateForm();
+            }
+        }
+
+        private void palettePictureBox_DoubleClick(object sender, EventArgs e)
+        {
+            var mouseE = e as MouseEventArgs;
+            var x = mouseE.X / paletteSquareSize;
+            var y = mouseE.Y / paletteSquareSize;
+
+            if(x >= 8 || y >= 2)
+            {
+                // clicked outside palette area (control is too big)
+                return;
+            }
+
+            SpriteLibrary.Palette palette = null;
+            switch (paletteComboBox.SelectedIndex)
+            {
+                case 0:
+                    palette = currentSprite.GreenMailPalette;
+                    break;
+                case 1:
+                    palette = currentSprite.BlueMailPalette;
+                    break;
+                case 2:
+                    palette = currentSprite.RedMailPalette;
+                    break;
+                case 3:
+                    palette = currentSprite.BunnyPalette;
+                    break;
+                default:
+                    return;
+            }
+
+            int index = x + y * 8;
+
+            ColorDialog colorDialog = new ColorDialog();
+            colorDialog.Color = palette[index];
+            if(colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                palette[index] = colorDialog.Color;
+            }
+
+            BuildPalette(paletteComboBox.SelectedIndex);
             if (this.ActiveMdiChild != null)
             {
                 SpriteForm activeChild = (SpriteForm)this.ActiveMdiChild;
