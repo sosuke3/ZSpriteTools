@@ -1135,14 +1135,14 @@ namespace ZSpriteTools
             }
             // do animation stuff
 
-            Bitmap tempBitmap = new Bitmap(64, 64, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap tempBitmap = new Bitmap(64, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Graphics g = Graphics.FromImage(tempBitmap);
 
             //var origin = new Point(24, 24);// new Point(24, 24);
 
             currentSprite.DrawAnimation(g);
 
-            animationPictureBox.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 256, 256);
+            animationPictureBox.Image = SpriteLibrary.Utilities.ResizeBitmap(tempBitmap, 256, 512);
         }
 
         const int paletteSquareSize = 24;

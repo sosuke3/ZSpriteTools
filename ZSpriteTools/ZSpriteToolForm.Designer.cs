@@ -97,15 +97,15 @@
             this.animationComboBox = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.panelImagePreview = new System.Windows.Forms.Panel();
+            this.animationPictureBox = new System.Windows.Forms.PictureBox();
+            this.animationPreviewContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.animationPreviewSetBackgroundColorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.authorRomDisplayTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.authorTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.displayTextTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.animationPictureBox = new System.Windows.Forms.PictureBox();
-            this.animationPreviewContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.animationPreviewSetBackgroundColorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -629,9 +629,9 @@
             this.panel1.Controls.Add(this.displayTextTextBox);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(917, 49);
+            this.panel1.Location = new System.Drawing.Point(905, 49);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(278, 532);
+            this.panel1.Size = new System.Drawing.Size(290, 532);
             this.panel1.TabIndex = 4;
             // 
             // glovesPalettePictureBox
@@ -693,7 +693,7 @@
             this.animationComboBox.FormattingEnabled = true;
             this.animationComboBox.Location = new System.Drawing.Point(3, 235);
             this.animationComboBox.Name = "animationComboBox";
-            this.animationComboBox.Size = new System.Drawing.Size(271, 21);
+            this.animationComboBox.Size = new System.Drawing.Size(283, 21);
             this.animationComboBox.TabIndex = 14;
             this.animationComboBox.SelectedIndexChanged += new System.EventHandler(this.animationComboBox_SelectedIndexChanged);
             // 
@@ -715,8 +715,31 @@
             this.panelImagePreview.Controls.Add(this.animationPictureBox);
             this.panelImagePreview.Location = new System.Drawing.Point(6, 262);
             this.panelImagePreview.Name = "panelImagePreview";
-            this.panelImagePreview.Size = new System.Drawing.Size(269, 267);
+            this.panelImagePreview.Size = new System.Drawing.Size(281, 267);
             this.panelImagePreview.TabIndex = 12;
+            // 
+            // animationPictureBox
+            // 
+            this.animationPictureBox.ContextMenuStrip = this.animationPreviewContextMenu;
+            this.animationPictureBox.Location = new System.Drawing.Point(3, 3);
+            this.animationPictureBox.Name = "animationPictureBox";
+            this.animationPictureBox.Size = new System.Drawing.Size(256, 512);
+            this.animationPictureBox.TabIndex = 21;
+            this.animationPictureBox.TabStop = false;
+            // 
+            // animationPreviewContextMenu
+            // 
+            this.animationPreviewContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.animationPreviewSetBackgroundColorMenuItem});
+            this.animationPreviewContextMenu.Name = "animationPreviewContextMenu";
+            this.animationPreviewContextMenu.Size = new System.Drawing.Size(190, 26);
+            // 
+            // animationPreviewSetBackgroundColorMenuItem
+            // 
+            this.animationPreviewSetBackgroundColorMenuItem.Name = "animationPreviewSetBackgroundColorMenuItem";
+            this.animationPreviewSetBackgroundColorMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.animationPreviewSetBackgroundColorMenuItem.Text = "Set Background Color";
+            this.animationPreviewSetBackgroundColorMenuItem.Click += new System.EventHandler(this.animationPreviewSetBackgroundColorMenuItem_Click);
             // 
             // authorRomDisplayTextBox
             // 
@@ -725,7 +748,7 @@
             this.authorRomDisplayTextBox.Location = new System.Drawing.Point(3, 96);
             this.authorRomDisplayTextBox.MaxLength = 20;
             this.authorRomDisplayTextBox.Name = "authorRomDisplayTextBox";
-            this.authorRomDisplayTextBox.Size = new System.Drawing.Size(272, 20);
+            this.authorRomDisplayTextBox.Size = new System.Drawing.Size(284, 20);
             this.authorRomDisplayTextBox.TabIndex = 11;
             this.authorRomDisplayTextBox.TextChanged += new System.EventHandler(this.authorRomDisplayTextBox_TextChanged);
             // 
@@ -744,7 +767,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.authorTextBox.Location = new System.Drawing.Point(3, 57);
             this.authorTextBox.Name = "authorTextBox";
-            this.authorTextBox.Size = new System.Drawing.Size(272, 20);
+            this.authorTextBox.Size = new System.Drawing.Size(284, 20);
             this.authorTextBox.TabIndex = 9;
             this.authorTextBox.TextChanged += new System.EventHandler(this.authorTextBox_TextChanged);
             // 
@@ -763,7 +786,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.displayTextTextBox.Location = new System.Drawing.Point(3, 18);
             this.displayTextTextBox.Name = "displayTextTextBox";
-            this.displayTextTextBox.Size = new System.Drawing.Size(272, 20);
+            this.displayTextTextBox.Size = new System.Drawing.Size(284, 20);
             this.displayTextTextBox.TabIndex = 7;
             this.displayTextTextBox.TextChanged += new System.EventHandler(this.displayTextTextBox_TextChanged);
             // 
@@ -775,29 +798,6 @@
             this.label1.Size = new System.Drawing.Size(68, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Display Text:";
-            // 
-            // animationPictureBox
-            // 
-            this.animationPictureBox.ContextMenuStrip = this.animationPreviewContextMenu;
-            this.animationPictureBox.Location = new System.Drawing.Point(3, 3);
-            this.animationPictureBox.Name = "animationPictureBox";
-            this.animationPictureBox.Size = new System.Drawing.Size(256, 256);
-            this.animationPictureBox.TabIndex = 21;
-            this.animationPictureBox.TabStop = false;
-            // 
-            // animationPreviewContextMenu
-            // 
-            this.animationPreviewContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.animationPreviewSetBackgroundColorMenuItem});
-            this.animationPreviewContextMenu.Name = "animationPreviewContextMenu";
-            this.animationPreviewContextMenu.Size = new System.Drawing.Size(190, 26);
-            // 
-            // animationPreviewSetBackgroundColorMenuItem
-            // 
-            this.animationPreviewSetBackgroundColorMenuItem.Name = "animationPreviewSetBackgroundColorMenuItem";
-            this.animationPreviewSetBackgroundColorMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.animationPreviewSetBackgroundColorMenuItem.Text = "Set Background Color";
-            this.animationPreviewSetBackgroundColorMenuItem.Click += new System.EventHandler(this.animationPreviewSetBackgroundColorMenuItem_Click);
             // 
             // ZSpriteToolForm
             // 
