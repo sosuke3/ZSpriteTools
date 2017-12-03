@@ -127,12 +127,12 @@ namespace SpriteLibrary.Tests
         [Fact]
         public void should_import_from_file_bytes()
         {
-            var file = File.ReadAllBytes("data\\orb.new.spr");
+            var file = File.ReadAllBytes("data\\orb.new.zspr");
             var s = new Sprite(file);
             Assert.Equal(0x7000, s.PixelDataLength);
             Assert.Equal(0x7C, s.PaletteDataLength);
-            Assert.Equal("Orb", s.DisplayText);
-            Assert.False(s.HasValidChecksum);
+            Assert.Equal("orb", s.DisplayText);
+            Assert.True(s.HasValidChecksum);
         }
 
         [Fact]
