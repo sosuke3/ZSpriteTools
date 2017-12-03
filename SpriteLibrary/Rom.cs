@@ -31,7 +31,7 @@ namespace SpriteLibrary
             Array.Copy(this.romData, 0xDD308, bytes, 0x7000, 0x78);
             Array.Copy(this.romData, 0xDD308, palette, 0, 0x78);
             Array.Copy(this.romData, 0xDEDF5, palette, 0x78, 4);
-            var ret = new PlayerSprite(bytes);
+            var ret = new PlayerSprite(bytes);            
             ret.PaletteData = palette;
 
             return ret;

@@ -167,7 +167,7 @@ namespace SpriteLibrary
         }
 
         public Color[] Palette { get; protected set; }
-        public void SetPalette(Color[] palette)
+        public virtual void SetPalette(Color[] palette)
         {
             this.Palette = palette;
 
@@ -503,7 +503,7 @@ namespace SpriteLibrary
                 && storedChecksum[3] == checksum[3]);
         }
 
-        protected void RebuildPalette()
+        protected virtual void RebuildPalette()
         {
             int numberOfPalettes = PaletteData.Length / 2;
             Palette = new Color[numberOfPalettes];

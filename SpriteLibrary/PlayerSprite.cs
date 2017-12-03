@@ -87,8 +87,10 @@ namespace SpriteLibrary
             }
             else if(Palette.Length == 62)
             {
-                GlovePalette[0] = this.Palette[60];
-                GlovePalette[1] = this.Palette[61];
+                var glove1 = this.Palette[60];
+                var glove2 = this.Palette[61];
+                GlovePalette[0] = glove1;
+                GlovePalette[1] = glove2;
             }
         }
 
@@ -464,6 +466,20 @@ namespace SpriteLibrary
         public void SetAnimationPalette(int selectedIndex)
         {
             this.currentPalette = selectedIndex;
+        }
+
+        public override void SetPalette(Color[] palette)
+        {
+            base.SetPalette(palette);
+
+            SetPlayerPaletteColors();
+        }
+
+        protected override void RebuildPalette()
+        {
+            base.RebuildPalette();
+
+            SetPlayerPaletteColors();
         }
     }
 }

@@ -200,6 +200,8 @@ namespace ZSpriteTools
                         var rawFile = File.ReadAllBytes(ofd.FileName);
 
                         activeChild.ImportRawPixels(rawFile);
+
+                        UpdateCurrentSprite(activeChild.loadedSprite);
                     }
                 }
                 catch (Exception ex)
@@ -227,6 +229,8 @@ namespace ZSpriteTools
                         var rawFile = File.ReadAllBytes(ofd.FileName);
 
                         activeChild.ImportRawPalette(rawFile);
+
+                        UpdateCurrentSprite(activeChild.loadedSprite);
                     }
                 }
                 catch (Exception ex)
@@ -636,6 +640,8 @@ namespace ZSpriteTools
                     SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
                     newMDI.MdiParent = this;
                     newMDI.Show();
+
+                    UpdateCurrentSprite(newMDI.loadedSprite);
                 }
             }
         }
@@ -746,6 +752,8 @@ namespace ZSpriteTools
 
                     activeChild.loadedSprite.SetPalette(pal);
                     activeChild.UpdateForm();
+
+                    UpdateCurrentSprite(activeChild.loadedSprite);
                 }
                 catch (Exception ex)
                 {
@@ -824,6 +832,8 @@ namespace ZSpriteTools
 
                     activeChild.loadedSprite.SetPalette(pal);
                     activeChild.UpdateForm();
+
+                    UpdateCurrentSprite(activeChild.loadedSprite);
                 }
                 catch (Exception ex)
                 {
@@ -902,6 +912,8 @@ namespace ZSpriteTools
 
                     activeChild.loadedSprite.SetPalette(pal);
                     activeChild.UpdateForm();
+
+                    UpdateCurrentSprite(activeChild.loadedSprite);
                 }
                 catch (Exception ex)
                 {
@@ -962,6 +974,8 @@ namespace ZSpriteTools
                 SpriteForm newMDI = new SpriteForm(ofd.FileName, sprite);
                 newMDI.MdiParent = this;
                 newMDI.Show();
+
+                UpdateCurrentSprite(newMDI.loadedSprite);
             }
         }
 
