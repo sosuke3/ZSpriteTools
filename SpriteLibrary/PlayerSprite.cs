@@ -253,7 +253,7 @@ namespace SpriteLibrary
                     step = currentAnimation.Steps.FirstOrDefault();
                 }
 
-                foreach (var s in step.Sprites)
+                foreach (var s in step.Sprites.Reverse<SpriteStep>())
                 {
                     DrawTile(g, s.Row, s.Col, s.Position, origin, s.Size, s.Flip);
                 }
