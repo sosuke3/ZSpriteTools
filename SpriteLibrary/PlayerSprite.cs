@@ -66,10 +66,10 @@ namespace SpriteLibrary
 
         void SetPlayerPaletteColors()
         {
-            CopyMergedPaletteToMailPalette(GreenMailPalette, 0);
-            CopyMergedPaletteToMailPalette(BlueMailPalette, 15);
-            CopyMergedPaletteToMailPalette(RedMailPalette, 30);
-            CopyMergedPaletteToMailPalette(BunnyPalette, 45);
+            GreenMailPalette = GetMailPaletteFromMergedPalette(0);
+            BlueMailPalette = GetMailPaletteFromMergedPalette(15);
+            RedMailPalette = GetMailPaletteFromMergedPalette(30);
+            BunnyPalette = GetMailPaletteFromMergedPalette(45);
 
             if (Palette.Length == 60)
             {
@@ -94,12 +94,14 @@ namespace SpriteLibrary
             }
         }
 
-        void CopyMergedPaletteToMailPalette(Palette pal, int offset)
+        Palette GetMailPaletteFromMergedPalette(int offset)
         {
-            for (int i = 1; i < pal.Length; i++)
+            Palette ret = new SpriteLibrary.Palette();
+            for (int i = 1; i < ret.Length; i++)
             {
-                pal[i] = this.Palette[offset + i - 1];
+                ret[i] = this.Palette[offset + i - 1];
             }
+            return ret;
         }
 
         void CopyMailPaletteToMergedPalette(Palette pal, int offset)
