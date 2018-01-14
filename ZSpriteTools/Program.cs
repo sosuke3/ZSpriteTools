@@ -19,17 +19,24 @@ namespace ZSpriteTools
         [STAThread]
         static void Main()
         {
+            try
+            {
 #if !DEBUG
-            SquirrelAwareApp.HandleEvents(onAppUpdate: UpdateForm.OnAppUpdate,
-                                          onAppUninstall: UpdateForm.OnAppUninstall,
-                                          onInitialInstall: UpdateForm.OnInitialInstall);
+                SquirrelAwareApp.HandleEvents(onAppUpdate: UpdateForm.OnAppUpdate,
+                                              onAppUninstall: UpdateForm.OnAppUninstall,
+                                              onInitialInstall: UpdateForm.OnInitialInstall);
 #endif
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            var args = Environment.GetCommandLineArgs();
-            SingleInstanceController controller = new SingleInstanceController();
-            controller.Run(args);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                var args = Environment.GetCommandLineArgs();
+                SingleInstanceController controller = new SingleInstanceController();
+                controller.Run(args);
+            }
+            catch(Exception ex)
+            {
+                logger.Fatal(ex);
+            }
         }
 
         public class SingleInstanceController : WindowsFormsApplicationBase
@@ -43,11 +50,18 @@ namespace ZSpriteTools
 
             void StartupAlreadyRunningHandler(object sender, StartupNextInstanceEventArgs e)
             {
-                ZSpriteToolForm form = MainForm as ZSpriteToolForm;
-
-                if (e.CommandLine.Count > 1)
+                try
                 {
-                    form.LoadFile(e.CommandLine[1]);
+                    ZSpriteToolForm form = MainForm as ZSpriteToolForm;
+
+                    if (e.CommandLine.Count > 1)
+                    {
+                        form.LoadFile(e.CommandLine[1]);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    logger.Fatal(ex, "StartupAlreadyRunningHandler failed.");
                 }
             }
 
