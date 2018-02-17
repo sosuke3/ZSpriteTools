@@ -496,6 +496,15 @@ namespace ZSpriteTools
                 if (result == DialogResult.OK)
                 {
                     Bitmap tempBitmap = (Bitmap)Image.FromFile(ofd.FileName);
+                    if(tempBitmap.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+                    {
+                        var clone = new Bitmap(tempBitmap.Width, tempBitmap.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                        using (Graphics gr = Graphics.FromImage(clone))
+                        {
+                            gr.DrawImage(tempBitmap, new Rectangle(0, 0, tempBitmap.Width, tempBitmap.Height));
+                        }
+                        tempBitmap = clone;
+                    }
                     if (tempBitmap.Width != 128 || tempBitmap.Height != 448)
                     {
                         MessageBox.Show("Invalid PNG image. Must be 128 x 448 pixels", "Error");
