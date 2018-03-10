@@ -1120,18 +1120,27 @@ namespace ZSpriteTools
 
             foreach(var file in files)
             {
-                var destFilename = Path.Combine(destinationFolder, Path.GetFileNameWithoutExtension(file) + ".zspr");
-
-                var spriteFile = File.ReadAllBytes(file);
-                var loadedSprite = new SpriteLibrary.PlayerSprite(spriteFile);
-                if (loadedSprite.Version == 0)
+                try
                 {
-                    loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(file);
-                }
+                    var destFilename = Path.Combine(destinationFolder, Path.GetFileNameWithoutExtension(file) + ".zspr");
 
-                var spriteData = loadedSprite.ToByteArray();
-                FileUtilities.WriteAllBytes(destFilename, spriteData);
+                    var spriteFile = File.ReadAllBytes(file);
+                    var loadedSprite = new SpriteLibrary.PlayerSprite(spriteFile);
+                    if (loadedSprite.Version == 0)
+                    {
+                        loadedSprite.DisplayText = Path.GetFileNameWithoutExtension(file);
+                    }
+
+                    var spriteData = loadedSprite.ToByteArray();
+                    FileUtilities.WriteAllBytes(destFilename, spriteData);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"Failed to convert file {file}. {ex.ToString()}.");
+                }
             }
+
+            MessageBox.Show("Done converting sprites");
         }
 
         private void animationComboBox_SelectedIndexChanged(object sender, EventArgs e)
